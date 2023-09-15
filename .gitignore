@@ -1,0 +1,19 @@
+result
+.direnv
+doc/index.html
+/.data
+
+pkgs/_sources/.shake*
+
+/*.qcow2
+.std
+
+# nixago: ignore-linked-files
+/.vscode/settings.json
+/.editorconfig
+/.conform.yaml
+/lefthook.yml
+/treefmt.toml
+.conform.yaml
+lefthook.yml
+treefmt.toml
