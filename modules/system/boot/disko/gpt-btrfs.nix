@@ -1,4 +1,4 @@
-{ device ? "/dev/nvme" }: {
+{ device ? "/dev/nvme0" }: {
   disk = {
     main = {
       inherit device;
@@ -54,7 +54,7 @@
           };
 
           swap = {
-            size = "40GiB";
+            size = "40G";
             content = {
               type = "swap";
               randomEncryption = true;

@@ -1,4 +1,4 @@
-{ device ? "/dev/nvme" }: {
+{ device ? "/dev/nvme0" }: {
   disk = {
     main = {
       inherit device;

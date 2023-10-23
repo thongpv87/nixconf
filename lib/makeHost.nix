@@ -38,6 +38,8 @@ in inputs.nixpkgs.lib.nixosSystem {
           uid = 1000;
         };
 
+        boot.kernelPackages = pkgs.linuxPackages_latest;
+
         nixpkgs = {
           inherit overlays;
           config = {
