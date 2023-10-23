@@ -2,6 +2,7 @@
 let inherit (inputs) nixvim;
 in [
   (final: prev: {
+    lib = prev.lib // builtins;
     bamboo = prev.ibus-engines.bamboo.overrideAttrs (oldAttrs: {
       version = "v0.8.1";
       src = prev.fetchFromGitHub {

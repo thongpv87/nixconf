@@ -27,15 +27,7 @@ in inputs.nixpkgs.lib.nixosSystem {
 
     ({ pkgs, config, lib, modulesPath, ... }:
       {
-        imports = [
-          {
-            disko.devices =
-              import ../modules/disko/bios-btrfs.nix { device = "/dev/sda"; };
-            boot.loader.grub.devices = [ "/dev/sda" ];
-          }
-          ../modules/system
-          ../modules/hardware
-        ];
+        imports = [ ../modules/system ../modules/hardware ];
 
         users.users.thongpv87 = {
           isNormalUser = true;
