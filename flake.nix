@@ -33,11 +33,11 @@
     };
 
     nix-doom-emacs = {
-      url = "github:nix-community/nix-doom-emacs";
+      url = "github:nix-community/nix-doom-emacs?ref=develop";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
-        emacs-overlay.inputs.nixpkgs.follows = "nix-doom-emacs/nixpkgs";
-        flake-compat.follows = "";
+        # nixpkgs.follows = "nixpkgs";
+        # emacs-overlay.inputs.nixpkgs.follows = "nix-doom-emacs/nixpkgs";
+        #flake-compat.follows = "";
       };
     };
   };

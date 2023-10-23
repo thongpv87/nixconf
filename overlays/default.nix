@@ -14,6 +14,8 @@ in [
       buildInputs = oldAttrs.buildInputs ++ [ prev.glib prev.gtk3 ];
     });
 
+    #emacsPackages.intero = prev.haskellPackages.intero;
+
     selected-nerdfonts = prev.nerdfonts.override {
       fonts = [
         "FiraCode"

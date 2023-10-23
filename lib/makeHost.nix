@@ -1,7 +1,7 @@
 { inputs, system, overlays, hardwareConfig, diskoConfig, nixosProfiles
 , userProfiles }:
 let
-  inherit (inputs) nixpkgs nixos-generators disko home-manager;
+  inherit (inputs) nixpkgs nixos-generators disko home-manager nix-doom-emacs;
   inherit (nixpkgs) lib;
 in inputs.nixpkgs.lib.nixosSystem {
   inherit system;
@@ -14,7 +14,7 @@ in inputs.nixpkgs.lib.nixosSystem {
         useGlobalPkgs = true;
         useUserPackages = true;
         users.thongpv87 = {
-          imports = [ ../modules/home ];
+          imports = [ ../modules/home nix-doom-emacs.hmModule ];
 
           home.stateVersion = "23.11";
         } // (builtins.foldl' (a: b: lib.attrsets.recursiveUpdate a b) { }
