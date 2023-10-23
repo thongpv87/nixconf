@@ -7,6 +7,9 @@
       bootloader = "grub";
       device = "/dev/sda";
     };
-
+    graphical = {
+      enable = true;
+      desktopEnv = "xmonad";
+    };
   };
 }

@@ -1,1 +1,1 @@
-{ imports = [ ./boot ]; }
+{ imports = [ ./boot ./graphical ]; }
