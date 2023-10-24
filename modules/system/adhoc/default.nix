@@ -24,18 +24,16 @@ in {
           CPU_DRIVER_OPMODE_ON_AC = "guided";
           CPU_DRIVER_OPMODE_ON_BAT = "guided";
 
-          # CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
-          # CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
+          CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
+          CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
           # For available frequencies consult the output of tlp-stat -p.
-          # CPU_SCALING_MIN_FREQ_ON_AC = 0;
-          # CPU_SCALING_MAX_FREQ_ON_AC = 9999999;
-          # CPU_SCALING_MIN_FREQ_ON_BAT = 0;
-          # CPU_SCALING_MAX_FREQ_ON_BAT = 9999999;
-          #
+          # CPU_SCALING_MIN_FREQ_ON_AC = 800000;
+          # CPU_SCALING_MAX_FREQ_ON_AC = 4500000;
+          # CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
+          # CPU_SCALING_MAX_FREQ_ON_BAT = 3900000;
+
           CPU_BOOST_ON_AC = 0;
           CPU_BOOST_ON_BAT = 0;
-          DEVICES_TO_DISABLE_ON_STARTUP = "bluetooth wwan";
-          DEVICES_TO_ENABLE_ON_STARTUP = "wifi";
           DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wwan";
           DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
 
@@ -46,9 +44,8 @@ in {
           PCIE_ASPM_ON_BAT = "powersave";
         };
       };
-
       boot = mkIf config.services.tlp.enable {
-        kernelModules = [ "acpi_call" ];
+        kernelModules = [ "acpi_call" "amd_pstate=guided" ];
         extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
       };
     }
@@ -96,6 +93,191 @@ in {
       };
       services.upower.enable = true;
       services.fprintd.enable = true;
+    }
+    # adhoc
+    {
+      environment.systemPackages = [
+        pkgs.clockify
+        pkgs.python3
+        pkgs.taskwarrior
+        pkgs.timewarrior
+        pkgs.taskwarrior-tui
+        pkgs.elixir_1_15
+        pkgs.insomnia
+
+        pkgs.shellcheck
+        pkgs.nodePackages.bash-language-server
+      ];
+
+      services.postgresql = {
+        enable = true;
+        extraPlugins = with pkgs.postgresql.pkgs; [ timescaledb ];
+        authentication = pkgs.lib.mkOverride 10 ''
+          #type database  DBuser  auth-method
+          local all       all     trust
+          host  all       all     127.0.0.1       255.255.255.255     trust
+        '';
+        settings = { shared_preload_libraries = "timescaledb"; };
+      };
+    }
+
+    # connectivity
+    {
+      security.rtkit.enable = true;
+      services.pipewire = {
+        enable = true;
+        alsa.enable = true;
+        alsa.support32Bit = true;
+        pulse.enable = true;
+        jack.enable = true;
+      };
+      # TODO: more bluetooth config
+      services.printing.enable = false;
+      services.avahi.enable = false;
+      services.avahi.nssmdns = false;
+      services.avahi.openFirewall = config.service.avahi.enable;
+      hardware.bluetooth.enable = true;
+      services.blueman.enable = config.hardware.bluetooth.enable;
+    }
+
+    # laptop
+    {
+      environment.systemPackages = with pkgs; [
+        acpid
+        powertop
+        acpi
+        lm_sensors
+        dosfstools
+        gptfdisk
+        iputils
+        usbutils
+        util-linux
+        wirelesstools
+        pciutils
+        usbutils
+        libimobiledevice
+        ifuse
+      ];
+      programs = { light.enable = true; };
+
+      systemd = {
+        # Replace suspend mode with hybrid-sleep. So can do hybrid-sleep then hibernate
+        sleep.extraConfig = ''
+          HibernateDelaySec=30min
+        '';
+      };
+
+      # https://man.archlinux.org/man/systemd-sleep.conf.5
+      # https://www.kernel.org/doc/html/latest/admin-guide/pm/sleep-states.html
+      # Suspend mode -> Hybrid-Sleep. This enables hybrid-sleep then hibernate
+      services = {
+        # better timesync for unstable internet connections
+        chrony.enable = true;
+        timesyncd.enable = false;
+        # iOS mounting
+        usbmuxd.enable = true;
+
+        # Hibernate on low battery. from: https://wiki.archlinux.org/title/laptop#Hibernate_on_low_battery_level
+        udev.extraRules = ''
+          # Suspend the system when battery level drops to 5% or lower
+          SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl hibernate"
+        '';
+
+        logind = {
+          # idleaction with startx: https://bbs.archlinux.org/viewtopic.php?id=207536
+          # <LeftMouse>https://wiki.archlinux.org/title/Power_management
+          # Options: ttps://www.freedesktop.org/software/systemd/man/logind.conf.html
+          extraConfig = ''
+            HandleLidSwitch=suspend-then-hibernate
+            HandlePowerKey=suspend-then-hibernate
+            HandleLidSwitchDocked=ignore
+            IdleAction=suspend-then-hibernate
+            IdleActionSec=5min
+          '';
+        };
+
+        acpid = {
+          # NixOS source: https://github.com/NixOS/nixpkgs/blob/nixos-21.05/nixos/modules/services/hardware/acpid.nix
+          # acpid info: https://wiki.archlinux.org/title/acpid
+          enable = true;
+          handlers = {
+            # Volume not controllable from acpid as pulseaudio is user service and acpid is system
+            brightness-down = {
+              event = "video/brightnessdown*";
+              action = "${pkgs.light}/bin/light -U 4";
+            };
+            brightness-up = {
+              event = "video/brightnessup";
+              action = "${pkgs.light}/bin/light -A 4";
+            };
+            ac-power = {
+              event = "ac_adapter/*";
+              action = ''
+                vals=($1)  # space separated string to array of multiple values
+                case ''${vals[3]} in
+                  00000000|00000001)
+                    max_bright=30
+                    curr_bright=$(echo $(${pkgs.light}/bin/light -G) | xargs printf "%0.f")
+                    ${pkgs.light}/bin/light -S $((curr_bright<max_bright ? curr_bright : max_bright))
+                    ;;
+                esac
+              '';
+            };
+          };
+        };
+      };
+
+    }
+
+    {
+      programs = {
+        dconf.enable = true;
+        iftop.enable = true;
+        iotop.enable = true;
+        nano.syntaxHighlight = true;
+        zsh.enable = true;
+      };
+
+      services = {
+        teamviewer.enable = true;
+        usbmuxd.enable = true;
+      };
+
+      environment = {
+        systemPackages = with pkgs; [
+          #utilities packages
+          killall
+          pciutils
+          htop
+          iotop
+          neofetch
+          ntfs3g
+          gnused
+          gawkInteractive
+
+          wget
+          ascii
+          file
+          shared-mime-info
+          firefox
+          google-chrome
+          libreoffice-fresh
+          nixfmt
+
+          config.boot.kernelPackages.bcc
+
+          # iOS mounting
+          libimobiledevice
+          ifuse
+        ];
+        pathsToLink = [ "/share/zsh" ];
+      };
+    }
+
+    {
+      nixpkgs.config.allowUnfree = true;
+      virtualisation.virtualbox = { host.enable = true; };
+      users.extraGroups.vboxusers.members = [ "thongpv87" ];
     }
   ]);
 }

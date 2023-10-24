@@ -57,7 +57,7 @@ in inputs.nixpkgs.lib.nixosSystem {
         hardware.cpu.amd.updateMicrocode =
           lib.mkDefault config.hardware.enableRedistributableFirmware;
         networking.networkmanager.enable = true;
-        swapDevices = [{ device = "/dev/disk/by-partlabel/disk-main-swap"; }];
+        # swapDevices = [{ device = "/dev/disk/by-partlabel/disk-main-swap"; }];
 
         nixpkgs = {
           inherit overlays;
