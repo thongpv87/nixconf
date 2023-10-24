@@ -93,7 +93,7 @@
           ];
         };
 
-        test = import ./lib/makeHost.nix {
+        laptop = import ./lib/makeHost.nix {
           inherit inputs system overlays;
           hardwareConfig = { };
           diskoConfig = { };

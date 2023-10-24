@@ -1,5 +1,5 @@
 { pkgs, config, lib, modulesPath, ... }:
-let cfg = config.nixconf.hardware.elitebook-845g10;
+let cfg = config.nixconf.hardware.thinkpad-x1e2;
 in {
   options.nixconf.hardware.thinkpad-x1e2 = {
     enable = lib.mkOption { default = false; };

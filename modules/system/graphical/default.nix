@@ -10,12 +10,13 @@ in {
     desktopEnv = mkOption { type = types.enum [ "xmonad" "hyprland" ]; };
   };
 
-  config = lib.mkMerge [
+  config = mkIf cfg.enable (mkMerge [
+    { services.xserver.xkbOptions = [ "caps:escape" ]; }
     (mkIf (cfg.desktopEnv == "xmonad") {
       nixconf.graphical.xorg = {
         enable = true;
         xmonad.enable = true;
       };
     })
-  ];
+  ]);
 }

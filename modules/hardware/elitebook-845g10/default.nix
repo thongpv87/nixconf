@@ -5,10 +5,16 @@ in {
     enable = lib.mkOption { default = false; };
   };
 
-  imports = [ "${modulesPath}/virtualisation/virtualbox-guest.nix" ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   config = lib.mkIf cfg.enable {
-    boot.growPartition = true;
-    virtualisation.virtualbox.guest.enable = true;
+    boot = {
+      initrd.availableKernelModules =
+        [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];
+      kernelModules = [ "kvm-amd" ];
+    };
+    nixpkgs.hostPlatform = "x86_64-linux";
+    hardware.cpu.amd.updateMicrocode =
+      lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
 }

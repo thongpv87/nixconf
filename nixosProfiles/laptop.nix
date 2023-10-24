@@ -1,6 +1,6 @@
 {
   nixconf = {
-    hardware.virtualbox.enable = true;
+    hardware.elitebook-845g10.enable = true;
     boot = {
       mode = "efi";
       diskLayout = "gpt-btrfs";

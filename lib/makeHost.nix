@@ -45,10 +45,19 @@ in inputs.nixpkgs.lib.nixosSystem {
             [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];
           kernelModules = [ "kvm-amd" ];
         };
-        environment.systemPackages =
-          [ pkgs.vim pkgs.dmenu pkgs.rofi pkgs.alacritty ];
+        environment.systemPackages = [
+          pkgs.vim
+          pkgs.dmenu
+          pkgs.rofi
+          pkgs.alacritty
+          pkgs.git
+          pkgs.firefox
+          pkgs.selected-nerdfonts
+        ];
         hardware.cpu.amd.updateMicrocode =
           lib.mkDefault config.hardware.enableRedistributableFirmware;
+        networking.networkmanager.enable = true;
+        swapDevices = [{ device = "/dev/disk/by-partlabel/disk-main-swap"; }];
 
         nixpkgs = {
           inherit overlays;

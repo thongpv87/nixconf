@@ -1,5 +1,5 @@
 { pkgs, config, lib, modulesPath, ... }:
-let cfg = config.nixconf.hardware.elitebook-845g10;
+let cfg = config.nixconf.hardware.virtualbox;
 in {
   options.nixconf.hardware.virtualbox = {
     enable = lib.mkOption { default = false; };

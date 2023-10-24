@@ -27,8 +27,10 @@
 
 (setq ;; doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 12 :weight 'regular)
       ;;  doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 15 :weight 'regular)
-      doom-font (font-spec :family "DejaVuSansMono Nerd Font Mono" :size 15 :weight 'regular)
-      doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15 :weight 'regular)
+      ;; doom-font (font-spec :family "DejaVuSansMono Nerd Font Mono" :size 15 :weight 'regular)
+      ;; doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15 :weight 'regular)
+	doom-font (font-spec :family "DejaVu Sans Mono" :size 15 :weight 'regular)
+
       ;; doom-variable-pitch-font (font-spec :family "Fira Sans")
       ;; doom-unicode-font (font-spec :family "FiraCode Nerd Font Mono" )
       ;; doom-big-font (font-spec :family "FiraCode Nerd Font Mono" :size 19)
