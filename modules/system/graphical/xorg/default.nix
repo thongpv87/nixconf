@@ -14,6 +14,7 @@ in {
       xserver = {
         enable = true;
         libinput = { enable = true; };
+        xkbOptions = "caps:escape";
       };
     };
 

@@ -11,9 +11,10 @@ in {
     boot = {
       initrd.availableKernelModules =
         [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];
-      kernelModules = [ "kvm-amd" ];
+      kernelModules = [ "kvm-amd" "synaptics_usb" ];
     };
     nixpkgs.hostPlatform = "x86_64-linux";
+    services.xserver = { videoDrivers = [ "amdgpu" ]; };
     hardware.cpu.amd.updateMicrocode =
       lib.mkDefault config.hardware.enableRedistributableFirmware;
   };

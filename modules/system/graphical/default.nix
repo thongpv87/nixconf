@@ -11,7 +11,6 @@ in {
   };
 
   config = mkIf cfg.enable (mkMerge [
-    { services.xserver.xkbOptions = "caps:escape"; }
     (mkIf (cfg.desktopEnv == "xmonad") {
       nixconf.graphical.xorg = {
         enable = true;
