@@ -14,7 +14,13 @@ in {
       kernelModules = [ "kvm-amd" "synaptics_usb" ];
     };
     nixpkgs.hostPlatform = "x86_64-linux";
-    services.xserver = { videoDrivers = [ "amdgpu" ]; };
+    services.xserver = {
+      videoDrivers = [ "amdgpu" ];
+      monitorSection = ''
+        DisplaySize 312 195
+      '';
+
+    };
     hardware.cpu.amd.updateMicrocode =
       lib.mkDefault config.hardware.enableRedistributableFirmware;
   };

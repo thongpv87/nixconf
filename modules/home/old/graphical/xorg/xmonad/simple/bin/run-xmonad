@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+export XMONAD_GHC=ghc
+export XMONAD_XMESSAGE=xmessage
+exec "./xmonadwm"  "$@"

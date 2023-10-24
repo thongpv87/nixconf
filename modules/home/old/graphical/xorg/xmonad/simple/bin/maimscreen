@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+maim ~/Pictures/screenshots/screen_$(date +%Y-%m-%d_%H-%M-%S).png && notify-send "Screenshot" "Saved to Pictures/screenshots" -i flameshot

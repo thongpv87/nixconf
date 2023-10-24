@@ -25,17 +25,18 @@
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 
 
-(setq ;; doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 12 :weight 'regular)
-      ;;  doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 15 :weight 'regular)
-      ;; doom-font (font-spec :family "DejaVuSansMono Nerd Font Mono" :size 15 :weight 'regular)
-      ;; doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15 :weight 'regular)
-	doom-font (font-spec :family "DejaVu Sans Mono" :size 15 :weight 'regular)
+(setq
+ ;; doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 12 :weight 'regular)
+ ;;  doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 15 :weight 'regular)
+ ;; doom-font (font-spec :family "DejaVuSansMono Nerd Font Mono" :size 15 :weight 'regular)
+ doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15 :weight 'regular)
+ ;; doom-font (font-spec :family "DejaVu Sans Mono" :size 15 :weight 'regular)
 
-      ;; doom-variable-pitch-font (font-spec :family "Fira Sans")
-      ;; doom-unicode-font (font-spec :family "FiraCode Nerd Font Mono" )
-      ;; doom-big-font (font-spec :family "FiraCode Nerd Font Mono" :size 19)
-      doom-themes-enable-bold t
-      doom-themes-enable-italic t)
+ ;; doom-variable-pitch-font (font-spec :family "Fira Sans")
+ ;; doom-unicode-font (font-spec :family "FiraCode Nerd Font Mono" )
+ ;; doom-big-font (font-spec :family "FiraCode Nerd Font Mono" :size 19)
+ doom-themes-enable-bold t
+ doom-themes-enable-italic t)
 
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -115,10 +116,10 @@
       mu4e-trash-folder  "/[Gmail].Trash"
       )
 (setq mu4e-maildir-shortcuts
-    '( (:maildir "/INBOX"              :key ?i)
-       (:maildir "/[Gmail].Sent Mail"  :key ?s)
-       (:maildir "/[Gmail].Trash"      :key ?t)
-       (:maildir "/[Gmail].All Mail"   :key ?a)))
+      '( (:maildir "/INBOX"              :key ?i)
+         (:maildir "/[Gmail].Sent Mail"  :key ?s)
+         (:maildir "/[Gmail].Trash"      :key ?t)
+         (:maildir "/[Gmail].All Mail"   :key ?a)))
 
 (setq +mu4e-gmail-accounts '(("thongpv87@gmail.com" . "/thongpv87"))
       user-mail-address "thongpv87@gmail.com"
@@ -165,7 +166,7 @@
 
 
 ;; org mode
- (setq org-latex-default-packages-alist
+(setq org-latex-default-packages-alist
       '(("AUTO" "polyglossia" t ("xelatex" "lualatex"))
         ("AUTO" "babel" t ("pdflatex"))
         ("" "graphicx" t)
@@ -197,9 +198,9 @@
 (setq highlight-indent-guides-mode t)
 (after! lsp-haskell
   (setq ;;lsp-haskell-server-path "haskell-language-server"
-        lsp-haskell-plugin-retire-global-on nil
-        lsp-haskell-formatting-provider "fourmolu"
-        lsp-haskell-plugin-tactics-global-on nil))
+   lsp-haskell-plugin-retire-global-on nil
+   lsp-haskell-formatting-provider "fourmolu"
+   lsp-haskell-plugin-tactics-global-on nil))
 
 (after! lsp-mode
   (evil-define-key 'normal lsp-mode-map (kbd "`") lsp-command-map)
@@ -271,5 +272,4 @@
 
 ;; OTHERS
 (add-hook! treemacs-mode
-           (treemacs-load-theme "all-the-icons"))
-
+  (treemacs-load-theme "all-the-icons"))

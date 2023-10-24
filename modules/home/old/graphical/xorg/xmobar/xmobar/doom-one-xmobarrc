@@ -1,0 +1,72 @@
+-- Xmobar (http://projects.haskell.org/xmobar/)
+-- This is one of the xmobar configurations for DTOS.
+-- This config is packaged in the DTOS repo as 'dtos-xmobar'
+-- Color scheme: Doom One
+-- Dependencies:
+   -- otf-font-awesome
+   -- ttf-mononoki
+   -- ttf-ubuntu-font-family
+   -- htop
+   -- emacs
+   -- pacman (Arch Linux)
+   -- trayer
+   -- 'dtos-local-bin' (from dtos-core-repo)
+
+Config { font            = "Ubuntu Bold 9"
+       , additionalFonts = [ "Mononoki 11"
+                           , "Font Awesome 6 Free Solid 12"
+                           , "Font Awesome 6 Brands 12"
+                           , "Font Awesome 6 Free Solid 10"
+                           ]
+       , bgColor      = "#282c34"
+       , fgColor      = "#ff6c6b"
+       -- Position TopSize and BottomSize take 3 arguments:
+       --   an alignment parameter (L/R/C) for Left, Right or Center.
+       --   an integer for the percentage width, so 100 would be 100%.
+       --   an integer for the minimum pixel height for xmobar, so 24 would force a height of at least 24 pixels.
+       --   NOTE: The height should be the same as the trayer (system tray) height.
+       , position       = TopSize L 100 24
+       , lowerOnStart = True
+       , hideOnStart  = False
+       , allDesktops  = True
+       , persistent   = True
+       , iconRoot     = ".xmonad/xpm/"  -- default: "."
+       , commands = [
+                      -- Echos a "network" icon in front of network.
+                    Run Com "echo" ["<fn=2>\xf1eb</fn>"] "network" 3600
+                    , Run Wireless "wlan0" ["-t", "<ssid>"] 100
+                        -- Run Network
+                    , Run Network "wlan0" ["-t", " <rx>", "-S", "True", "-L","102400","-H","2048000",
+                                          "--normal","green","--high","red", "-m", "6" ] 100
+                        -- Echos an "up arrow" icon in front of the uptime output.
+                    , Run Com "echo" ["<fn=2>\xf0aa</fn>"] "uparrow" 3600
+                        -- Uptime
+                    , Run Uptime ["-t", "uptime: <days>d <hours>h"] 360
+                        -- Cpu usage in percent
+                    , Run Cpu ["-t", "<fn=2>\xf108</fn>  cpu: (<total>%)","-H","50","--high","red"] 20
+                        -- Ram used number and percent
+                    , Run Memory ["-t", "<fn=2>\xf233</fn>  mem: <used>GB (<usedratio>%)", "--", "--scale", "1024"] 20
+                        -- Volume
+                    , Run Alsa "default" "Master" ["-t", "<fn=1><status></fn> vol: <volume>%", "--", "-o", "<fn=2></fn>", "-O", "" ,"-c", "#ff6188", "-C", "#AB9DF2", "-H", "60", "-L", "25", "-h", "<fn=2></fn>", "-m", "<fn=2></fn>", "-l", "<fn=2></fn>" ]
+                        -- Brightness
+                    , Run Brightness ["-t", "<fn=1></fn> bri: <percent>%", "--", "-D", "intel_backlight"] 60
+                        -- Battery
+                    , Run BatteryP ["BAT0"] ["-t", "<acstatus> <watts>W (<left>%)"
+                                   ,"-L", "15", "-H", "50"
+                                   ,"--", "-O", "<fn=2>\xe0b7</fn>", "-i", "<fn=2>\xf1e6</fn>", "-o", ""
+                                   ,"--lows", "<fn=2>\xf243</fn>", "--mediums", "<fn=2>\xf242</fn>", "--highs", "<fn=2>\xf241</fn>"
+
+                    ] 360
+                        -- Time and date
+                    , Run Date "<fn=2>\xf017</fn> %a %d %b - %H:%M " "date" 60
+                        -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
+                    , Run Com "/home/thongpv87/.xmonad/xmobar/trayer-padding-icon.sh" [] "trayerpad" 60
+                        -- Prints out the left side items such as workspaces, layout, etc.
+                    , Run XMonadLog
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = " %XMonadLog% }{<box type=Bottom width=2 mb=2 color=#ecbe7b><fc=#ecbe7b><action=`alacritty -e htop`>%cpu%</action></fc></box>   <box type=Bottom width=2 mb=2 color=#ff6c6b><fc=#ff6c6b><action=`alacritty -e htop`>%memory%</action></fc></box>   <box type=Bottom width=2 mb=2 color=#98be65><fc=#98be65>%uparrow%  %uptime%</fc></box>   <box type=Bottom width=2 mb=2 color=#c678dd><fc=#c678dd><action=`pavucontrol`>%alsa:default:Master%</action></fc></box>   <box type=Bottom width=2 mb=2 color=#ffd866><fc=#ffd866>%bright%</fc></box>   <box type=Bottom width=2 mb=2 color=#51afef><fc=#51afef>%network% %wlan0wi% %wlan0%</fc></box>   <box type=Bottom width=2 mb=2 color=#da8548><fc=#da8548>%battery%</fc></box>   <box type=Bottom width=2 mb=2 color=#46d9ff><fc=#46d9ff><action=`emacsclient -c -a 'emacs' --eval '(doom/window-maximize-buffer(dt/year-calendar))'`>%date%</action></fc></box> %trayerpad%"
+       }
+       -- network battery date olume
+       -- <box type=Bottom width=2 mb=2 color=#98be65><fc=#98be65>%messages%  <action=`alacritty -e nvim .log/notify.log`>%notify-log%</action></fc></box>

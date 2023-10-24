@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+if [ -z "$(pgrep xautolock)" ]
+then
+  ~/.xmonad/bin/lock.sh &
+  notify-send "Inhibitor" "Deactivated"
+else
+  notify-send "Inhibitor Was Not Active"
+fi

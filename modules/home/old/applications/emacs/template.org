@@ -1,0 +1,30 @@
+#+title: Tản mạn về lập trình và toán học
+#+subtitle: Tập hợp
+#+AUTHOR: Phạm Văn Thông
+#+LATEX_CLASS: article
+#+LATEX_COMPILER: xelatex
+#+LATEX_HEADER: \usepackage{polyglossia}
+#+LATEX_HEADER: \setmainlanguage{vietnamese}
+# # +latex_engraved_theme: modus-operandi
+# #+LATEX_HEADER: \usepackage{fvextra}
+# #+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usemintedstyle{murphy}
+
+
+* Khoa học máy tính và toán học
+
+#+BEGIN_QUOTE
+Computer Science is no more about computers than astronomy is about telescopes
+    --- Dijikstra
+#+END_QUOTE
+
+
+#+BEGIN_SRC haskell
+import System.IO
+
+f :: Int -> Int
+f x = x + 1
+main = do
+  let x = f 2
+  putStrLn "Hello world"
+#+END_SRC

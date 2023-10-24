@@ -1,0 +1,16 @@
+cradle:
+  cabal:
+    - path: "./xmonad.hs"
+      component: "xmonad-simple:exe:xmonad-simple"
+
+    - path: "./KeyBindings.hs"
+      component: "xmonad-simple:exe:xmonad-simple"
+
+    - path: "./Layouts.hs"
+      component: "xmonad-simple:exe:xmonad-simple"
+
+    - path: "./Common.hs"
+      component: "xmonad-simple:exe:xmonad-simple"
+
+    - path: "./Config.hs"
+      component: "xmonad-simple:exe:xmonad-simple"

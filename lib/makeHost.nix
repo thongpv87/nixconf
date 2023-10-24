@@ -63,8 +63,9 @@ in inputs.nixpkgs.lib.nixosSystem {
           inherit overlays;
           config = {
             permittedInsecurePackages = [
-              "electron-9.4.4"
+              # "electron-9.4.4"
               "electron-11.5.0"
+              "electron-24.8.6"
               #"qtwebkit-5.212.0-alpha4"
             ];
             allowUnfree = true;

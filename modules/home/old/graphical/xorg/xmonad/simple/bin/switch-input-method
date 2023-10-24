@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+if [ $GTK_IM_MODULE == "ibus" ]; then
+   if [ $(ibus engine) == xkb:us::eng ];
+      then ibus engine Bamboo;
+      else ibus engine xkb:us::eng;
+   fi
+elif [ $GTK_IM_MODULE = "fcitx" ]; then
+   fcitx-remote -t;
+fi
