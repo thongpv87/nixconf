@@ -38,7 +38,17 @@ in inputs.nixpkgs.lib.nixosSystem {
           uid = 1000;
         };
 
-        boot.kernelPackages = pkgs.linuxPackages_latest;
+        #tmp config
+        boot = {
+          kernelPackages = pkgs.linuxPackages_latest;
+          initrd.availableKernelModules =
+            [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];
+          kernelModules = [ "kvm-amd" ];
+        };
+        environment.systemPackages =
+          [ pkgs.vim pkgs.dmenu pkgs.rofi pkgs.alacritty ];
+        hardware.cpu.amd.updateMicrocode =
+          lib.mkDefault config.hardware.enableRedistributableFirmware;
 
         nixpkgs = {
           inherit overlays;

@@ -64,7 +64,7 @@ in {
           systemd-boot.netbootxyz.enable = true;
 
           efi.canTouchEfiVariables = true;
-          efi.efiSysMountPoint = "/boot/efi";
+          efi.efiSysMountPoint = "/boot";
         };
         # NOTE: systemd stage 1 does not support 'boot.growPartition' yet.
         growPartition = lib.mkForce false;
