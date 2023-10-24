@@ -7,7 +7,6 @@ in {
     #./cli-visualizer
     ./mopidy
     ./ncmpcpp
-    ./glava
   ];
 
   options.nixconf.old.others.media = {
@@ -25,8 +24,6 @@ in {
     nixconf.old.others.media = {
       mopidy.enable = true;
       ncmpcpp.enable = true;
-      glava.enable = true;
-
     };
   }]);
 }

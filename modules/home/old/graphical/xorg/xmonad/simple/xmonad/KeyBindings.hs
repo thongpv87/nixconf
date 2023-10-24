@@ -79,8 +79,8 @@ myKeyBindings conf@(XConfig {XMonad.modMask = modm}) =
       -- , ((0,                    xF86XK_AudioMute), spawn "pactl set-sink-mute 0 toggle")
 
       -- Brightness keys
-      ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl -d intel_backlight s +5% || xbacklight + 5%"),
-      ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl -d intel_backlight s 5%- || xbacklight - 5%"),
+      -- ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl -d intel_backlight s +5% || xbacklight + 5%"),
+      -- ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl -d intel_backlight s 5%- || xbacklight - 5%"),
       -- close focused window
       ((modm .|. shiftMask, xK_c), kill),
       -- GAPS!!!

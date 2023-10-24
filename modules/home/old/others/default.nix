@@ -16,10 +16,7 @@ in {
   config = mkIf cfg.enable {
     nixconf.old.others = {
       # develop.haskell.enable = mkDefault true;
-      # develop.agda.enable = mkDefault true;
       others.enable = mkDefault true;
-      #mime.enable = mkDefault false;
-      media.glava.enable = mkDefault true;
     };
   };
 }

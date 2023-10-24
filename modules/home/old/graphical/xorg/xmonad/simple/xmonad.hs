@@ -228,7 +228,7 @@ tallOrFull =
     $ layouts
   where
     layouts =
-      ifWider 1920 (ifWider 3800 (toggleGapsLayout tallLayout) verticalLayout) tallLayout
+      ifWider 3000 (ifWider 3800 (toggleGapsLayout tallLayout) verticalLayout) tallLayout
 
 centerFloatMedium = customFloating $ W.RationalRect (1 / 4) (1 / 4) (2 / 4) (2 / 4)
 
@@ -444,8 +444,6 @@ myKeyBindings conf@(XConfig {XMonad.modMask = modm}) =
       ((modm .|. shiftMask, xK_backslash), spawn "maimclip"),
       ((modm .|. controlMask, xK_backslash), spawn "maimscreen"),
       -- others customized shortcuts
-      ((modm .|. shiftMask, xK_u), spawn "toggle-glava toggle"),
-      ((modm, xK_u), spawn "toggle-glava restart"),
       ((modm, xK_v), sendMessage LM.Toggle),
       ((modm, xK_f), sendMessage $ LMT.Toggle FULL),
       ((modm .|. shiftMask, xK_f), sendMessage $ LMT.Toggle NBFULL),

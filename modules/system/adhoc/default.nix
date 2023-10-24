@@ -14,7 +14,7 @@ in {
       services.tlp = {
         enable = true;
         settings = {
-          NMI_WATCHDOG = mkForce 0;
+          NMI_WATCHDOG = 0;
           RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
           RADEON_DPM_PERF_LEVEL_ON_BAT = "low";
           # Check the output of tlp-stat -p to determine availability on your hardware
@@ -27,15 +27,16 @@ in {
           CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
           CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
           # For available frequencies consult the output of tlp-stat -p.
-          # CPU_SCALING_MIN_FREQ_ON_AC = 800000;
-          # CPU_SCALING_MAX_FREQ_ON_AC = 4500000;
-          # CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
-          # CPU_SCALING_MAX_FREQ_ON_BAT = 3900000;
+          CPU_SCALING_MIN_FREQ_ON_AC = 800000;
+          CPU_SCALING_MAX_FREQ_ON_AC = 4500000;
+          CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
+          CPU_SCALING_MAX_FREQ_ON_BAT = 3900000;
 
           CPU_BOOST_ON_AC = 0;
           CPU_BOOST_ON_BAT = 0;
-          DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wwan";
-          DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
+          # DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wwan";
+          # DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
+          RUNTIME_PM_DENYLIST = "01:00.0";
 
           # Runtime Power Management and ASPM
           RUNTIME_PM_ON_AC = "auto";
