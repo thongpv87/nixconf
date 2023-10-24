@@ -1,6 +1,7 @@
 {
   nixconf = {
     hardware.elitebook-845g10.enable = true;
+    core.enable = true;
     boot = {
       mode = "efi";
       diskLayout = "gpt-btrfs";

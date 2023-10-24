@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemPackages = [
+    environment.systemPackages = [
       pkgs.binutils
       pkgs.coreutils
       pkgs.dnsutils
@@ -37,7 +37,7 @@ in {
       pkgs.pfetch
       pkgs.neovim
       pkgs.htop
-      pkgs.exa
+      pkgs.eza
       pkgs.fzf
       pkgs.firefox
     ];
@@ -69,6 +69,6 @@ in {
 
     boot.kernel.sysctl = { "vm.swappiness" = 30; };
 
-    stateVersion = lib.mkDefault "23.11";
+    system.stateVersion = lib.mkDefault "23.11";
   };
 }
