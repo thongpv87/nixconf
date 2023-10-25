@@ -27,9 +27,6 @@ in {
 
       # CLI tools
       glow
-      nnn # file manager
-      grit # to-do
-      buku # bookmarks
       yt-dlp # download youtube
       pdftk # pdf editing
       graphviz # dot
@@ -49,10 +46,6 @@ in {
 
       # terminal session recorder
       asciinema
-
-      # terminal art
-      pipes-rs
-      cbonsai
 
       # Themes
       theme-sh

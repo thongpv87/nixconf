@@ -17,7 +17,7 @@
       theme = "breeze";
       mime.enable = true;
       applications = {
-        enable = true;
+        enable = false;
         rofi.enable = true;
         libreoffice.enable = true;
         anki = {
@@ -37,7 +37,7 @@
         };
       };
       xorg = {
-        enable = true;
+        enable = false;
         xmonad = { enable = false; };
 
         screenlock.enable = false;
