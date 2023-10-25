@@ -1,1 +1,1 @@
-{ imports = [ ./apps ./core ./old ]; }
+{ imports = [ ./apps ./core ./old ./services ]; }

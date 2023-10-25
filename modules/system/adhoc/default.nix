@@ -36,13 +36,13 @@ in {
           CPU_BOOST_ON_BAT = 0;
           # DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wwan";
           # DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
-          RUNTIME_PM_DENYLIST = "01:00.0";
+          # RUNTIME_PM_DENYLIST = "01:00.0";
 
           # Runtime Power Management and ASPM
           RUNTIME_PM_ON_AC = "auto";
           RUNTIME_PM_ON_BAT = "auto";
-          PCIE_ASPM_ON_AC = "powersave";
-          PCIE_ASPM_ON_BAT = "powersave";
+          # PCIE_ASPM_ON_AC = "powersave";
+          # PCIE_ASPM_ON_BAT = "powersave";
         };
       };
       boot = mkIf config.services.tlp.enable {
@@ -50,8 +50,6 @@ in {
         extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
       };
     }
-    #ssd
-    { services.fstrim.enable = lib.mkDefault true; }
 
     {
       time.timeZone = mkForce "Asia/Ho_Chi_Minh";
@@ -64,13 +62,13 @@ in {
       };
 
       networking = {
-        wireless.iwd.enable = true;
+        # wireless.iwd.enable = true;
         networkmanager = {
           enable = true;
-          wifi = {
-            powersave = true;
-            backend = mkForce "iwd";
-          };
+          # wifi = {
+          #   powersave = true;
+          #   backend = mkForce "iwd";
+          # };
         };
       };
 
@@ -160,6 +158,7 @@ in {
         ifuse
       ];
       programs = { light.enable = true; };
+      boot.kernelModules = [ "lm_sensors" ];
 
       systemd = {
         # Replace suspend mode with hybrid-sleep. So can do hybrid-sleep then hibernate

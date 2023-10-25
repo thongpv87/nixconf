@@ -1,6 +1,8 @@
 { inputs }:
-let inherit (inputs) nixvim;
+let inherit (inputs) nixvim emacs-overlay;
 in [
+
+  emacs-overlay.overlays.default
   (final: prev: {
     lib = prev.lib // builtins;
     bamboo = prev.ibus-engines.bamboo.overrideAttrs (oldAttrs: {

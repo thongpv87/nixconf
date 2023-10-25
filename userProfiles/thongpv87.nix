@@ -1,9 +1,17 @@
 {
-  nixconf = { core.enable = true; };
+  nixconf = {
+    core.enable = true;
+    services = {
+      display-manager = {
+        enable = true;
+        window-manager = "hyprland";
+      };
+    };
+  };
   nixconf.old = {
     graphical = {
       enable = true;
-      theme = "breeze";
+      theme = "breezee";
       mime.enable = true;
       applications = {
         enable = true;
@@ -25,16 +33,16 @@
           type = "swaylock";
         };
       };
-      xorg = {
-        enable = true;
-        xmonad = {
-          enable = true;
-          theme = "simple";
-        };
-        xmobar.enable = true;
+      # xorg = {
+      #   enable = true;
+      #   xmonad = {
+      #     enable = true;
+      #     theme = "simple";
+      #   };
+      #   xmobar.enable = true;
 
-        screenlock.enable = false;
-      };
+      #   screenlock.enable = false;
+      # };
     };
     applications = {
       enable = true;

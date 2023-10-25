@@ -4,7 +4,7 @@ let
   inherit (lib)
     mkOption mkMerge mkIf mkDefault mkForce types mdDoc mkEnableOption;
 in {
-  imports = [ ./xorg ];
+  imports = [ ./xorg ./wayland ];
   options.nixconf.graphical = {
     enable = mkEnableOption "Enable graphical desktop environment";
     desktopEnv = mkOption { type = types.enum [ "xmonad" "hyprland" ]; };
@@ -17,5 +17,12 @@ in {
         xmonad.enable = true;
       };
     })
+    (mkIf (cfg.desktopEnv == "hyprland") {
+      nixconf.graphical.wayland = {
+        enable = true;
+        hyprland.enable = true;
+      };
+    })
+
   ]);
 }

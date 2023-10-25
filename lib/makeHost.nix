@@ -1,7 +1,8 @@
 { inputs, system, overlays, hardwareConfig, diskoConfig, nixosProfiles
 , userProfiles }:
 let
-  inherit (inputs) nixpkgs nixos-generators disko home-manager nix-doom-emacs;
+  inherit (inputs)
+    nixpkgs nixos-generators disko home-manager nix-doom-emacs emacs-overlay;
   inherit (nixpkgs) lib;
 in inputs.nixpkgs.lib.nixosSystem {
   inherit system;

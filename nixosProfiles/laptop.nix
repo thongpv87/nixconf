@@ -11,7 +11,7 @@
     };
     graphical = {
       enable = true;
-      desktopEnv = "xmonad";
+      desktopEnv = "hyprland";
     };
   };
 
