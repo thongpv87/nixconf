@@ -18,7 +18,49 @@ in {
 
     };
 
-    home.sessionVariables = { EDITOR = "vim"; };
+    home = {
+      sessionVariables = { EDITOR = "vim"; };
+      stateVersion = "23.11";
+      pointerCursor = {
+        gtk.enable = true;
+        # x11.enable = true;
+        package = pkgs.apple-cursor;
+        name = "monterey";
+        size = 32;
+      };
+      keyboard = {
+        layout = "us";
+        options = [ "caps:escape" ];
+      };
+
+    };
+
+    fonts.fontconfig.enable = true;
+
+    gtk = {
+      enable = true;
+      theme = {
+        package = pkgs.pop-gtk-theme;
+        name = "Pop";
+      };
+      iconTheme = {
+        package = pkgs.pop-gtk-theme;
+        name = "Pop";
+      };
+      font = {
+        name = "Berkeley Mono Variable";
+        size = 11;
+      };
+    };
+
+    qt = {
+      enable = true;
+      platformTheme = "gnome";
+      style = {
+        package = pkgs.pop-gtk-theme;
+        name = "Pop";
+      };
+    };
 
     xdg.enable = true;
 

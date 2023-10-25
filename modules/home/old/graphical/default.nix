@@ -75,31 +75,6 @@ in {
       ];
     };
 
-    fonts.fontconfig.enable = true;
-    gtk = {
-      enable = true;
-      iconTheme = {
-        package = pkgs.pop-gtk-theme;
-        name = "pop";
-      };
-
-      font = {
-        # already installed in profile
-        package = null;
-        name = "Berkeley Mono Variable";
-        size = 10;
-      };
-    };
-
-    qt = {
-      enable = true;
-      platformTheme = "gnome";
-      style = {
-        package = pkgs.pop-gtk-theme;
-        name = "pop";
-      };
-    };
-
     # https://github.com/nix-community/home-manager/issues/2064
     # systemd.user.targets.tray = {
     #   Unit = {

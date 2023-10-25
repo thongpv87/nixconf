@@ -48,6 +48,28 @@ in {
 
       fonts.fontconfig.enable = true;
       services.copyq = { enable = true; };
+
+      xdg.configFile."dunst" = {
+        source = ./dunst;
+        recursive = true;
+      };
+
+      systemd.user.services = {
+        dunst = {
+          Unit = {
+            Description = "Dunst notification daemon";
+            After = [ "hm-graphical-session.target" ];
+            PartOf = [ "graphical-session.target" ];
+          };
+
+          Service = {
+            Type = "dbus";
+            BusName = "org.freedesktop.Notifications";
+            ExecStart = "${pkgs.dunst}/bin/dunst";
+          };
+          Install = { WantedBy = [ "graphical-session.target" ]; };
+        };
+      };
     }
 
     {
@@ -214,17 +236,9 @@ in {
 
         extraConfig = ''
           # Execute your favorite apps at launch
-          # exec-once waybar
-          # exec-once = waybar & hyprpaper & firefox
           # Source a file (multi-file configs)
           # source = ~/.config/hypr/myColors.conf
-
         '';
-      };
-
-      xdg.configFile."dunst" = {
-        source = ./dunst;
-        recursive = true;
       };
     }
   ]);

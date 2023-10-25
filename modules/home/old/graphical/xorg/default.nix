@@ -53,19 +53,7 @@ in {
   };
 
   config = mkIf cfg.enable (mkMerge [
-    {
-      home = {
-        pointerCursor = {
-          package = pkgs.apple-cursor;
-          name = "monterey";
-        };
-        keyboard = {
-          layout = "us";
-          options = [ "caps:escape" ];
-        };
-      };
-      xsession = { enable = true; };
-    }
+    { xsession = { enable = true; }; }
 
     {
       systemd.user.services = mkIf (cfg.screenlock.enable) {
