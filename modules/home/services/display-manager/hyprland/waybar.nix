@@ -72,18 +72,19 @@ in {
               warning = 30;
               critical = 15;
             };
-            format = "{icon}&#8239;{capacity}%";
-            format-charging = "󰂄&#8239;{capacity}%";
-            format-plugged = "&#8239;{capacity}%";
+            format = "{icon}&#8239;{capacity}";
+            format-charging = "󰂄&#8239;{capacity}";
+            format-plugged = "&#8239;{capacity}";
             format-alt = "{icon} {time}";
             format-icons = [ "" "" "" "" "" ];
-            tooltip = false;
-            tooltip-format = "{timeTo}";
+            tooltip = true;
+            tooltip-format = "Power {power}W - {timeTo}";
           };
           backlight = {
             device = "acpi_video1";
             format = "{icon}&#8239;{percent}%";
             format-icons = [ "" "" ];
+            tooltip = false;
             #format-icons = [ "" "" ];
             on-scroll-up = "${pkgs.light}/bin/light -A 2";
             on-scroll-down = "${pkgs.light}/bin/light -U 1";
