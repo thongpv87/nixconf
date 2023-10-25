@@ -3,7 +3,7 @@ with lib;
 let
   cfg = config.nixconf.old.applications.emacs;
   doom = pkgs.writeShellScriptBin "doom" ''
-    $HOME/.emacs.d/bin/doom $@
+    $HOME/.config/emacs/bin/doom $@
   '';
 
   tex = (pkgs.texlive.combine {

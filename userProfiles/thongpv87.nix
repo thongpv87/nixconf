@@ -1,6 +1,9 @@
 {
   nixconf = {
     core.enable = true;
+    apps = {
+      emacs.enable = true;
+    };
     services = {
       display-manager = {
         enable = true;
@@ -43,7 +46,6 @@
     applications = {
       enable = true;
       direnv.enable = true;
-      emacs.enable = true;
     };
 
     terminal = {

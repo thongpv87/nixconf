@@ -60,8 +60,9 @@ in {
           ];
 
           monitor = [
-            "eDP,2560x1600@60,640x2160,auto"
-            "DP-2,3840x2160@30,0x0,auto,bitdepth,10"
+            "eDP-1,2560x1600@60,640x2160,1"
+            "DP-1,3840x2160@30,0x0,1,bitdepth,10"
+            "DP-2,3840x2160@30,0x0,1,bitdepth,10"
           ];
 
           input = {
@@ -151,6 +152,7 @@ in {
             "$mod,slash,exec,switch-input-method"
 
             "$mod,W, focusmonitor, DP-2"
+            "$mod,W, focusmonitor, DP-1"
             "$mod,E, focusmonitor,eDP-1"
 
             # Move focus with mod + arrow keys

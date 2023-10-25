@@ -2,7 +2,7 @@
 with lib;
 let cfg = config.nixconf.old.applications;
 in {
-  imports = [ ./taskwarrior ./direnv ./syncthing ./neomutt ./emacs ];
+  imports = [ ./taskwarrior ./direnv ./syncthing ./neomutt ];
 
   options.nixconf.old.applications = {
     enable = mkOption {

@@ -10,11 +10,16 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services = {
-      xserver = {
-        enable = true;
-        libinput = { enable = true; };
+    services.xserver = {
+      enable = true;
         xkbOptions = "caps:escape";
+        libinput = {
+        enable = true;
+        touchpad = {
+          disableWhileTyping = true;
+          middleEmulation = true;
+          tappingButtonMap = "lrm";
+        };
       };
     };
 
