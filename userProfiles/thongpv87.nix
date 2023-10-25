@@ -11,7 +11,7 @@
   nixconf.old = {
     graphical = {
       enable = true;
-      theme = "breezee";
+      theme = "breeze";
       mime.enable = true;
       applications = {
         enable = true;
@@ -33,16 +33,12 @@
           type = "swaylock";
         };
       };
-      # xorg = {
-      #   enable = true;
-      #   xmonad = {
-      #     enable = true;
-      #     theme = "simple";
-      #   };
-      #   xmobar.enable = true;
+      xorg = {
+        enable = true;
+        xmonad = { enable = false; };
 
-      #   screenlock.enable = false;
-      # };
+        screenlock.enable = false;
+      };
     };
     applications = {
       enable = true;

@@ -49,7 +49,7 @@ Config { font            = "Ubuntu Bold 9"
                         -- Volume
                     , Run Alsa "default" "Master" ["-t", "<fn=1><status></fn> vol: <volume>%", "--", "-o", "<fn=2></fn>", "-O", "" ,"-c", "#ff6188", "-C", "#AB9DF2", "-H", "60", "-L", "25", "-h", "<fn=2></fn>", "-m", "<fn=2></fn>", "-l", "<fn=2></fn>" ]
                         -- Brightness
-                    , Run Brightness ["-t", "<fn=1></fn> bri: <percent>%", "--", "-D", "intel_backlight"] 60
+                    , Run Brightness ["-t", "<fn=1></fn> bri: <percent>%", "--", "-D", "amdgpu_bl0"] 60
                         -- Battery
                     , Run BatteryP ["BAT0"] ["-t", "<acstatus> <watts>W (<left>%)"
                                    ,"-L", "15", "-H", "50"

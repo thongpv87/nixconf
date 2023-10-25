@@ -4,7 +4,7 @@ let
   cfg = config.nixconf.old.graphical.xorg;
   systemCfg = config.machineData.systemConfig;
 in {
-  imports = [ ./xmonad ./xmobar ./kde-xmonad ];
+  imports = [ ./xmonad ./kde-xmonad ];
 
   options.nixconf.old.graphical.xorg = {
     enable = mkOption {
@@ -52,28 +52,43 @@ in {
     };
   };
 
-  config = mkIf cfg.enable (mkMerge [{
-    systemd.user.services = mkIf (cfg.screenlock.enable) {
-      xss-lock = {
-        Install = { WantedBy = [ "dwm-session.target" ]; };
-
-        Unit = {
-          Description = "XSS Lock Daemon";
-          # PartOf = [ "" ];
-          After = [ "graphical-session.target" ];
+  config = mkIf cfg.enable (mkMerge [
+    {
+      home = {
+        pointerCursor = {
+          package = pkgs.apple-cursor;
+          name = "monterey";
         };
-
-        Service = {
-          ExecStart = "${pkgs.xss-lock}/bin/xss-lock -s \${XDG_SESSION_ID} ${
-              if cfg.screenlock.timeout.script == null then
-                ""
-              else
-                "-n ${cfg.screenlock.timeout.script}"
-            } -l -- ${cfg.screenlock.lock.command}";
+        keyboard = {
+          layout = "us";
+          options = [ "caps:escape" ];
         };
       };
-    };
-  }
+      xsession = { enable = true; };
+    }
 
-    ]);
+    {
+      systemd.user.services = mkIf (cfg.screenlock.enable) {
+        xss-lock = {
+          Install = { WantedBy = [ "xmonad-session.target" ]; };
+
+          Unit = {
+            Description = "XSS Lock Daemon";
+            # PartOf = [ "" ];
+            After = [ "graphical-session.target" ];
+          };
+
+          Service = {
+            ExecStart = "${pkgs.xss-lock}/bin/xss-lock -s \${XDG_SESSION_ID} ${
+                if cfg.screenlock.timeout.script == null then
+                  ""
+                else
+                  "-n ${cfg.screenlock.timeout.script}"
+              } -l -- ${cfg.screenlock.lock.command}";
+          };
+        };
+      };
+    }
+
+  ]);
 }

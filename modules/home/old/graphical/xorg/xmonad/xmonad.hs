@@ -395,10 +395,10 @@ myManageHook =
 myStartupHook :: X ()
 myStartupHook = do
   spawnOnce "ibus-daemon  -d"
-  spawn "xsetroot -cursor_name left_ptr"
-  spawn "setxkbmap -model thinkpad -layout us -option caps:escape -option altwin:prtsc_rwin"
-  spawn "killall xmobar; main-statusbar"
-  spawn "killall trayer; trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34 --height 22"
+  -- spawn "xsetroot -cursor_name left_ptr"
+  -- spawn "setxkbmap -model thinkpad -layout us -option caps:escape -option altwin:prtsc_rwin"
+  -- spawn "killall xmobar; main-statusbar"
+  -- spawn "killall trayer; trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34 --height 22"
   -- spawn "systemctl --user start random-background"
 
 main :: IO ()

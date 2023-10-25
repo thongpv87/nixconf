@@ -11,6 +11,17 @@ in {
   };
 
   config = mkIf cfg.enable (mkMerge [
+    {
+      services.xserver.enable = true;
+      services.xserver.libinput = {
+        enable = true;
+        touchpad = {
+          disableWhileTyping = true;
+          middleEmulation = true;
+          tappingButtonMap = "lrm";
+        };
+      };
+    }
     (mkIf (cfg.desktopEnv == "xmonad") {
       nixconf.graphical.xorg = {
         enable = true;
