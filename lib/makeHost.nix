@@ -39,26 +39,12 @@ in inputs.nixpkgs.lib.nixosSystem {
           uid = 1000;
         };
 
-        #tmp config
-        boot = {
-          kernelPackages = pkgs.linuxPackages_latest;
-          initrd.availableKernelModules =
-            [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];
-          kernelModules = [ "kvm-amd" ];
+        services.openssh = {
+          enable = true;
+          settings.GatewayPorts = "yes";
+          settings.PasswordAuthentication = true;
         };
-        environment.systemPackages = [
-          pkgs.vim
-          pkgs.dmenu
-          pkgs.rofi
-          pkgs.alacritty
-          pkgs.git
-          pkgs.firefox
-          pkgs.selected-nerdfonts
-        ];
-        hardware.cpu.amd.updateMicrocode =
-          lib.mkDefault config.hardware.enableRedistributableFirmware;
-        networking.networkmanager.enable = true;
-        # swapDevices = [{ device = "/dev/disk/by-partlabel/disk-main-swap"; }];
+
 
         nixpkgs = {
           inherit overlays;
