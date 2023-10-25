@@ -26,6 +26,7 @@ in {
         dunst
         qt5.qtwayland
         qt6.qtwayland
+        gnome3.nautilus
       ];
 
       programs = {

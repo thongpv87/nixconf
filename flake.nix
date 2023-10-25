@@ -22,11 +22,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    haumea = {
-      url = "github:nix-community/haumea/v0.2.2";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs = { nixpkgs.follows = "nixpkgs"; };
@@ -47,8 +42,8 @@
     };
   };
 
-  outputs = { self, systems, haumea, flake-utils, nixpkgs, agenix, home-manager
-    , disko, nixos-generators, nixvim, ... }@inputs:
+  outputs = { self, systems, flake-utils, nixpkgs, agenix, home-manager, disko
+    , nixos-generators, nixvim, ... }@inputs:
     let
       system = "x86_64-linux";
       lib = import ./lib { inherit inputs; };
@@ -67,9 +62,8 @@
 
             ({ pkgs, config, lib, modulesPath, ... }:
               let
-                os = import ./modules/os {
-                  inherit haumea pkgs config lib modulesPath;
-                };
+                os =
+                  import ./modules/os { inherit pkgs config lib modulesPath; };
 
               in {
                 imports = [
