@@ -14,8 +14,12 @@ in {
     enable = mkEnableOption "Enable Hyprland display server";
   };
 
+  imports = [ ./waybar.nix ];
+
   config = mkIf cfg.enable (mkMerge [
     {
+      nixconf.services.display-manager.hyprland.waybar.enable = true;
+
       home.packages = with pkgs; [
         switch-input-method
         pamixer
@@ -23,6 +27,7 @@ in {
         qt5.qtwayland
         qt6.qtwayland
       ];
+
       programs = {
         wofi = {
           enable = true;
@@ -209,6 +214,7 @@ in {
 
         extraConfig = ''
           # Execute your favorite apps at launch
+          # exec-once waybar
           # exec-once = waybar & hyprpaper & firefox
           # Source a file (multi-file configs)
           # source = ~/.config/hypr/myColors.conf
