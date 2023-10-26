@@ -17,15 +17,15 @@
 ;;   presentations or streaming.
 ;; - `doom-symbol-font' -- for symbols
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-(setq  doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 15 :weight 'regular)
-      ;;  doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 15 :weight 'regular)
-      ;; doom-font (font-spec :family "DejaVuSansMono Nerd Font Mono" :size 12 :weight 'regular)
-      ;; doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12 :weight 'regular)
-      ;; doom-variable-pitch-font (font-spec :family "Fira Sans")
-      ;; doom-unicode-font (font-spec :family "FiraCode Nerd Font Mono" )
-      ;; doom-big-font (font-spec :family "FiraCode Nerd Font Mono" :size 19)
-      doom-themes-enable-bold t
-      doom-themes-enable-italic t)
+(setq  doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 17 :weight 'regular)
+       ;;  doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 15 :weight 'regular)
+       ;; doom-font (font-spec :family "DejaVuSansMono Nerd Font Mono" :size 12 :weight 'regular)
+       ;; doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12 :weight 'regular)
+       ;; doom-variable-pitch-font (font-spec :family "Fira Sans")
+       ;; doom-unicode-font (font-spec :family "FiraCode Nerd Font Mono" )
+       ;; doom-big-font (font-spec :family "FiraCode Nerd Font Mono" :size 19)
+       doom-themes-enable-bold t
+       doom-themes-enable-italic t)
 ;;
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
@@ -94,7 +94,7 @@
 (setenv "SSH_AUTH_SOCK" "/run/user/1000/gnupg/S.gpg-agent.ssh")
 
 ;; org mode
- (setq org-latex-default-packages-alist
+(setq org-latex-default-packages-alist
       '(("AUTO" "polyglossia" t ("xelatex" "lualatex"))
         ("AUTO" "babel" t ("pdflatex"))
         ("" "graphicx" t)
@@ -120,9 +120,9 @@
 (setq highlight-indent-guides-mode t)
 (after! lsp-haskell
   (setq ;;lsp-haskell-server-path "haskell-language-server"
-        lsp-haskell-plugin-retire-global-on nil
-        lsp-haskell-formatting-provider "fourmolu"
-        lsp-haskell-plugin-tactics-global-on nil))
+   lsp-haskell-plugin-retire-global-on nil
+   lsp-haskell-formatting-provider "fourmolu"
+   lsp-haskell-plugin-tactics-global-on nil))
 
 (after! lsp-mode
   (evil-define-key 'normal lsp-mode-map (kbd "`") lsp-command-map)
@@ -184,4 +184,4 @@
 
 ;; OTHERS
 (add-hook! treemacs-mode
-           (treemacs-load-theme "all-the-icons"))
+  (treemacs-load-theme "all-the-icons"))

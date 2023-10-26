@@ -50,7 +50,10 @@ in {
 
       extraConfig = ''
         set-option  -g default-shell ${shellCmd}
-        set -s copy-command 'xsel -ib'
+        # xorg copy
+        # set -s copy-command 'xsel -ib'
+        # wayland copy
+        set -g @override_copy_command 'wl-copy'
         ${readFile ./bindings.conf}
         ${readFile ./tmux.conf}
         ${readFile ./gruvbox-dark.conf}
