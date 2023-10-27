@@ -21,8 +21,6 @@ in {
           # and additional profiles such as balanced-performance, quiet, cool.
           # PLATFORM_PROFILE_ON_AC = "balanced";
           # PLATFORM_PROFILE_ON_BAT = "balanced";
-          MEM_SLEEP_ON_AC = "deep";
-          MEM_SLEEP_ON_BAT = "deep";
 
           CPU_DRIVER_OPMODE_ON_AC = "active";
           CPU_DRIVER_OPMODE_ON_BAT = "active";
