@@ -26,7 +26,7 @@ in {
         # x11.enable = true;
         package = pkgs.apple-cursor;
         name = "monterey";
-        size = 32;
+        size = 64;
       };
       keyboard = {
         layout = "us";

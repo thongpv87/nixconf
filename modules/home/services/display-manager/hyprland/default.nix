@@ -98,6 +98,7 @@ in {
             kb_layout = "us";
             kb_options = "caps:escape";
             follow_mouse = 1;
+            sensitivity = 0.5;
             touchpad = {
               natural_scroll = false;
               disable_while_typing = true;
@@ -105,7 +106,6 @@ in {
               clickfinger_behavior = true;
               tap-to-click = true;
             };
-            sensitivity = 0; # -1.0 - 1.0, 0 mean no modification
           };
 
           general = {
