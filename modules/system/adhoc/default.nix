@@ -19,23 +19,23 @@ in {
           RADEON_DPM_PERF_LEVEL_ON_BAT = "low";
           # Check the output of tlp-stat -p to determine availability on your hardware
           # and additional profiles such as balanced-performance, quiet, cool.
-          PLATFORM_PROFILE_ON_AC = "balanced";
-          PLATFORM_PROFILE_ON_BAT = "balanced";
+          # PLATFORM_PROFILE_ON_AC = "balanced";
+          # PLATFORM_PROFILE_ON_BAT = "balanced";
           MEM_SLEEP_ON_AC = "deep";
           MEM_SLEEP_ON_BAT = "deep";
 
           CPU_DRIVER_OPMODE_ON_AC = "active";
           CPU_DRIVER_OPMODE_ON_BAT = "active";
 
-          # CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
-          # CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
-          # # For available frequencies consult the output of tlp-stat -p.
+          CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+          CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+          # # # For available frequencies consult the output of tlp-stat -p.
           # CPU_SCALING_MIN_FREQ_ON_AC = 800000;
           # CPU_SCALING_MAX_FREQ_ON_AC = 3800000;
           # CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
           # CPU_SCALING_MAX_FREQ_ON_BAT = 3800000;
-          # CPU_ENERGY_PERF_POLICY_ON_AC = "balance_power";
-          # CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+          CPU_ENERGY_PERF_POLICY_ON_AC = "power";
+          CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
 
           CPU_BOOST_ON_AC = 0;
           CPU_BOOST_ON_BAT = 0;
@@ -46,8 +46,8 @@ in {
           # Runtime Power Management and ASPM
           RUNTIME_PM_ON_AC = "auto";
           RUNTIME_PM_ON_BAT = "auto";
-          PCIE_ASPM_ON_AC = "powersave";
-          PCIE_ASPM_ON_BAT = "powersave";
+          # PCIE_ASPM_ON_AC = "powersave";
+          # PCIE_ASPM_ON_BAT = "powersave";
         };
       };
       boot = mkIf config.services.tlp.enable {
@@ -55,7 +55,7 @@ in {
         kernelParams = [
           # "initcall_blacklist=acpi_cpufreq_init"
           # "amd_pstate.enable=true"
-          "amd_pstate=guided"
+          # "amd_pstate=guided"
           # "amd_pstate.shared_mem=1"
         ];
         kernelModules = [ "acpi_call" ];

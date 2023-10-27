@@ -10,7 +10,7 @@ in {
   config = lib.mkIf cfg.enable {
     boot = {
       initrd.availableKernelModules =
-        [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];
+        [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" "amdgpu" ];
       kernelModules = [ "kvm-amd" "synaptics_usb" ];
     };
     nixpkgs.hostPlatform = "x86_64-linux";
