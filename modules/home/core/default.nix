@@ -19,7 +19,7 @@ in {
     };
 
     home = {
-      sessionVariables = { EDITOR = "vim"; };
+      sessionVariables = { EDITOR = "${pkgs.neovim}/bin/nvim"; };
       stateVersion = "23.11";
       pointerCursor = {
         gtk.enable = true;

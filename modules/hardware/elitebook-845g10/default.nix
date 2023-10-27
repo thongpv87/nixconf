@@ -17,10 +17,15 @@ in {
     services.xserver = {
       videoDrivers = [ "amdgpu" ];
       monitorSection = ''
-        DisplaySize 312 195
+        DisplaySize 302 189
       '';
 
     };
+
+    systemd.services.systemd-logind.environment = {
+      SYSTEMD_BYPASS_HIBERNATION_MEMORY_CHECK = "1";
+    };
+
     hardware.cpu.amd.updateMicrocode =
       lib.mkDefault config.hardware.enableRedistributableFirmware;
   };

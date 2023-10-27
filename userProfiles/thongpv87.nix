@@ -1,9 +1,7 @@
 {
   nixconf = {
     core.enable = true;
-    apps = {
-      emacs.enable = true;
-    };
+    apps = { emacs.enable = true; };
     services = {
       display-manager = {
         enable = true;
@@ -62,5 +60,6 @@
     ssh.enable = true;
     others.enable = true;
   };
+
   home.stateVersion = "23.11";
 }

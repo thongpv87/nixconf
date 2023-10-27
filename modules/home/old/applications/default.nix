@@ -13,7 +13,7 @@ in {
   };
 
   config = mkIf (cfg.enable) {
-    home.sessionVariables = { EDITOR = "vim"; };
+    home.sessionVariables = { EDITOR = "${pkgs.neovim}/bin/nvim"; };
 
     xdg.enable = true;
 
@@ -21,6 +21,7 @@ in {
     home.packages = with pkgs; [
       home-manager
 
+      vim
       neovim
       # ssh mount
       sshfs

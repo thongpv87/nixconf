@@ -98,7 +98,13 @@ in {
             kb_layout = "us";
             kb_options = "caps:escape";
             follow_mouse = 1;
-            touchpad = { natural_scroll = false; };
+            touchpad = {
+              natural_scroll = false;
+              disable_while_typing = true;
+              tap_button_map = "lrm";
+              clickfinger_behavior = true;
+              tap-to-click = true;
+            };
             sensitivity = 0; # -1.0 - 1.0, 0 mean no modification
           };
 

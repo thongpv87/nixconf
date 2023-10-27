@@ -75,7 +75,7 @@ in {
             format = "{icon}&#8239;{capacity}";
             format-charging = "󰂄&#8239;{capacity}";
             format-plugged = "&#8239;{capacity}";
-            format-alt = "{icon} {time}";
+            format-alt = "{icon} {power}W/{time}";
             format-icons = [ "" "" "" "" "" ];
             tooltip = true;
             tooltip-format = "Power {power}W - {timeTo}";

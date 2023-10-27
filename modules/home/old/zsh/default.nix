@@ -32,6 +32,7 @@ in {
         irssi = "TERM=xterm-256color irssi";
         em = "emacsclient -t";
         vi = "nvim";
+        vim = "nvim";
       };
 
       completionInit = ''

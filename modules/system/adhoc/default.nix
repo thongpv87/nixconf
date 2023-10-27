@@ -102,7 +102,6 @@ in {
         pkgs.timewarrior
         pkgs.taskwarrior-tui
         pkgs.elixir_1_15
-        pkgs.insomnia
 
         pkgs.shellcheck
         pkgs.nodePackages.bash-language-server
@@ -180,7 +179,8 @@ in {
         # Hibernate on low battery. from: https://wiki.archlinux.org/title/laptop#Hibernate_on_low_battery_level
         udev.extraRules = ''
           # Suspend the system when battery level drops to 5% or lower
-          SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl hibernate"
+          SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl suspend"
+          # SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl hibernate"
         '';
 
         logind = {
@@ -188,11 +188,17 @@ in {
           # <LeftMouse>https://wiki.archlinux.org/title/Power_management
           # Options: ttps://www.freedesktop.org/software/systemd/man/logind.conf.html
           extraConfig = ''
-            HandleLidSwitch=suspend-then-hibernate
-            HandlePowerKey=suspend-then-hibernate
+            HandleLidSwitch=suspend
+            HandlePowerKey=suspend
             HandleLidSwitchDocked=ignore
-            IdleAction=suspend-then-hibernate
+            IdleAction=suspend
             IdleActionSec=5min
+
+            # HandleLidSwitch=suspend-then-hibernate
+            # HandlePowerKey=suspend-then-hibernate
+            # HandleLidSwitchDocked=ignore
+            # IdleAction=suspend-then-hibernate
+            # IdleActionSec=5min
           '';
         };
 
@@ -238,9 +244,7 @@ in {
         zsh.enable = true;
       };
 
-      services = {
-        usbmuxd.enable = true;
-      };
+      services = { usbmuxd.enable = true; };
 
       environment = {
         systemPackages = with pkgs; [
