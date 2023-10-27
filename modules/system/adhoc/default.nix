@@ -19,6 +19,7 @@ in {
           RADEON_DPM_PERF_LEVEL_ON_BAT = "low";
           # Check the output of tlp-stat -p to determine availability on your hardware
           # and additional profiles such as balanced-performance, quiet, cool.
+          PLATFORM_PROFILE_ON_AC = "low-power";
           PLATFORM_PROFILE_ON_BAT = "low-power";
 
           CPU_DRIVER_OPMODE_ON_AC = "guided";
@@ -28,9 +29,9 @@ in {
           CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
           # For available frequencies consult the output of tlp-stat -p.
           CPU_SCALING_MIN_FREQ_ON_AC = 800000;
-          CPU_SCALING_MAX_FREQ_ON_AC = 4500000;
+          CPU_SCALING_MAX_FREQ_ON_AC = 3800000;
           CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
-          CPU_SCALING_MAX_FREQ_ON_BAT = 3900000;
+          CPU_SCALING_MAX_FREQ_ON_BAT = 2200000;
 
           CPU_BOOST_ON_AC = 0;
           CPU_BOOST_ON_BAT = 0;

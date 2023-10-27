@@ -16,8 +16,7 @@ let
     #(setq org-latex-compiler "lualatex")
     #(setq org-preview-latex-default-process 'dvisvgm)
   });
-in
-{
+in {
   options.nixconf.apps.emacs = {
     enable = mkOption {
       description = "Enable a set of common applications";
@@ -48,8 +47,8 @@ in
     ];
 
     programs.emacs = {
-     enable = true;
-     package = pkgs.emacsPgtk;
+      enable = true;
+      package = pkgs.emacs-pgtk;
     };
     xdg.configFile."doom" = {
       source = ./doom.d;
