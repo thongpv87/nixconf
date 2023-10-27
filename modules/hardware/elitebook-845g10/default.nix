@@ -22,10 +22,6 @@ in {
 
     };
 
-    systemd.services.systemd-logind.environment = {
-      SYSTEMD_BYPASS_HIBERNATION_MEMORY_CHECK = "1";
-    };
-
     boot.kernelPackages = pkgs.linuxPackages_latest;
 
     hardware.cpu.amd.updateMicrocode =
