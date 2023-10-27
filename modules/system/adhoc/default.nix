@@ -47,7 +47,14 @@ in {
         };
       };
       boot = mkIf config.services.tlp.enable {
-        kernelModules = [ "acpi_call" "amd_pstate=guided" ];
+
+        kernelParams = [
+          "initcall_blacklist=acpi_cpufreq_init"
+          "amd_pstate.enable=true"
+          "amd_pstate=guided"
+          "amd_pstate.shared_mem=1"
+        ];
+        kernelModules = [ "acpi_call" ];
         extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
       };
     }
