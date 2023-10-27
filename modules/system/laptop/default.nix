@@ -13,7 +13,5 @@ in {
 
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  config = lib.mkIf cfg.enable {
-
-  };
+  config = lib.mkIf cfg.enable { };
 }

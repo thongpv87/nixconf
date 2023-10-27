@@ -9,6 +9,7 @@
       bootloader = "systemd-boot";
       device = "/dev/nvme0n1";
     };
+
     graphical = {
       enable = true;
       desktopEnv = "hyprland";
