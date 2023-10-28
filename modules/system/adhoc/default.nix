@@ -66,13 +66,13 @@ in {
       };
 
       networking = {
-        # wireless.iwd.enable = true;
+        wireless.iwd.enable = true;
         networkmanager = {
           enable = true;
-          # wifi = {
-          #   powersave = true;
-          #   backend = mkForce "iwd";
-          # };
+          wifi = {
+            powersave = true;
+            backend = mkForce "iwd";
+          };
         };
       };
 
