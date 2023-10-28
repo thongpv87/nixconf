@@ -60,7 +60,7 @@ in {
             tooltip = false;
           };
           temperature = {
-            hwmon-path = "/sys/class/hwmon/hwmon3/temp1_input";
+            hwmon-path = "/sys/class/hwmon/hwmon6/temp1_input";
             critical-threshold = 85;
             format = "{icon}&#8239;{temperatureC}°C";
             format-icons = [ "" "" "" "" "" ];

@@ -56,7 +56,7 @@ in {
         set -g @override_copy_command 'wl-copy'
         ${readFile ./bindings.conf}
         ${readFile ./tmux.conf}
-        ${readFile ./gruvbox-dark.conf}
+        ${readFile ./gruvbox-light.conf}
       '';
     };
   }]);

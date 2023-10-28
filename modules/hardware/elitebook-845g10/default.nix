@@ -11,7 +11,8 @@ in {
     boot = {
       initrd.availableKernelModules =
         [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" "amdgpu" ];
-      kernelModules = [ "kvm-amd" "synaptics_usb" ];
+      kernelModules =
+        [ "kvm-amd" "synaptics_usb" "hp-wmi" "hp-wmi-sensors" "k10temp" ];
     };
     nixpkgs.hostPlatform = "x86_64-linux";
     services.xserver = {
