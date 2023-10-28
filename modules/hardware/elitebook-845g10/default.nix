@@ -23,6 +23,7 @@ in {
     };
 
     boot.kernelPackages = pkgs.linuxPackages_latest;
+    powerManagement.enable = true;
 
     hardware.cpu.amd.updateMicrocode =
       lib.mkDefault config.hardware.enableRedistributableFirmware;

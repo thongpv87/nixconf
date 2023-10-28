@@ -13,7 +13,10 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     (mkIf (cfg.window-manager == "hyprland") {
-      nixconf.services.display-manager.hyprland.enable = true;
+      nixconf.services.display-manager = {
+        hyprland.enable = true;
+        swayidle.enable = true;
+      };
     })
   ]);
 }

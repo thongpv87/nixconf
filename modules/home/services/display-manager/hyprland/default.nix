@@ -14,7 +14,7 @@ in {
     enable = mkEnableOption "Enable Hyprland display server";
   };
 
-  imports = [ ./waybar.nix ];
+  imports = [ ./waybar.nix ./swayidle.nix ];
 
   config = mkIf cfg.enable (mkMerge [
     {

@@ -53,13 +53,10 @@
             };
           };
 
+          # Somehow hibernation does not work out of the box
           swap = {
             size = "40G";
-            content = {
-              type = "swap";
-              randomEncryption = true;
-              resumeDevice = true; # resume from hiberation from this device
-            };
+            content = { type = "swap"; };
           };
         };
       };
