@@ -13,7 +13,7 @@ in {
       enable = true;
       events = [{
         event = "before-sleep";
-        command = "${pkgs.waylock}/bin/swaylock --fork-on-lock";
+        command = "${pkgs.swaylock}/bin/swaylock";
       }];
       timeouts = [
         {
@@ -22,7 +22,7 @@ in {
         }
         {
           timeout = 1200;
-          command = "${pkgs.waylock}/bin/waylock --fork-on-lock";
+          command = "${pkgs.swaylock}/bin/swaylock";
         }
         {
           timeout = 1200;

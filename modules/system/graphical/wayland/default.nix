@@ -30,7 +30,7 @@ in {
       set -g @override_copy_command 'wl-copy'
     '';
 
-    # security.pam.services.swaylock = true;
-    # security.pam.services.waylock = true;
+    security.pam.services.swaylock = { };
+    #security.pam.services.waylock = { };
   };
 }
