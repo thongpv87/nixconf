@@ -38,8 +38,8 @@ in {
           # Runtime Power Management and ASPM
           RUNTIME_PM_ON_AC = "auto";
           RUNTIME_PM_ON_BAT = "auto";
-          # PCIE_ASPM_ON_AC = "powersave";
-          # PCIE_ASPM_ON_BAT = "powersave";
+          PCIE_ASPM_ON_AC = "powersave";
+          PCIE_ASPM_ON_BAT = "powersave";
         };
       };
       boot = mkIf config.services.tlp.enable {
@@ -66,12 +66,15 @@ in {
       };
 
       networking = {
-        wireless.iwd.enable = true;
+        wireless.iwd = {
+          #enable = true;
+          settings = { Settings = { AutoConnect = true; }; };
+        };
         networkmanager = {
           enable = true;
           wifi = {
             powersave = true;
-            backend = mkForce "iwd";
+            # backend = mkForce "iwd";
           };
         };
       };
