@@ -165,7 +165,8 @@ in {
           bind = [
             "$mod SHIFT, RETURN, exec, alacritty"
             "$mod SHIFT, C, killactive,"
-            "$mod SHIFT, Q, exit,"
+            # "$mod SHIFT, Q, exit,"
+            "$mod SHIFT, Q, exec, systemctl suspend-then-hibernate"
             "$mod, RETURN, layoutmsg, swapwithmaster"
             "$mod, J, layoutmsg, cyclenext"
             "$mod, K, layoutmsg, cycleprev"

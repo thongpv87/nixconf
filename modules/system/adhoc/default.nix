@@ -40,8 +40,8 @@ in {
             # Runtime Power Management and ASPM
             RUNTIME_PM_ON_AC = "auto";
             RUNTIME_PM_ON_BAT = "auto";
-            PCIE_ASPM_ON_AC = "powersave";
-            PCIE_ASPM_ON_BAT = "powersave";
+            # PCIE_ASPM_ON_AC = "powersave";
+            # PCIE_ASPM_ON_BAT = "powersave";
           };
         };
       };
@@ -144,7 +144,10 @@ in {
       services.avahi.enable = false;
       services.avahi.nssmdns = false;
       services.avahi.openFirewall = config.service.avahi.enable;
-      hardware.bluetooth.enable = true;
+      hardware.bluetooth = {
+        enable = true;
+        settings = { General = { Enable = "Source,Sink,Media,Socket"; }; };
+      };
       services.blueman.enable = config.hardware.bluetooth.enable;
     }
 

@@ -1,5 +1,5 @@
 { inputs }:
-let inherit (inputs) nixvim emacs-overlay;
+let inherit (inputs) nixvim emacs-overlay nbfc-linux;
 in [
 
   emacs-overlay.overlays.default

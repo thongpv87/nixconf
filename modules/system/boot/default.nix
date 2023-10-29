@@ -61,6 +61,7 @@ in {
 
       boot = {
         loader = {
+          grub.enable = false;
           systemd-boot.enable = true;
           systemd-boot.netbootxyz.enable = true;
 
