@@ -15,7 +15,7 @@ in {
     (mkIf (cfg.window-manager == "hyprland") {
       nixconf.services.display-manager = {
         hyprland.enable = true;
-        swayidle.enable = true;
+        swayidle.enable = false;
       };
     })
   ]);

@@ -43,7 +43,7 @@ in {
     {
       disko.devices = diskoDevice;
       boot.loader.grub.devices = [ cfg.device ];
-      #swapDevices = [{ device = "/dev/disk/by-partlabel/disk-main-swap"; }];
+      boot.loader.grub.configurationLimit = 10;
     }
     (lib.mkIf (cfg.bootloader == "systemd-boot") {
       assertions = [

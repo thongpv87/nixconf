@@ -48,7 +48,7 @@ in {
 
     programs.emacs = {
       enable = true;
-      package = pkgs.emacs-pgtk;
+      package = pkgs.emacs29-pgtk;
     };
     xdg.configFile."doom" = {
       source = ./doom.d;

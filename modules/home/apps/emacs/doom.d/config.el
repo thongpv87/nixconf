@@ -163,12 +163,8 @@
       "M-." #'lsp-ui-peek-find-implementation
       )
 
-;; Prevent open new workspace when start emacsclient
-(after! persp-mode
-  (setq persp-emacsclient-init-frame-behaviour-override "main"))
-(setq doom-modeline-persp-name t)
-
-
+;; Elixir lsp
+(setq lsp-elixir-server-command '("/nix/store/7yxbq69ln8m9p89wynms70bmj7zg01y5-elixir-ls-0.14.6/bin/elixir-ls"))
 ;; TREEMACS
 (setq winum-scope 'frame-local)
 (map! "M-0" #'treemacs-select-window

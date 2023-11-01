@@ -2,7 +2,7 @@
 let inherit (inputs) nixvim emacs-overlay nbfc-linux;
 in [
 
-  emacs-overlay.overlays.default
+  #emacs-overlay.overlays.default
   (final: prev: {
     lib = prev.lib // builtins;
     bamboo = prev.ibus-engines.bamboo.overrideAttrs (oldAttrs: {

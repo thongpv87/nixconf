@@ -19,6 +19,7 @@ in {
       pkgs.nmap
       pkgs.curl
       pkgs.git
+      pkgs.unzip
       pkgs.direnv
       pkgs.bottom
       pkgs.jq
@@ -46,7 +47,7 @@ in {
       gc = {
         automatic = true;
         dates = "weekly";
-        options = "--delete-older-than 60d";
+        options = "--delete-older-than 30d";
       };
 
       settings = {
