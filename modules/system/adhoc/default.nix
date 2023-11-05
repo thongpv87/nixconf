@@ -222,11 +222,11 @@ in {
             # Volume not controllable from acpid as pulseaudio is user service and acpid is system
             brightness-down = {
               event = "video/brightnessdown*";
-              action = "${pkgs.light}/bin/light -U 4";
+              action = "${pkgs.light}/bin/light -U 5";
             };
             brightness-up = {
               event = "video/brightnessup";
-              action = "${pkgs.light}/bin/light -A 4";
+              action = "${pkgs.light}/bin/light -A 5";
             };
             ac-power = {
               event = "ac_adapter/*";

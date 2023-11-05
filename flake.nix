@@ -27,19 +27,24 @@
       inputs = { nixpkgs.follows = "nixpkgs"; };
     };
 
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-doom-emacs = {
-      url = "github:nix-community/nix-doom-emacs?ref=develop";
-      inputs = {
-        # nixpkgs.follows = "nixpkgs";
-        # emacs-overlay.inputs.nixpkgs.follows = "nix-doom-emacs/nixpkgs";
-        #flake-compat.follows = "";
-      };
-    };
+    # emacs-overlay = {
+    #   url = "github:nix-community/emacs-overlay";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
+    # nix-doom-emacs = {
+    #   url = "github:nix-community/nix-doom-emacs?ref=develop";
+    #   inputs = {
+    #     # nixpkgs.follows = "nixpkgs";
+    #     # emacs-overlay.inputs.nixpkgs.follows = "nix-doom-emacs/nixpkgs";
+    #     #flake-compat.follows = "";
+    #   };
+    # };
   };
 
   outputs = { self, systems, flake-utils, nixpkgs, agenix, home-manager, disko

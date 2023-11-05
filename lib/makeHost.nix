@@ -1,8 +1,7 @@
 { inputs, system, overlays, hardwareConfig, diskoConfig, nixosProfiles
 , userProfiles }:
 let
-  inherit (inputs)
-    nixpkgs nixos-generators disko home-manager nix-doom-emacs emacs-overlay;
+  inherit (inputs) nixpkgs nixos-generators disko home-manager;
   inherit (nixpkgs) lib;
 in inputs.nixpkgs.lib.nixosSystem {
   inherit system;
@@ -15,7 +14,10 @@ in inputs.nixpkgs.lib.nixosSystem {
         useGlobalPkgs = true;
         useUserPackages = true;
         users.thongpv87 = {
-          imports = [ ../modules/home nix-doom-emacs.hmModule ];
+          imports = [
+            ../modules/home
+            # nix-doom-emacs.hmModule
+          ];
 
           home.stateVersion = "23.11";
         } // (builtins.foldl' (a: b: lib.attrsets.recursiveUpdate a b) { }
@@ -45,12 +47,10 @@ in inputs.nixpkgs.lib.nixosSystem {
           settings.PasswordAuthentication = true;
         };
 
-
         nixpkgs = {
           inherit overlays;
           config = {
             permittedInsecurePackages = [
-              # "electron-9.4.4"
               "electron-11.5.0"
               "electron-24.8.6"
               #"qtwebkit-5.212.0-alpha4"

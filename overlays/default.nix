@@ -1,6 +1,7 @@
 { inputs }:
-let inherit (inputs) nixvim emacs-overlay nbfc-linux;
+let inherit (inputs) nixvim hyprland;
 in [
+  #hyprland.overlays.default
 
   #emacs-overlay.overlays.default
   (final: prev: {
