@@ -7,6 +7,9 @@ in {
   options.nixconf.adhoc = { enable = mkEnableOption "Enable adhoc configs"; };
 
   config = mkIf cfg.enable (mkMerge [
+    {
+      #services.tailscale = { enable = true; };
+    }
 
     # power management configs
     {

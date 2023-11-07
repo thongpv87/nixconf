@@ -22,7 +22,7 @@ in {
       '';
 
     };
-    boot.blacklistedKernelModules = [ "amd_pmf" ];
+    # boot.blacklistedKernelModules = [ "amd_pmf" ];
 
     boot.kernelPackages = pkgs.linuxPackages_latest;
     powerManagement.enable = false;
