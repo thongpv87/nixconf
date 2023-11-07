@@ -25,7 +25,7 @@ in {
     boot.blacklistedKernelModules = [ "amd_pmf" ];
 
     boot.kernelPackages = pkgs.linuxPackages_latest;
-    powerManagement.enable = true;
+    powerManagement.enable = false;
 
     hardware.cpu.amd.updateMicrocode =
       lib.mkDefault config.hardware.enableRedistributableFirmware;

@@ -98,7 +98,7 @@ in {
             kb_layout = "us";
             kb_options = "caps:escape";
             follow_mouse = 1;
-            sensitivity = 0.5;
+            sensitivity = 0.6;
             touchpad = {
               natural_scroll = false;
               disable_while_typing = true;
@@ -165,7 +165,8 @@ in {
           bind = [
             "$mod SHIFT, RETURN, exec, alacritty"
             "$mod SHIFT, C, killactive,"
-            "$mod SHIFT, Q, exec, systemctl suspend-then-hibernate"
+            "$mod, Q, exec, systemctl suspend"
+            "$mod SHIFT, Q, exec, systemctl hibernate"
             "$mod, m, layoutmsg, focusmaster"
             "$mod, RETURN, layoutmsg, swapwithmaster"
             "$mod, J, layoutmsg, cyclenext"

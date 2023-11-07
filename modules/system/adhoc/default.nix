@@ -115,6 +115,9 @@ in {
 
         pkgs.shellcheck
         pkgs.nodePackages.bash-language-server
+
+        pkgs.zoom-us
+        pkgs.slack
       ];
 
       services.postgresql = {
@@ -200,14 +203,8 @@ in {
           # <LeftMouse>https://wiki.archlinux.org/title/Power_management
           # Options: ttps://www.freedesktop.org/software/systemd/man/logind.conf.html
           extraConfig = ''
-            # HandleLidSwitch=suspend
-            # HandlePowerKey=suspend
-            # HandleLidSwitchDocked=ignore
-            # IdleAction=suspend
-            # IdleActionSec=5min
-
-            HandleLidSwitch=suspend-then-hibernate
-            HandlePowerKey=suspend-then-hibernate
+            HandleLidSwitch=hibernate
+            HandlePowerKey=suspend
             HandleLidSwitchDocked=ignore
             IdleAction=suspend-then-hibernate
             IdleActionSec=5min
