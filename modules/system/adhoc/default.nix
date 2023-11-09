@@ -35,8 +35,11 @@ in {
             CPU_ENERGY_PERF_POLICY_ON_AC = "power";
             CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
 
-            CPU_BOOST_ON_AC = 0;
-            CPU_BOOST_ON_BAT = 0;
+            CPU_BOOST_ON_AC = 1;
+            CPU_BOOST_ON_BAT = 1;
+	    CPU_HWP_DYN_BOOST_ON_AC = 1;
+	    CPU_HWP_DYN_BOOST_ON_BAT = 1;
+
             DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wwan";
             DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
 

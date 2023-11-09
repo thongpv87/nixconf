@@ -8,6 +8,9 @@ let
   switch-input-method = pkgs.writeShellScriptBin "switch-input-method" ''
     if [ $(ibus engine) == xkb:us::eng ]; then ibus engine Bamboo; else ibus engine xkb:us::eng ; fi
   '';
+  screenshot-region = pkgs.writeShellScriptBin "screenshot-region" ''
+    ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)"
+  '';
 
 in {
   options.nixconf.services.display-manager.hyprland = {
@@ -22,6 +25,7 @@ in {
 
       home.packages = with pkgs; [
         switch-input-method
+        screenshot-region
         pamixer
         dunst
         qt5.qtwayland
@@ -180,6 +184,8 @@ in {
             "$mod, I, pseudo," # dwindle
             "$mod, U, togglesplit," # dwindle
             "$mod, F, fullscreen,1"
+            "$mod, backslash, exec, screenshot-region"
+
             "$mod SHIFT, F, fullscreen,0"
             # media keys
             ",121,exec, pamixer --toggle-mute"

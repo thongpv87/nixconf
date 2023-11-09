@@ -22,6 +22,10 @@ in {
       '';
 
     };
+    boot.kernelPatches = [{
+      name = "amd_pmf_freq_lock";
+      patch = ./amd_pmf_freq_lock.patch;
+    }];
     # boot.blacklistedKernelModules = [ "amd_pmf" ];
 
     boot.kernelPackages = pkgs.linuxPackages_latest;
