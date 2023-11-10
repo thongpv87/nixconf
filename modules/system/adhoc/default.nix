@@ -37,8 +37,8 @@ in {
 
             CPU_BOOST_ON_AC = 1;
             CPU_BOOST_ON_BAT = 1;
-	    CPU_HWP_DYN_BOOST_ON_AC = 1;
-	    CPU_HWP_DYN_BOOST_ON_BAT = 1;
+            CPU_HWP_DYN_BOOST_ON_AC = 1;
+            CPU_HWP_DYN_BOOST_ON_BAT = 1;
 
             DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wwan";
             DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
@@ -46,8 +46,8 @@ in {
             # Runtime Power Management and ASPM
             RUNTIME_PM_ON_AC = "auto";
             RUNTIME_PM_ON_BAT = "auto";
-            # PCIE_ASPM_ON_AC = "powersave";
-            # PCIE_ASPM_ON_BAT = "powersave";
+            PCIE_ASPM_ON_AC = "powersave";
+            PCIE_ASPM_ON_BAT = "powersave";
           };
         };
       };
@@ -103,7 +103,6 @@ in {
 
       services = {
         fstrim.enable = true;
-        fwupd.enable = true;
         udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
       };
       services.upower.enable = true;
@@ -124,6 +123,7 @@ in {
 
         pkgs.zoom-us
         pkgs.slack
+        pkgs.ngrok
       ];
 
       services.postgresql = {
