@@ -40,12 +40,12 @@ in {
     gtk = {
       enable = true;
       theme = {
-        package = pkgs.pop-gtk-theme;
-        name = "Pop";
+        package = pkgs.breeze-gtk;
+        name = "Breeze";
       };
       iconTheme = {
-        package = pkgs.pop-gtk-theme;
-        name = "Pop";
+        package = pkgs.breeze-gtk;
+        name = "Breeze";
       };
       font = {
         name = "Berkeley Mono Variable";
@@ -57,8 +57,8 @@ in {
       enable = true;
       platformTheme = "gnome";
       style = {
-        package = pkgs.pop-gtk-theme;
-        name = "Pop";
+        package = pkgs.breeze-gtk;
+        name = "Breeze";
       };
     };
 

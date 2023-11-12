@@ -55,6 +55,7 @@ in {
 
         trusted-users = [ "root" "@wheel" ];
         allowed-users = [ "@wheel" ];
+        system-features = [ "benchmark" "big-parallel" "kvm" "nixos-test" ];
 
         auto-optimise-store = true;
       };

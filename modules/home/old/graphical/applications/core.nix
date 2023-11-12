@@ -17,7 +17,7 @@ in {
       okular
       xorg.xinput
 
-      microsoft-edge
+      # microsoft-edge
 
       # updated version with wayland/grim backend
       libsixel

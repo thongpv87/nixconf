@@ -3,7 +3,7 @@ with lib;
 let cfg = config.nixconf.old.graphical.applications;
 in {
   config = {
-    home.packages = with pkgs; [ vimiv-qt pinta inkscape ];
+    home.packages = with pkgs; [ vimiv-qt pinta ];
 
     xdg.configFile = {
       "vimiv/vimiv.conf" = {

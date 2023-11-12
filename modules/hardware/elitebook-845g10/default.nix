@@ -14,7 +14,6 @@ in {
       kernelModules =
         [ "kvm-amd" "synaptics_usb" "hp-wmi" "hp-wmi-sensors" "k10temp" ];
     };
-    nixpkgs.hostPlatform = "x86_64-linux";
     services.xserver = {
       videoDrivers = [ "amdgpu" ];
       monitorSection = ''
@@ -28,9 +27,14 @@ in {
     }];
     # boot.blacklistedKernelModules = [ "amd_pmf" ];
 
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+    # boot.kernelPackages = pkgs.linuxPackages_latest;
+    boot.kernelPackages = pkgs.zen4KernelPackages;
+
     powerManagement.enable = false;
 
+    nix.settings.system-features = [ "gccarch-znver4" ];
+
+    nixpkgs.hostPlatform = { system = "x86_64-linux"; };
     hardware.cpu.amd.updateMicrocode =
       lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
