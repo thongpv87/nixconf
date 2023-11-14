@@ -24,9 +24,9 @@ in {
       pointerCursor = {
         gtk.enable = true;
         # x11.enable = true;
-        package = pkgs.apple-cursor;
-        name = "monterey";
-        size = 64;
+        package = pkgs.pop-icon-theme;
+        name = "Pop";
+        size = 48;
       };
       keyboard = {
         layout = "us";
@@ -40,12 +40,12 @@ in {
     gtk = {
       enable = true;
       theme = {
-        package = pkgs.breeze-gtk;
-        name = "Breeze";
+        package = pkgs.pop-gtk-theme;
+        name = "Pop";
       };
       iconTheme = {
-        package = pkgs.breeze-gtk;
-        name = "Breeze";
+        package = pkgs.pop-gtk-theme;
+        name = "Pop";
       };
       font = {
         name = "Berkeley Mono Variable";
@@ -57,8 +57,8 @@ in {
       enable = true;
       platformTheme = "gnome";
       style = {
-        package = pkgs.breeze-gtk;
-        name = "Breeze";
+        package = pkgs.pop-gtk-theme;
+        name = "Pop";
       };
     };
 

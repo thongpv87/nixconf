@@ -21,14 +21,17 @@ in {
       '';
 
     };
-    boot.kernelPatches = [{
-      name = "amd_pmf_freq_lock";
-      patch = ./amd_pmf_freq_lock.patch;
-    }];
+    # boot.kernelPatches = [{
+    #   name = "amd_pmf_freq_lock";
+    #   patch = ./amd_pmf_freq_lock.patch;
+    # }];
     # boot.blacklistedKernelModules = [ "amd_pmf" ];
 
     # boot.kernelPackages = pkgs.linuxPackages_latest;
     boot.kernelPackages = pkgs.zen4KernelPackages;
+
+    # boot.kernelParams =
+    #   [ ''dyndbg="file drivers/base/firmware_loader/main.c +fmp"'' ];
 
     powerManagement.enable = false;
 
