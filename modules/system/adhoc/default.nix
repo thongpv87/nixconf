@@ -3,64 +3,99 @@ let
   cfg = config.nixconf.adhoc;
   inherit (lib)
     mkOption mkMerge mkIf mkDefault mkForce types mdDoc mkEnableOption;
+  ac-connected = pkgs.writeScriptBin "ac-connected" ''
+    #!${pkgs.zsh}/bin/zsh
+    ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g powersave
+    for cpu_path in /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference; do
+      echo "balance_performance" > "$cpu_path"
+    done
+  '';
+
+  ac-disconnected = pkgs.writeScriptBin "ac-disconnected" ''
+    #!${pkgs.zsh}/bin/zsh
+    ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g powersave
+    for cpu_path in /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference; do
+      echo "power" > "$cpu_path"
+    done
+  '';
+
 in {
   options.nixconf.adhoc = { enable = mkEnableOption "Enable adhoc configs"; };
 
   config = mkIf cfg.enable (mkMerge [
     {
-      #services.tailscale = { enable = true; };
+      services.tailscale = { enable = true; };
+      networking.firewall.enable = false;
     }
 
     # power management configs
     {
+      environment.systemPackages = [
+        config.boot.kernelPackages.cpupower
+        pkgs.ryzenadj
+        ac-connected
+        ac-disconnected
+      ];
+
+      powerManagement.enable = false;
       services = {
         power-profiles-daemon.enable = false;
 
-        cpupower-gui.enable = true;
+        # cpupower-gui.enable = true;
 
         tlp = {
           enable = false;
           settings = {
             NMI_WATCHDOG = 0;
             RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
-            RADEON_DPM_PERF_LEVEL_ON_BAT = "low";
+            RADEON_DPM_PERF_LEVEL_ON_BAT = "auto";
             # Check the output of tlp-stat -p to determine availability on your hardware
             # and additional profiles such as balanced-performance, quiet, cool.
             # PLATFORM_PROFILE_ON_AC = "balanced";
             # PLATFORM_PROFILE_ON_BAT = "balanced";
 
-            CPU_DRIVER_OPMODE_ON_AC = "active";
+            CPU_DRIVER_OPMODE_ON_AC = "passive";
             CPU_DRIVER_OPMODE_ON_BAT = "active";
-
-            CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+            CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
             CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-            CPU_ENERGY_PERF_POLICY_ON_AC = "power";
+            # CPU_ENERGY_PERF_POLICY_ON_AC = "power";
             CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
 
-            CPU_BOOST_ON_AC = 1;
-            CPU_BOOST_ON_BAT = 1;
-            CPU_HWP_DYN_BOOST_ON_AC = 1;
-            CPU_HWP_DYN_BOOST_ON_BAT = 1;
+            # CPU_DRIVER_OPMODE_ON_AC = "passive";
+            # CPU_DRIVER_OPMODE_ON_BAT = "passive";
+            # CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
+            # CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
 
-            DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wwan";
-            DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
+            # CPU_HWP_DYN_BOOST_ON_AC = 1;
+            # CPU_HWP_DYN_BOOST_ON_BAT = 1;
+
+            # DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wwan";
+            # DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
 
             # Runtime Power Management and ASPM
             RUNTIME_PM_ON_AC = "auto";
             RUNTIME_PM_ON_BAT = "auto";
-            PCIE_ASPM_ON_AC = "powersave";
-            PCIE_ASPM_ON_BAT = "powersave";
+            PCIE_ASPM_ON_AC = "default";
+            PCIE_ASPM_ON_BAT = "powersupersave";
           };
         };
       };
+
+      services.udev.extraRules = ''
+        SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${ac-connected}/bin/ac-connected"
+        SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", RUN+="${ac-disconnected}/bin/ac-disconnected"
+      '';
+
       boot = mkIf config.services.tlp.enable {
 
         kernelParams = [
           # "initcall_blacklist=acpi_cpufreq_init"
           # "amd_pstate.enable=true"
-          # "amd_pstate=guided"
-          # "amd_pstate.shared_mem=1"
+          "amd_pstate=active"
+          # "pcie_aspm=force"
         ];
+
+        # cpupower frequency-set -g "powersave"
         kernelModules = [ "acpi_call" ];
         extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
       };
@@ -127,6 +162,7 @@ in {
         pkgs.slack
         pkgs.ngrok
         pkgs.dbeaver
+        pkgs.dia
       ];
 
       services.postgresql = {

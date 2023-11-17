@@ -41,6 +41,9 @@ in {
       pkgs.eza
       pkgs.fzf
       pkgs.firefox
+      pkgs.ix
+      pkgs.traceroute
+      pkgs.geekbench
     ];
 
     nix = {

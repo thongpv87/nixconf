@@ -27,13 +27,11 @@ in {
     # }];
     # boot.blacklistedKernelModules = [ "amd_pmf" ];
 
-    # boot.kernelPackages = pkgs.linuxPackages_latest;
+    # boot.kernelPackages = pkgs.linuxPackages_testing;
     boot.kernelPackages = pkgs.zen4KernelPackages;
 
     # boot.kernelParams =
     #   [ ''dyndbg="file drivers/base/firmware_loader/main.c +fmp"'' ];
-
-    powerManagement.enable = false;
 
     nix.settings.system-features = [ "gccarch-znver4" ];
 

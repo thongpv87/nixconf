@@ -71,8 +71,6 @@ in [
       });
 
       emacs29-pgtk = zen4pkg prev.emacs29-pgtk;
-      alacritty = zen4pkg prev.alacritty;
-      vlc = zen4pkg prev.vlc;
 
       bamboo = prev.ibus-engines.bamboo.overrideAttrs (oldAttrs: {
         version = "v0.8.1";
@@ -83,6 +81,15 @@ in [
           sha256 = "sha256-7qU3ieoRPfv50qM703hEw+LTSrhrzwyzCvP9TOLTiDs=";
         };
         buildInputs = oldAttrs.buildInputs ++ [ prev.glib prev.gtk3 ];
+      });
+
+      ryzenadj = prev.ryzenadj.overrideAttrs (_: {
+        src = prev.fetchFromGitHub {
+          owner = "FlyGoat";
+          repo = "RyzenAdj";
+          rev = "0460a4d3d3676a7647b3e22b35255947a8530d09";
+          sha256 = "sha256-Lqq4LNRmqQyeIJfr/+tYdKMEk+P54VnwZAQZcE0ev8Y=";
+        };
       });
 
       selected-nerdfonts = prev.nerdfonts.override {
