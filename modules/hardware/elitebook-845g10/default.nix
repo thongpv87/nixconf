@@ -29,6 +29,7 @@ in {
 
     # boot.kernelPackages = pkgs.linuxPackages_testing;
     boot.kernelPackages = pkgs.zen4KernelPackages;
+    # boot.kernelPackages = pkgs.linuxPackages_zen;
 
     # boot.kernelParams =
     #   [ ''dyndbg="file drivers/base/firmware_loader/main.c +fmp"'' ];
