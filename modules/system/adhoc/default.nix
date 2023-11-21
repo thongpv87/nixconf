@@ -4,14 +4,14 @@ let
   inherit (lib)
     mkOption mkMerge mkIf mkDefault mkForce types mdDoc mkEnableOption;
   ac-connected = pkgs.writeScriptBin "ac-connected" ''
-    #!${pkgs.zsh}/bin/bash
+    #!${pkgs.zsh}/bin/zsh
     # ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g schedutil
     ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g powersave
     echo "balance_performance" > /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference
   '';
 
   ac-disconnected = pkgs.writeScriptBin "ac-disconnected" ''
-    #!${pkgs.zsh}/bin/bash
+    #!${pkgs.zsh}/bin/zsh
     # ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g schedutil
     ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g powersave
     echo "power" > /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference
@@ -22,7 +22,10 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      services.tailscale = { enable = true; };
+      services.tailscale = {
+        enable = true;
+        useRoutingFeatures = "client";
+      };
       networking.firewall.enable = false;
     }
 
@@ -39,7 +42,7 @@ in {
       services = {
         power-profiles-daemon.enable = false;
 
-        cpupower-gui.enable = true;
+        # cpupower-gui.enable = true;
 
         tlp = {
           enable = false;
@@ -84,16 +87,12 @@ in {
         SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", RUN+="${ac-disconnected}/bin/ac-disconnected"
       '';
 
-      boot = mkIf config.services.tlp.enable {
-
+      boot = {
         kernelParams = [
-          # "initcall_blacklist=acpi_cpufreq_init"
-          # "amd_pstate.enable=true"
-          "amd_pstate=passive"
+          # "amd_pstate=passive"
           # "pcie_aspm=force"
         ];
 
-        # cpupower frequency-set -g "powersave"
         kernelModules = [ "acpi_call" ];
         extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
       };
@@ -232,7 +231,7 @@ in {
         chrony.enable = true;
         timesyncd.enable = false;
         # iOS mounting
-        usbmuxd.enable = true;
+        usbmuxd.enable = false; # borken
 
         # Hibernate on low battery. from: https://wiki.archlinux.org/title/laptop#Hibernate_on_low_battery_level
         udev.extraRules = ''
@@ -246,11 +245,11 @@ in {
           # <LeftMouse>https://wiki.archlinux.org/title/Power_management
           # Options: ttps://www.freedesktop.org/software/systemd/man/logind.conf.html
           extraConfig = ''
-            HandleLidSwitch=hibernate
+            HandleLidSwitch=suspend
             HandlePowerKey=suspend
             HandleLidSwitchDocked=ignore
             IdleAction=suspend-then-hibernate
-            IdleActionSec=5min
+            IdleActionSec=30min
           '';
         };
 
@@ -296,8 +295,6 @@ in {
         zsh.enable = true;
       };
 
-      services = { usbmuxd.enable = true; };
-
       environment = {
         systemPackages = with pkgs; [
           #utilities packages
@@ -320,10 +317,6 @@ in {
           nixfmt
 
           config.boot.kernelPackages.bcc
-
-          # iOS mounting
-          libimobiledevice
-          ifuse
         ];
         pathsToLink = [ "/share/zsh" ];
       };

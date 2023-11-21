@@ -27,8 +27,8 @@ in {
     # }];
     # boot.blacklistedKernelModules = [ "amd_pmf" ];
 
-    # boot.kernelPackages = pkgs.linuxPackages_testing;
-    boot.kernelPackages = pkgs.zen4KernelPackages;
+    boot.kernelPackages = pkgs.linuxPackages_testing;
+    # boot.kernelPackages = pkgs.zen4KernelPackages;
     # boot.kernelPackages = pkgs.linuxPackages_zen;
 
     # boot.kernelParams =
