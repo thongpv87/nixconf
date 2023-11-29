@@ -5,14 +5,13 @@ let
     mkOption mkMerge mkIf mkDefault mkForce types mdDoc mkEnableOption;
   ac-connected = pkgs.writeScriptBin "ac-connected" ''
     #!${pkgs.zsh}/bin/zsh
-    # ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g schedutil
-    ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g powersave
-    echo "balance_performance" > /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference
+    echo "passive" > /sys/devices/system/cpu/amd_pstate/status
+    ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g schedutil
   '';
 
   ac-disconnected = pkgs.writeScriptBin "ac-disconnected" ''
     #!${pkgs.zsh}/bin/zsh
-    # ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g schedutil
+    echo "active" > /sys/devices/system/cpu/amd_pstate/status
     ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g powersave
     echo "power" > /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference
   '';

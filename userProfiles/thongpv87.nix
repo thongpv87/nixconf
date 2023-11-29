@@ -17,22 +17,6 @@
       applications = {
         enable = false;
         rofi.enable = true;
-        libreoffice.enable = true;
-        anki = {
-          enable = false;
-          sync = false;
-        };
-        kdeconnect.enable = false;
-      };
-      wayland = {
-        enable = false;
-        type = "hyprland";
-        background = { enable = false; };
-        statusbar = { enable = true; };
-        screenlock = {
-          enable = false;
-          type = "swaylock";
-        };
       };
       xorg = {
         enable = false;

@@ -17,7 +17,7 @@ let
       ${pkgs.glib.dev}/bin/glib-compile-schemas $out/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas/
     '';
 in {
-  imports = [ ./applications ./wayland ./xorg ./config.nix ./mime.nix ];
+  imports = [ ./applications ./xorg ./config.nix ./mime.nix ];
 
   options.nixconf.old.graphical = {
     enable = mkOption {
