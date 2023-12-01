@@ -50,24 +50,7 @@ in [
       lib = prev.lib // builtins;
 
       zen4KernelPackages = prev.linuxPackagesFor (prev.linux_testing.override {
-        argsOverride = {
-          stdenv = final.optimizedZnver4Stdenv;
-
-          kernelPatches = [
-            {
-              name = "amd_pmf_freq_lock";
-              patch = ./amd_pmf_freq_lock.patch;
-            }
-            {
-              name = "amd_suspend_then_hibernate";
-              patch = ./amd_suspend_then_hibernate.patch;
-            }
-            # {
-            #   name = "amd_smart_pc";
-            #   patch = ./Introduce-PMF-Smart-PC-Solution-Builder-Feature.patch;
-            # }
-          ];
-        };
+        argsOverride = { stdenv = final.optimizedZnver4Stdenv; };
       });
 
       emacs29-pgtk = zen4pkg prev.emacs29-pgtk;

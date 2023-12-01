@@ -217,9 +217,9 @@ in {
 
       systemd = {
         # Replace suspend mode with hybrid-sleep. So can do hybrid-sleep then hibernate
-        sleep.extraConfig = ''
-          HibernateDelaySec=30min
-        '';
+        # sleep.extraConfig = ''
+        #   HibernateDelaySec=30min
+        # '';
       };
 
       # https://man.archlinux.org/man/systemd-sleep.conf.5
@@ -235,8 +235,8 @@ in {
         # Hibernate on low battery. from: https://wiki.archlinux.org/title/laptop#Hibernate_on_low_battery_level
         udev.extraRules = ''
           # Suspend the system when battery level drops to 5% or lower
-          # SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl suspend"
-          SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl hibernate"
+          SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl suspend"
+          # SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl hibernate"
         '';
 
         logind = {
@@ -247,7 +247,7 @@ in {
             HandleLidSwitch=suspend
             HandlePowerKey=suspend
             HandleLidSwitchDocked=ignore
-            IdleAction=suspend-then-hibernate
+            IdleAction=suspend
             IdleActionSec=30min
           '';
         };

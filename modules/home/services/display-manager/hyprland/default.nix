@@ -170,7 +170,7 @@ in {
             "$mod SHIFT, RETURN, exec, alacritty"
             "$mod SHIFT, C, killactive,"
             "$mod, Q, exec, systemctl suspend"
-            "$mod SHIFT, Q, exec, systemctl suspend-then-hibernate"
+            "$mod SHIFT, Q, exec, systemctl suspend"
             "$mod, m, layoutmsg, focusmaster"
             "$mod, RETURN, layoutmsg, swapwithmaster"
             "$mod, J, layoutmsg, cyclenext"
