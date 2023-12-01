@@ -44,7 +44,7 @@ in {
         # cpupower-gui.enable = true;
 
         tlp = {
-          enable = false;
+          enable = true;
           settings = {
             NMI_WATCHDOG = 0;
             RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
@@ -61,11 +61,6 @@ in {
             # CPU_ENERGY_PERF_POLICY_ON_AC = "power";
             CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
 
-            # CPU_DRIVER_OPMODE_ON_AC = "passive";
-            # CPU_DRIVER_OPMODE_ON_BAT = "passive";
-            # CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
-            # CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
-
             # CPU_HWP_DYN_BOOST_ON_AC = 1;
             # CPU_HWP_DYN_BOOST_ON_BAT = 1;
 
@@ -76,12 +71,12 @@ in {
             RUNTIME_PM_ON_AC = "auto";
             RUNTIME_PM_ON_BAT = "auto";
             PCIE_ASPM_ON_AC = "default";
-            PCIE_ASPM_ON_BAT = "powersupersave";
+            PCIE_ASPM_ON_BAT = "powersave";
           };
         };
       };
 
-      services.udev.extraRules = ''
+      services.udev.extraRules = mkIf (!config.services.tlp.enable) ''
         SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${ac-connected}/bin/ac-connected"
         SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", RUN+="${ac-disconnected}/bin/ac-disconnected"
       '';
