@@ -28,14 +28,52 @@ in {
       networking.firewall.enable = false;
     }
 
+    # encrypted dns
+    {
+      assertions = [{
+        assertion = !config.services.resolved.enable;
+        message =
+          "services.resolved.enable can not use a long with encrypted dns config";
+      }];
+
+      networking = {
+        nameservers = [ "127.0.0.1" "::1" ];
+        # If using dhcpcd:
+        dhcpcd.extraConfig = "nohook resolv.conf";
+        # If using NetworkManager:
+        networkmanager.dns = "none";
+      };
+
+      services.dnscrypt-proxy2 = {
+        enable = true;
+        settings = {
+          ipv6_servers = true;
+          require_dnssec = true;
+
+          sources.public-resolvers = {
+            urls = [
+              "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
+              "https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md"
+            ];
+            cache_file = "/var/lib/dnscrypt-proxy2/public-resolvers.md";
+            minisign_key =
+              "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+          };
+
+          # You can choose a specific set of servers from https://github.com/DNSCrypt/dnscrypt-resolvers/blob/master/v3/public-resolvers.md
+          # server_names = [ ... ];
+        };
+      };
+
+      systemd.services.dnscrypt-proxy2.serviceConfig = {
+        StateDirectory = "dnscrypt-proxy";
+      };
+    }
+
     # power management configs
     {
-      environment.systemPackages = [
-        config.boot.kernelPackages.cpupower
-        pkgs.ryzenadj
-        ac-connected
-        ac-disconnected
-      ];
+      environment.systemPackages =
+        [ config.boot.kernelPackages.cpupower ac-connected ac-disconnected ];
 
       powerManagement.enable = false;
       services = {
@@ -44,7 +82,7 @@ in {
         # cpupower-gui.enable = true;
 
         tlp = {
-          enable = true;
+          enable = false;
           settings = {
             NMI_WATCHDOG = 0;
             RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
@@ -164,7 +202,10 @@ in {
           local all       all     trust
           host  all       all     127.0.0.1       255.255.255.255     trust
         '';
-        settings = { shared_preload_libraries = "timescaledb"; };
+        settings = {
+          shared_preload_libraries = "timescaledb";
+          log_statement = "all";
+        };
       };
     }
 
@@ -181,7 +222,7 @@ in {
       # TODO: more bluetooth config
       services.printing.enable = false;
       services.avahi.enable = false;
-      services.avahi.nssmdns = false;
+      services.avahi.nssmdns4 = false;
       services.avahi.openFirewall = config.service.avahi.enable;
       hardware.bluetooth = {
         enable = true;

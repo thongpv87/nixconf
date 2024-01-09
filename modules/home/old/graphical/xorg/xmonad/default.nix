@@ -151,7 +151,8 @@ in {
           recursive = true;
         };
 
-        "alacritty/alacritty.yml.in".source = ./alacritty/alacritty.yml;
+        "alacritty/alacritty.toml".source = ./alacritty/alacritty.toml;
+        #"alacritty/alacritty.yml.in".source = ./alacritty/alacritty.yml;
       };
     };
 

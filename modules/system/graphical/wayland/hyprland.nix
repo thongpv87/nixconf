@@ -16,6 +16,10 @@ in {
 
     xdg.portal.xdgOpenUsePortal = true;
 
-    environment.sessionVariables.NIXOS_OZONE_WL = "1";
+    environment.sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      _JAVA_OPTIONS =
+        "-Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+    };
   };
 }

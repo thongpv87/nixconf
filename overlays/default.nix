@@ -53,7 +53,7 @@ in [
         argsOverride = { stdenv = final.optimizedZnver4Stdenv; };
       });
 
-      emacs29-pgtk = zen4pkg prev.emacs29-pgtk;
+      #emacs29-pgtk = zen4pkg prev.emacs29-pgtk;
 
       bamboo = prev.ibus-engines.bamboo.overrideAttrs (oldAttrs: {
         version = "v0.8.1";
@@ -91,11 +91,11 @@ in [
         enableWindowsFonts = false;
       };
 
-      # vim = nixvim.legacyPackages.${prev.system}.makeNixvim {
+      # vim = nixvim.legacyPackages.x86_64-linux.makeNixvim {
       #   plugins = {
       #     telescope.enable = true;
-      #     # none-ls.enable = true;
-      #     # none-ls.sources.formatting.alejandra.enable = true;
+      #     none-ls.enable = true;
+      #     none-ls.sources.formatting.alejandra.enable = true;
       #     nix.enable = true;
       #     gitsigns.enable = true;
       #     fugitive.enable = true;
