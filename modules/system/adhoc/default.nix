@@ -82,7 +82,7 @@ in {
         # cpupower-gui.enable = true;
 
         tlp = {
-          enable = false;
+          enable = true;
           settings = {
             NMI_WATCHDOG = 0;
             RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
@@ -348,6 +348,8 @@ in {
           shared-mime-info
           firefox
           google-chrome
+          microsoft-edge
+          ghc
           libreoffice-fresh
           nixfmt
 
@@ -361,6 +363,19 @@ in {
       nixpkgs.config.allowUnfree = true;
       virtualisation.virtualbox = { host.enable = true; };
       users.extraGroups.vboxusers.members = [ "thongpv87" ];
+
+      environment.systemPackages = [ pkgs.podman-compose pkgs.postman ];
+      virtualisation = {
+        podman = {
+          enable = true;
+
+          # Create a `docker` alias for podman, to use it as a drop-in replacement
+          dockerCompat = true;
+
+          # Required for containers under podman-compose to be able to talk to each other.
+          defaultNetwork.settings.dns_enabled = true;
+        };
+      };
     }
   ]);
 }
