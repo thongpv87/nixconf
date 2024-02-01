@@ -1,4 +1,15 @@
 {
+  nixconf = {
+    hardware.virtualbox.enable = true;
+    boot = {
+      mode = "bios";
+      diskLayout = "bios-btrfs";
+      bootloader = "systemd-boot";
+      device = "/dev/sda";
+    };
+
+  };
+
   # do something with home-manager here, for instance:
   #environment.systemPackages = with pkgs; [ wget vim git ];
   services.openssh = {
@@ -8,9 +19,6 @@
   };
   networking.networkmanager.enable = true;
   users.users."root".openssh.authorizedKeys.keys = [
-    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDhgL5FJIcwphtVbg2WO4ZwodREdUtMN8dil/p7L0LZSl7qcStmE8s1xl3/xYazlhXVaK1GcYVWFwcgzwlmmcTGVqgyzw0iTjpIMmITB/15fkj/+uR7ztEZ3toedCdONtcSOqoqoc2fXTzy4+k7hhi8hK0nju8YqnWKbYt8GhWV0DaOCMvuktq5qkfZ5yzegZAZH/NBD2wO3caaW1UGZGV13GrvXiWje/PDzv22K9K65GB/1q4zIH+VBw/DhjzlM2ynysrqS07ds36S6iki9Wk+W7EQTGZhtBaTZVKRXKTbFXSsdHLb61SANWtCu93LPLNq1Brr7j7euzkSYZBR09Nr9NebS0G4BgV6Uqcc9UZEwCZZ+nSzlcNmxiyQWhRWP9MTzB7AqoT4HlHY6gPVJGK8DjKcvxN5fR4EwOMSKyuEK7DHStw7MRbRTS2/2GaIcmQmUFAPCoXJSyErHsj3j6sZsLO/TSRXiyl71ktcbEodrrh94jU5nuR2Dr9E+aEl/uR59TPjoR9eSy0ueuTot9lTUBOQ+bveFcYuhDEOQkT8x5Vka/dIs5iqM86q7J06ltdmcLX3ftlmcsf8RRg/W0zsBpnvgmtvFyUGdC49aSfKeLOoItbsB196FcQkn95M6fCxw5HWcbCnMl1IgxsH8BcufhFwukhklRjee8klqc+SAQ== cardno:000610163370"
-    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDl+wA7gwzC5BS+/wf0HPljfMVpQ4qiCsSWaDNpYgTo5kYs17RawwVH2FbRRP/7BiLjkAuUpJL7bcL4P6n4rAj1byWgrGPSohyd8U7DpnwNrWqKoVheBGeX7TVG5VmJNMvtm4wSpVQY1QhU855CNOH7KiuT/F7G2Tr3qxeuavDMlEU/wNXa5dzBgmIti0H2H5tffexILMWiDjMEy2/MKMVEqn9FWe5UihhyLvtTRcamJaFy0l2d+cRr4GydyWn54kG+/crSs2ZsXfMC9bgbW9KXkGcML+PwWty6qAArbCfZWxNKThnBUqk79iy3rgS9IRhKtUI7DJVGJC7HSrcE97UqlsaLlWxh8bSfE5HdIQvcoYA7bPB1hVpsubKxXDEWyJjo6ac34Fomt7QZpJa8UJuQMA4V/osXaRKI6jjJd/itF4LbcuCtQKNY9EOglPQZw5d4PdDmevUV7Vzak2anAeh46gktCvEcHsav8/pYUNm5QP/FbYIQqgFde3idp0xpk/kKFRb7S87tlFf5QLsp7qYFP7MoWYXRvaRxu3b/kNSlTzgNj6PPswa1MPbZgDEKMwF+cYUa5r33Jwhyq9r7P71tvjG6dPjqE5dEzAb6GqYyqveNJUNSlA8m8WlNqFkmwOL+YT3rErCr2ULteLtI5sWno21laEnDuA8XbN7TXR+nTw== cardno:000610163371"
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCCBoknk64v8xvP7L9LPWb/t+GjsUKS2FH4kpHGJ6yW0JWSU6hfEIsI0zmz6q1En1f/G5jCP26nufhnwanjckeSCIE8dgZzAe8wDtx7j1ndqRZ0ViLq8WZdrbCe1KDcKfu6X5O8c1PlF25n6lgfUAdOL3mwDXntFxiOwDIKQRRrt8JeM59oCNBpU77rUPvV8rQ/rWahWoeMtbUyMAAc20F4rwgZmZzauLlYd6Kgp4JyZ9pBNHpG5a/9bltibGIURupOtu3dCrrTup6Yi4yvWlLZSpfTN0pMrQXIOVM3IIcx7sQ3ONKDjFWLnFiz13yTUUzDxUDUErjDHbeT5zMxG41XBYGkVR2fdyjLdgRDaR+jurKcTop5X/U1o4DUCmED7SPpUCDV29HJ46jM0uzqBTKWU2ovnzKXgLwjxhcuvgb3a4435E7ikNI3elyt+NEBMZIcq9+QN6zwtZebLTFtozEYZ6vGTweorER3BXOcaSXU+VmbwgtZ6HFp+vYkGNBe438= thongpv87@thinkpad"
   ];
-  system.stateVersion = "23.05";
 }

@@ -263,7 +263,18 @@ in {
       # Suspend mode -> Hybrid-Sleep. This enables hybrid-sleep then hibernate
       services = {
         # better timesync for unstable internet connections
-        chrony.enable = true;
+        chrony = {
+          enable = true;
+          extraConfig = ''
+            pool time.google.com       iburst minpoll 1 maxpoll 2 maxsources 3
+            pool ntp.ubuntu.com        iburst minpoll 1 maxpoll 2 maxsources 3
+            pool us.pool.ntp.org       iburst minpoll 1 maxpoll 2 maxsources 3
+
+            maxupdateskew 5.0
+            makestep 0.1 -1
+          '';
+        };
+
         timesyncd.enable = false;
         # iOS mounting
         usbmuxd.enable = false; # borken
@@ -349,6 +360,7 @@ in {
           firefox
           google-chrome
           microsoft-edge
+          brave
           ghc
           libreoffice-fresh
           nixfmt
@@ -364,7 +376,7 @@ in {
       virtualisation.virtualbox = { host.enable = true; };
       users.extraGroups.vboxusers.members = [ "thongpv87" ];
 
-      environment.systemPackages = [ pkgs.podman-compose pkgs.postman ];
+      environment.systemPackages = [ pkgs.podman-compose ];
       virtualisation = {
         podman = {
           enable = true;

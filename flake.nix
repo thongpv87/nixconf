@@ -55,54 +55,14 @@
       overlays = import ./overlays { inherit inputs; };
       nixosProfiles = import ./nixosProfiles;
       userProfiles = import ./userProfiles;
+      users = import ./modules/users;
     in {
       nixosConfigurations = {
-        bootstrap = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./nixos/bootstrap.nix
-
-            nixos-generators.nixosModules.all-formats
-            disko.nixosModules.disko
-
-            ({ pkgs, config, lib, modulesPath, ... }:
-              let
-                os =
-                  import ./modules/os { inherit pkgs config lib modulesPath; };
-
-              in {
-                imports = [
-                  {
-                    disko.devices = import modules/os/disko/bios-btrfs.nix {
-                      device = "/dev/sda";
-                    };
-                    boot.loader.grub.devices = [ "/dev/sda" ];
-                  }
-                  ./modules/os/hardware/virtualbox
-                ];
-
-                nixpkgs = {
-                  inherit overlays;
-                  config = {
-                    permittedInsecurePackages = [
-                      "electron-9.4.4"
-                      "electron-11.5.0"
-                      #"qtwebkit-5.212.0-alpha4"
-                    ];
-                    allowUnfree = true;
-                  };
-                };
-                system.stateVersion = lib.mkForce "23.05";
-              })
-          ];
-        };
-
         laptop = import ./lib/makeHost.nix {
           inherit inputs system overlays;
           hardwareConfig = { };
           diskoConfig = { };
-          nixosProfiles = with nixosProfiles; [ laptop ];
-          userProfiles = [ userProfiles.thongpv87 ];
+          nixosProfiles = with nixosProfiles; [ laptop users.thongpv87 ];
         };
       };
 
