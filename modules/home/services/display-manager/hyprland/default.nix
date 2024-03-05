@@ -159,12 +159,17 @@ in {
             new_is_master = true;
             new_on_top = true;
             no_gaps_when_only = 1;
+            special_scale_factor = 0.85;
             orientation = "right";
           };
 
           gestures = { workspace_swipe = true; };
 
           "$mod" = "SUPER";
+
+          workspace = [
+            "special, on-created-empty:alacritty"
+          ];
 
           bind = [
             "$mod SHIFT, RETURN, exec, alacritty"
