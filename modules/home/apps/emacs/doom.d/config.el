@@ -121,7 +121,7 @@
 (after! lsp-haskell
   (setq ;;lsp-haskell-server-path "haskell-language-server"
    lsp-haskell-plugin-retire-global-on nil
-   lsp-haskell-formatting-provider "fourmolu"
+   lsp-haskell-formatting-provider "stylish-haskell"
    lsp-haskell-plugin-tactics-global-on nil))
 
 (after! lsp-mode

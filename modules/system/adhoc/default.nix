@@ -357,6 +357,7 @@ in {
           ascii
           file
           shared-mime-info
+          ffmpeg_5-full
           firefox
           google-chrome
           microsoft-edge

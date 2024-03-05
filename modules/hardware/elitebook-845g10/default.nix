@@ -25,8 +25,8 @@ in {
     # boot.kernelPackages = pkgs.zen4KernelPackages;
     # boot.kernelPackages = pkgs.linuxPackages_zen;
 
-    # boot.kernelParams =
-    #   [ ''dyndbg="file drivers/base/firmware_loader/main.c +fmp"'' ];
+    boot.kernelParams =
+      [ "rtc_cmos.use_acpi_alarm=1" ];
 
     nix.settings.system-features = [ "gccarch-znver4" ];
 
