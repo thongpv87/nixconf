@@ -13,7 +13,7 @@ let
     #!${pkgs.zsh}/bin/zsh
     echo "active" > /sys/devices/system/cpu/amd_pstate/status
     ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g powersave
-    echo "power" > /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference
+    echo "default" > /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference
   '';
 
 in {

@@ -21,7 +21,7 @@ in {
         services = {
           display-manager = {
             enable = true;
-            window-manager = "hyprland";
+            window-manager = "hypr";
           };
         };
       };
