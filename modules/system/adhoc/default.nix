@@ -82,7 +82,7 @@ in {
         # cpupower-gui.enable = true;
 
         tlp = {
-          enable = true;
+          enable = false;
           settings = {
             NMI_WATCHDOG = 0;
             RADEON_DPM_PERF_LEVEL_ON_AC = "auto";

@@ -22,7 +22,12 @@ in {
     home.packages = with pkgs; [ any-nix-shell ];
     programs.zsh = {
       enable = true;
-      enableAutosuggestions = true;
+      autosuggestion = {
+        enable = true;
+        #strategy = ["history" "completion"];
+        #highlightStyle = "fg=cyan";
+      };
+
       historySubstringSearch.enable = true;
       syntaxHighlighting.enable = true;
       enableCompletion = true;
@@ -58,12 +63,12 @@ in {
         extended = true;
         ignoreDups = true;
         ignoreSpace = true;
-        save = 10000;
-        size = 10000;
+        save = 100000;
+        size = 100000;
         share = true;
         path = "${config.xdg.dataHome}/zsh/zsh_history";
       };
-      localVariables = { ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=3,bold"; };
+      localVariables = { ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=4,bold"; };
 
       initExtraFirst = "";
       initExtraBeforeCompInit = "";

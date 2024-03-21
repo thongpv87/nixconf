@@ -11,7 +11,7 @@ in {
   };
 
   config = mkIf (cfg.enable) {
-    home.packages = with pkgs; [ pinentry-gnome ];
+    home.packages = with pkgs; [ pinentry-curses];
 
     programs.gpg = {
       enable = true;
@@ -20,7 +20,7 @@ in {
 
     services.gpg-agent = {
       enable = true;
-      pinentryFlavor = "gnome3";
+      pinentryPackage = pkgs.pinentry-curses;
       enableExtraSocket = true;
       enableScDaemon = false;
     };
