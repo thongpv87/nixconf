@@ -8,24 +8,6 @@ in inputs.nixpkgs.lib.nixosSystem {
     nixos-generators.nixosModules.all-formats
     disko.nixosModules.disko
     home-manager.nixosModules.home-manager
-    # {
-    #   home-manager = {
-    #     useGlobalPkgs = true;
-    #     useUserPackages = true;
-    #     users.thongpv87 = {
-    #       imports = [
-    #         ../modules/home
-    #         # nix-doom-emacs.hmModule
-    #       ];
-
-    #       home.stateVersion = "23.11";
-    #     } // (builtins.foldl' (a: b: lib.attrsets.recursiveUpdate a b) { }
-    #       userProfiles);
-    #   };
-
-    #   # Optionally, use home-manager.extraSpecialArgs to pass
-    #   # arguments to home.nix
-    # }
 
     ({ pkgs, config, lib, modulesPath, ... }:
       {
@@ -50,7 +32,6 @@ in inputs.nixpkgs.lib.nixosSystem {
         };
       } // (builtins.foldl' (a: b: lib.attrsets.recursiveUpdate a b) { }
         nixosProfiles)
-      #// import ../nixosProfiles/laptop.nix
     )
   ];
 }

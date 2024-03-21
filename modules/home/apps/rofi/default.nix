@@ -1,8 +1,8 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.nixconf.old.graphical.applications.rofi;
+let cfg = config.nixconf.apps.rofi;
 in {
-  options.nixconf.old.graphical.applications.rofi = {
+  options.nixconf.apps.rofi = {
     enable = mkOption { default = false; };
 
     profile = mkOption {
@@ -16,7 +16,12 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      home.packages = [ pkgs.rofi pkgs.noto-fonts-extra ];
+      home.packages = [ pkgs.noto-fonts-extra ];
+
+      programs.rofi= {
+        enable = true;
+        package = pkgs.rofi-wayland;
+      };
 
       xdg = {
         configFile = {

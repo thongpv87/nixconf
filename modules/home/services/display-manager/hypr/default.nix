@@ -48,12 +48,7 @@ in {
     };
 
     animation = mkOption {
-      type = types.enum [
-        "default"
-        "moving"
-        "fast"
-        "high"
-      ];
+      type = types.enum [ "default" "moving" "fast" "high" ];
       default = "default";
     };
 
@@ -63,7 +58,10 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      nixconf.services.display-manager.hypr.waybar.enable = true;
+      nixconf = {
+        apps.rofi.enable = true;
+        services.display-manager.hypr.waybar.enable = true;
+      };
 
       home.sessionVariables = { QT_QPA_PLATFORM = "wayland"; };
 
@@ -77,8 +75,6 @@ in {
         gnome3.nautilus
         btop
       ];
-
-      programs = { rofi = { enable = true; }; };
 
       fonts.fontconfig.enable = true;
       services.copyq = { enable = true; };

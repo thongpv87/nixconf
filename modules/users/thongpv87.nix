@@ -17,7 +17,10 @@ in {
 
       nixconf = {
         core.enable = true;
-        apps = { emacs.enable = true; };
+        apps = {
+          emacs.enable = true;
+          rofi.enable = true;
+        };
         services = {
           display-manager = {
             enable = true;
@@ -30,10 +33,7 @@ in {
           enable = true;
           theme = "breeze";
           mime.enable = true;
-          applications = {
-            enable = false;
-            rofi.enable = true;
-          };
+          applications = { enable = false; };
           xorg = {
             enable = false;
             xmonad = { enable = false; };

@@ -54,7 +54,6 @@
       lib = import ./lib { inherit inputs; };
       overlays = import ./overlays { inherit inputs; };
       nixosProfiles = import ./nixosProfiles;
-      userProfiles = import ./userProfiles;
       users = import ./modules/users;
     in {
       nixosConfigurations = {
