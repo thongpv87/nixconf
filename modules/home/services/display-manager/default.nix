@@ -28,6 +28,7 @@ in {
           decoration = "rounding-more-blur";
           animation = "moving";
         };
+        swayidle.enable = false;
       };
     })
 

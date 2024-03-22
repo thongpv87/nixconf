@@ -36,6 +36,7 @@
 @define-color accent4 #bb9af7;
 @define-color accent5 #7da6ff;
 @define-color accent6 #0db9d7;
+@import '/home/thongpv87/.cache/wal/colors-waybar.css';
 
 * {
     border: none;
@@ -96,7 +97,7 @@ window#waybar.chromium {
     padding: 0 0 0 0;
     margin: 4px 0 6px 0;
     background-color: @color7;
-    color: @color6;
+    color: @color1;
     min-width: 36px;
     /* Use box-shadow instead of border so the text isn't offset */
 /*    box-shadow: inset 0 -3px transparent;*/
@@ -163,10 +164,11 @@ window#waybar.chromium {
 }
 
 #clock {
+    color: @color7
 }
 
 #battery {
-    color: @accent5;
+    color: @color6
 }
 
 /* #battery.charging {
@@ -197,19 +199,19 @@ label:focus {
 }
 
 #cpu {
-    color: @accent1;
+    color: @color4;
 }
 
 #memory {
-    background-color: #9b59b6;
+    color: @color4;
 }
 
 #backlight {
-    color: #FF6188;
+    color: @color5;
 }
 
 #network {
-    color: #78DCE8;
+    color: @color3;
 }
 
 #network.disconnected {
@@ -218,23 +220,19 @@ label:focus {
 }
 
 #pulseaudio {
-    color: @accent4;
+    color: @color6;
 }
 
 #pulseaudio.muted {
-    color: #a0a0a0;
+    color: @color8;
 }
 
 #custom-power {
-    color: @accent6;
+    color: @color4;
 }
 
 #custom-waylandvsxorg {
-    color: @accent5;
-}
-
-#custom-pacman {
-    color: @accent2;
+    color: @color3;
 }
 
 #custom-media {
@@ -252,8 +250,7 @@ label:focus {
 }
 
 #temperature {
-    color: @accent6;
-    /* background-color: #f0932b; */
+    color: @color5;
 }
 
 #temperature.critical {
@@ -265,7 +262,7 @@ label:focus {
 }
 
 #idle_inhibitor {
-    background-color: #2d3436;
+    background-color: @background;
 }
 
 #idle_inhibitor.activated {
@@ -295,7 +292,7 @@ label:focus {
     color: #333333;
     padding: 0 5px;
     margin: 4px 3px 6px 3px; */
-    color: @accent5;
+    color: @color5;
     min-width: 16px;
 }
 

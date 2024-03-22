@@ -52,12 +52,12 @@ in {
 
           cpu = {
             interval = 10;
-            format = "&#8239;{usage}%";
+            format = "&#8239;{usage}%";
             tooltip = false;
           };
           memory = {
             interval = 30;
-            format = " {used:0.1f}G/{total:0.1f}G";
+            format = " {used:0.1f}G/{total:0.1f}G";
             tooltip = false;
           };
           temperature = {
@@ -174,7 +174,7 @@ in {
           #};
         };
       };
-      style = ./waybar-style.css;
+      style = ./waybar-wal.css;
     };
   });
 }

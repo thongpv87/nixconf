@@ -6,7 +6,7 @@ let
     mkOption mkMerge mkIf mkDefault mkForce types mdDoc mkEnableOption;
 in {
   options.nixconf.services.display-manager.swayidle = {
-    enable = mkOption { default = true; };
+    enable = mkOption { default = false; };
   };
   config = mkIf cfg.enable {
     services.swayidle = {

@@ -20,7 +20,9 @@ in {
         apps = {
           emacs.enable = true;
           rofi.enable = true;
+          alacritty.enable = true;
         };
+
         services = {
           display-manager = {
             enable = true;
