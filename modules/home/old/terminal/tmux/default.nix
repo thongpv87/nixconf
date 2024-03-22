@@ -33,11 +33,18 @@ in {
         #yank
         prefix-highlight
         pain-control
+        better-mouse-mode
+        # THEMES
+        {
+          plugin = rose-pine;
+          extraConfig = ''
+            set -g @rose_pine_variant 'main'
+            ${readFile ./rose-pine-theme.conf}
+          '';
+        }
         # {
-        #   plugin = tmux-colors-solarized;
-        #   extraConfig = ''
-        #     set -g @colors-solarized 'dark'
-        #   '';
+        #   plugin = power-theme;
+        #   extraConfig = "set -g @tmux_power_theme 'default'";
         # }
       ];
       baseIndex = 1;
@@ -56,7 +63,6 @@ in {
         set -g @override_copy_command 'wl-copy'
         ${readFile ./bindings.conf}
         ${readFile ./tmux.conf}
-        ${readFile ./gruvbox-light.conf}
       '';
     };
   }]);

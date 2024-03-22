@@ -68,7 +68,7 @@ in {
         share = true;
         path = "${config.xdg.dataHome}/zsh/zsh_history";
       };
-      localVariables = { ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=4,bold"; };
+      localVariables = { ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=8,bold"; };
 
       initExtraFirst = "";
       initExtraBeforeCompInit = "";
