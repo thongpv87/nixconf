@@ -77,6 +77,7 @@ in {
         btop
         hypridle
         hyprlock
+        hyprpaper
       ];
 
       fonts.fontconfig.enable = true;
@@ -89,6 +90,13 @@ in {
         };
         "hypr/hypridle.conf".source = ./hypridle.conf;
         "hypr/hyprlock.conf".source = ./hyprlock.conf;
+        "hypr/hyprpaper.conf".text = let pic = "peaceful-autumn.jpg";
+        in ''
+          preload = ${./wallpapers}/${pic}
+          wallpaper = DP-1,${./wallpapers}/${pic}
+          wallpaper = DP-2,${./wallpapers}/${pic}
+          wallpaper = eDP-1,${./wallpapers}/${pic}
+        '';
       };
 
       systemd.user.services = {
@@ -121,6 +129,7 @@ in {
             "ibus-daemon -d"
             "${pkgs.dunst}/bin/dunst"
             "hypridle"
+            "hyprpaper"
             #"${pkgs.wpaperd}/bin/wpaperd"
           ];
 
@@ -270,6 +279,8 @@ in {
             [ "$mod, mouse:272, movewindow" "$mod, mouse:273, resizewindow" ];
 
           misc = {
+            disable_hyprland_logo = true;
+            disable_splash_rendering = true;
             key_press_enables_dpms = true;
             new_window_takes_over_fullscreen = 1;
             focus_on_activate = true;

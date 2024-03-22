@@ -39,8 +39,8 @@ in {
         shell.program = "zsh";
 
         window.padding = {
-          x = 3;
-          y = 3;
+          x = 15;
+          y = 10;
         };
       };
     };

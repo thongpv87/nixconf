@@ -24,9 +24,9 @@ in {
         hypr = {
           enable = true;
 
-          window = "no-border";
-          decoration = "rounding-more-blur";
-          animation = "moving";
+          window = "no-border-more-gaps";
+          decoration = "rounding";
+          animation = "fast";
         };
         swayidle.enable = false;
       };
