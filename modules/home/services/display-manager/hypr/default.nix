@@ -75,14 +75,20 @@ in {
         qt6.qtwayland
         gnome3.nautilus
         btop
+        hypridle
+        hyprlock
       ];
 
       fonts.fontconfig.enable = true;
       services.copyq = { enable = true; };
 
-      xdg.configFile."dunst" = {
-        source = ./dunst;
-        recursive = true;
+      xdg.configFile = {
+        "dunst" = {
+          source = ./dunst;
+          recursive = true;
+        };
+        "hypr/hypridle.conf".source = ./hypridle.conf;
+        "hypr/hyprlock.conf".source = ./hyprlock.conf;
       };
 
       systemd.user.services = {
@@ -114,6 +120,7 @@ in {
           exec-once = [
             "ibus-daemon -d"
             "${pkgs.dunst}/bin/dunst"
+            "hypridle"
             #"${pkgs.wpaperd}/bin/wpaperd"
           ];
 
@@ -188,7 +195,7 @@ in {
 
             "$mod, T, togglefloating,"
             # "$mod, P, exec, wofi --show drun"
-            "$mod, P, exec, rofi -show drun -replace -i"
+            "$mod, P, exec, rofi -config ~/.cache/wal/colors-rofi-light.rasi -show drun -replace -i"
             "$mod, I, pseudo," # dwindle
             "$mod, U, togglesplit," # dwindle
             "$mod, backslash, exec, screenshot-region"
