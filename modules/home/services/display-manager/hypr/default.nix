@@ -134,6 +134,7 @@ in {
             kb_layout = "us";
             kb_options = "caps:escape";
             follow_mouse = 1;
+            mouse_refocus = false;
             sensitivity = 0.6;
             touchpad = {
               natural_scroll = false;
@@ -268,10 +269,11 @@ in {
           bindm =
             [ "$mod, mouse:272, movewindow" "$mod, mouse:273, resizewindow" ];
 
-          # misc = {
-          #   disable_hyprland_logo = true;
-          #   disable_splash_rendering = true;
-          # };
+          misc = {
+            key_press_enables_dpms = true;
+            new_window_takes_over_fullscreen = 1;
+            focus_on_activate = true;
+          };
         };
       };
     }
