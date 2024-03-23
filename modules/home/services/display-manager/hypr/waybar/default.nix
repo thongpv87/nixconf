@@ -138,6 +138,7 @@ in {
 
           "hyprland/workspaces" = {
             sort-by-name = true;
+            all-outputs = true;
             format = "{icon}";
             format-icons = {
               "1" = "";
@@ -154,6 +155,22 @@ in {
               focused = "";
               default = "";
             };
+          };
+
+          "hyprland/window" = {
+            format = "{class} {title}";
+            rewrite = {
+              "firefox (.*) — Mozilla Firefox" = " $1";
+              "emacs (.*)" = " $1";
+              "Alacritty (.*)" = " $1";
+              "google-chrome (.*) - Google Chrome" = " $1";
+              "microsoft-edge (.*)" = " $1";
+              "org.gnome.Nautilus (.*)" = "󰉋 $1";
+              "org.kde.Okular (.*)" = " $1";
+              "discord (.*)" = "󰙯 $1";
+              "slack (.*) - Slack" = " $1";
+            };
+            separate-outputs = true;
           };
 
           "custom/media" = {
