@@ -187,7 +187,9 @@ in {
             "float,^(nm-connection-editor)$"
           ];
           windowrulev2 =
-            [ "stayfocused,class:(Rofi)" "forceinput,class:(Rofi)" ];
+            [ "stayfocused,class:(Rofi)" "forceinput,class:(Rofi)"
+              "opacity 1 1,class:^(firefox|google-chrome|microsoft-edge)"
+            ];
 
           layerrule = [ "blur, gtk-layer-shell" "blur, logout_dialog" ];
 
@@ -284,6 +286,7 @@ in {
             key_press_enables_dpms = true;
             new_window_takes_over_fullscreen = 1;
             focus_on_activate = true;
+            vfr = true;
           };
         };
       };
