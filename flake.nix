@@ -63,7 +63,28 @@
           diskoConfig = { };
           nixosProfiles = with nixosProfiles; [ laptop users.thongpv87 ];
         };
-      };
 
+        minimal = inputs.nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            nixos-generators.nixosModules.all-formats
+            ({ pkgs, config, lib, modulesPath, ... }: {
+              services.openssh = {
+                enable = true;
+                settings.GatewayPorts = "yes";
+              };
+              users.users.root = {
+                openssh.authorizedKeys.keys = [
+                  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJBQfrG9BfJHmPBas2ZgkjgjjKPfJbGUhIOs4GNsnvm thongpv87@thinkpad"
+                ];
+              };
+              nixpkgs = {
+                inherit overlays;
+                config.allowUnfree = true;
+              };
+            })
+          ];
+        };
+      };
     };
 }

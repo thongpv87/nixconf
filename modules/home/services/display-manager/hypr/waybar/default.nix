@@ -169,6 +169,8 @@ in {
               "org.kde.Okular (.*)" = " $1";
               "discord (.*)" = "󰙯 $1";
               "slack (.*) - Slack" = " $1";
+              "VirtualBox Machine (.*) - Oracle VM VirtualBox" = "󰆧 $1";
+              "VirtualBox Manager (.*)" = "󰆧 $1";
             };
             separate-outputs = true;
           };

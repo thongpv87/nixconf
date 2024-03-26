@@ -25,7 +25,7 @@ in {
           enable = true;
 
           window = "no-border-more-gaps";
-          decoration = "rounding";
+          decoration = "rounding-more-blur";
           animation = "fast";
         };
         swayidle.enable = false;
