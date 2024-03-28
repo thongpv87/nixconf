@@ -34,6 +34,14 @@ in {
         prefix-highlight
         pain-control
         better-mouse-mode
+        # {
+        #   plugin = net-speed;
+        #   extraConfig = "${readFile ./needspeed.conf}";
+        # }
+        # {
+        #   plugin = mode-indicator;
+        #   extraConfig = "${readFile ./mode-indicator.conf}";
+        # }
         # THEMES
         {
           plugin = rose-pine;

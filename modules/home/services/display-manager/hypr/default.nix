@@ -128,7 +128,7 @@ in {
           exec-once = [
             "ibus-daemon -d"
             "${pkgs.dunst}/bin/dunst"
-            "hypridle"
+            #"hypridle"
             "hyprpaper"
             #"${pkgs.wpaperd}/bin/wpaperd"
           ];
@@ -167,7 +167,7 @@ in {
             # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
             new_is_master = true;
             new_on_top = true;
-            no_gaps_when_only = 1;
+            no_gaps_when_only = 0;
             special_scale_factor = 0.85;
             orientation = "right";
           };

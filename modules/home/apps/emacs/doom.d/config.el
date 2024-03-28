@@ -17,7 +17,7 @@
 ;;   presentations or streaming.
 ;; - `doom-symbol-font' -- for symbols
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-(setq  doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 17 :weight 'regular)
+(setq  doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 17 :weight 'semibold)
        ;;  doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 15 :weight 'regular)
        ;; doom-font (font-spec :family "DejaVuSansMono Nerd Font Mono" :size 12 :weight 'regular)
        ;; doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12 :weight 'regular)
