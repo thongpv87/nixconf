@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 let
-  cfg = config.nixconf.services.display-manager.hypr.waybar;
+  cfg = config.nixconf.services.display-manager.hyprland.waybar;
   inherit (lib)
     mkOption mkMerge mkIf mkDefault mkForce types mdDoc mkEnableOption;
 in {
-  options.nixconf.services.display-manager.hypr.waybar = {
+  options.nixconf.services.display-manager.hyprland.waybar = {
     enable = mkEnableOption "Enable waybar";
   };
 

@@ -15,13 +15,56 @@ let
 in {
   options.nixconf.services.display-manager.hyprland = {
     enable = mkEnableOption "Enable Hyprland display server";
+
+    window = mkOption {
+      type = types.enum [
+        "default"
+        "no-border"
+        "no-border-more-gaps"
+        "border-1"
+        "border-2"
+        "border-3"
+        "border-4"
+        "border-1-reverse"
+        "border-2-reverse"
+        "border-3-reverse"
+        "border-4-reverse"
+      ];
+
+      default = "default";
+    };
+
+    decoration = mkOption {
+      type = types.enum [
+        "default"
+        "rounding"
+        "rounding-more-blur"
+        "rounding-all-blur"
+        "rounding-all-blur-no-shadows"
+        "no-rounding"
+        "no-rounding-more-blur"
+      ];
+      default = "default";
+    };
+
+    animation = mkOption {
+      type = types.enum [ "default" "moving" "fast" "high" ];
+      default = "default";
+    };
+
   };
 
-  imports = [ ./waybar.nix ./swayidle.nix ];
+  imports = [ ./waybar ];
 
   config = mkIf cfg.enable (mkMerge [
     {
-      nixconf.services.display-manager.hyprland.waybar.enable = true;
+      nixconf = {
+        apps.rofi.enable = true;
+        apps.wal.enable = true;
+        services.display-manager.hyprland.waybar.enable = true;
+      };
+
+      home.sessionVariables = { QT_QPA_PLATFORM = "wayland"; };
 
       home.packages = with pkgs; [
         switch-input-method
@@ -32,32 +75,28 @@ in {
         qt6.qtwayland
         gnome3.nautilus
         btop
+        # hypridle
+        # hyprlock
+        hyprpaper
       ];
-
-      programs = {
-        wofi = {
-          enable = true;
-          settings = {
-            layer = "top";
-            allow_images = true;
-            allow_markup = true;
-            mode = "drun";
-            matching = "fuzzy";
-            insensitive = true;
-            key_left = "Control_L-b";
-            key_right = "Control_L-f";
-            key_up = "Control_L-p";
-            key_down = "Control_L-n";
-          };
-        };
-      };
 
       fonts.fontconfig.enable = true;
       services.copyq = { enable = true; };
 
-      xdg.configFile."dunst" = {
-        source = ./dunst;
-        recursive = true;
+      xdg.configFile = {
+        "dunst" = {
+          source = ./dunst;
+          recursive = true;
+        };
+        "hypr/hypridle.conf".source = ./hypridle.conf;
+        "hypr/hyprlock.conf".source = ./hyprlock.conf;
+        "hypr/hyprpaper.conf".text = let pic = "peaceful-autumn.jpg";
+        in ''
+          preload = ${./wallpapers}/${pic}
+          wallpaper = DP-1,${./wallpapers}/${pic}
+          wallpaper = DP-2,${./wallpapers}/${pic}
+          wallpaper = eDP-1,${./wallpapers}/${pic}
+        '';
       };
 
       systemd.user.services = {
@@ -89,6 +128,8 @@ in {
           exec-once = [
             "ibus-daemon -d"
             "${pkgs.dunst}/bin/dunst"
+            #"hypridle"
+            "hyprpaper"
             #"${pkgs.wpaperd}/bin/wpaperd"
           ];
 
@@ -102,6 +143,7 @@ in {
             kb_layout = "us";
             kb_options = "caps:escape";
             follow_mouse = 1;
+            mouse_refocus = false;
             sensitivity = 0.6;
             touchpad = {
               natural_scroll = false;
@@ -112,41 +154,8 @@ in {
             };
           };
 
-          general = {
-            gaps_in = 5;
-            gaps_out = 15;
-            border_size = 2;
-            "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-            "col.inactive_border" = "rgba(595959aa)";
-
-            layout = "master";
-          };
-
-          decoration = {
-            rounding = 10;
-            drop_shadow = true;
-            shadow_range = 4;
-            shadow_render_power = 3;
-            "col.shadow" = "rgba(1a1a1aee)";
-          };
-
-          animations = {
-            enabled = true;
-
-            # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
-
-            bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-
-            animation = [
-              "windows, 1, 7, myBezier"
-              "windowsOut, 1, 7, default, popin 80%"
-              "border, 1, 10, default"
-              "borderangle, 1, 8, default"
-              "fade, 1, 7, default"
-              "workspaces, 1, 6, default"
-            ];
-          };
-
+          #color scheme config
+          #
           dwindle = {
             # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
             pseudotile =
@@ -158,7 +167,7 @@ in {
             # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
             new_is_master = true;
             new_on_top = true;
-            no_gaps_when_only = 1;
+            no_gaps_when_only = 0;
             special_scale_factor = 0.85;
             orientation = "right";
           };
@@ -167,9 +176,22 @@ in {
 
           "$mod" = "SUPER";
 
-          workspace = [
-            "special, on-created-empty:alacritty"
+          workspace = [ "special, on-created-empty:alacritty" ];
+
+          windowrule = [
+            "tile,^(Microsoft-edge)$"
+            "tile,^(Brave-browser)$"
+            "tile,^(Chromium)$"
+            "float,^(pavucontrol)$"
+            "float,^(blueman-manager)$"
+            "float,^(nm-connection-editor)$"
           ];
+          windowrulev2 =
+            [ "stayfocused,class:(Rofi)" "forceinput,class:(Rofi)"
+              "opacity 1 1,class:^(firefox|google-chrome|microsoft-edge)"
+            ];
+
+          layerrule = [ "blur, gtk-layer-shell" "blur, logout_dialog" ];
 
           bind = [
             "$mod SHIFT, RETURN, exec, alacritty"
@@ -183,15 +205,20 @@ in {
             "$mod SHIFT,J,layoutmsg,swapnext"
             "$mod SHIFT,K,layoutmsg,swapprev"
 
-            "$mod, B, exec, firefox"
             "$mod, T, togglefloating,"
-            "$mod, P, exec, wofi --show drun"
+            # "$mod, P, exec, wofi --show drun"
+            "$mod, P, exec, rofi -config ~/.cache/wal/colors-rofi-light.rasi -show drun -replace -i"
             "$mod, I, pseudo," # dwindle
             "$mod, U, togglesplit," # dwindle
-            "$mod, F, fullscreen,1"
             "$mod, backslash, exec, screenshot-region"
-
+            "$mod, F, fullscreen,1"
             "$mod SHIFT, F, fullscreen,0"
+            "$mod SHIFT, L, exec, hyprlock"
+
+            #apps
+            "$mod, B, exec, firefox"
+            "$mod, D, exec, nautilus"
+
             # media keys
             ",121,exec, pamixer --toggle-mute"
             ",122,exec, pamixer -d 5"
@@ -253,14 +280,32 @@ in {
           bindm =
             [ "$mod, mouse:272, movewindow" "$mod, mouse:273, resizewindow" ];
 
+          misc = {
+            disable_hyprland_logo = true;
+            disable_splash_rendering = true;
+            key_press_enables_dpms = true;
+            new_window_takes_over_fullscreen = 1;
+            focus_on_activate = true;
+            vfr = true;
+          };
         };
-
-        extraConfig = ''
-          # Execute your favorite apps at launch
-          # Source a file (multi-file configs)
-          # source = ~/.config/hypr/myColors.conf
-        '';
       };
+    }
+
+    {
+      wayland.windowManager.hyprland.extraConfig = ''
+        # Execute your favorite apps at launch
+        # Source a file (multi-file configs)
+        env = GDK_BACKEND=wayland,x11
+        env = QT_QPA_PLATFORM="wayland;xcb"
+        env = CLUTTER_BACKEND=wayland
+        env = QT_AUTO_SCREEN_SCALE_FACTOR=1
+        env = QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+        source = /home/thongpv87/.cache/wal/colors-hyprland.conf
+        source = ${./decorations}/${cfg.decoration}.conf
+        source = ${./animations}/${cfg.animation}.conf
+        source = ${./windows}/${cfg.window}.conf
+      '';
     }
   ]);
 }

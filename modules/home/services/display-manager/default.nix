@@ -6,29 +6,21 @@ let
 in {
   options.nixconf.services.display-manager = {
     enable = mkEnableOption "Enable display manager";
-    window-manager = mkOption { type = types.enum [ "hyprland" "hypr" ]; };
+    window-manager = mkOption { type = types.enum [ "hyprland" ]; };
   };
 
-  imports = [ ./hyprland ./hypr ];
+  imports = [ ./hyprland ];
 
   config = mkIf cfg.enable (mkMerge [
     (mkIf (cfg.window-manager == "hyprland") {
       nixconf.services.display-manager = {
-        hyprland.enable = true;
-        swayidle.enable = false;
-      };
-    })
-
-    (mkIf (cfg.window-manager == "hypr") {
-      nixconf.services.display-manager = {
-        hypr = {
+        hyprland = {
           enable = true;
 
           window = "no-border-more-gaps";
           decoration = "rounding-more-blur";
           animation = "fast";
         };
-        swayidle.enable = false;
       };
     })
 
