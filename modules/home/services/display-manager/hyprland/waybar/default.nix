@@ -164,6 +164,7 @@ in {
               "emacs (.*) – Doom Emacs(.*)" = " $1";
               "Alacritty (.*)" = " $1";
               "google-chrome (.*) - Google Chrome" = " $1";
+              "chromium-browser (.*) - Chromium" = " $1";
               "microsoft-edge (.*) - Microsoft​ Edge" = " $1";
               "org.gnome.Nautilus (.*)" = "󰉋 $1";
               "org.kde.Okular (.*)" = " $1";

@@ -177,7 +177,6 @@ in {
     # adhoc
     {
       environment.systemPackages = [
-        pkgs.clockify
         pkgs.python3
         pkgs.taskwarrior
         pkgs.timewarrior
@@ -191,6 +190,7 @@ in {
         pkgs.slack
         pkgs.ngrok
         pkgs.dbeaver
+        pkgs.teams-for-linux
         pkgs.dia
       ];
 
@@ -359,7 +359,7 @@ in {
           shared-mime-info
           ffmpeg_5-full
           firefox
-          google-chrome
+          chromium
           microsoft-edge
           brave
           ghc

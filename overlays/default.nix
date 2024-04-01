@@ -75,6 +75,11 @@ in [
         };
       });
 
+     chromium = prev.chromium.override {
+      commandLineArgs =
+        "--gtk-version=4";
+    };
+
       selected-nerdfonts = prev.nerdfonts.override {
         fonts = [
           "FiraCode"
