@@ -12,5 +12,12 @@ in {
     };
   };
 
-  config = mkIf (cfg.enable) { home.packages = [ pkgs.insomnia ]; };
+  config = mkIf (cfg.enable) {
+    home.packages = [ pkgs.insomnia ];
+    programs.vscode = {
+      enable = true;
+      package = pkgs.vscode.fhsWithPackages
+        (ps: with ps; [ zlib openssl.dev pkg-config yarn nodejs_latest ]);
+    };
+  };
 }

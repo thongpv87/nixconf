@@ -139,21 +139,23 @@
         lsp-signature-render-documentation nil
 
         lsp-ui-sideline-enable t
-        lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-show-hover t
         lsp-ui-sideline-ignore-duplicate t
         lsp-ui-sideline-show-symbol t
         lsp-ui-sideline-show-code-actions t
         lsp-ui-sideline-show-diagnostics t
         lsp-ui-sideline-update-mode 'line
 
-        lsp-ui-doc-enable nil
+        lsp-ui-peek-enable t
+
+        lsp-ui-doc-enable t
         ;;lsp-ui-doc-use-webkit nil
         lsp-ui-doc-enhanced-markdown nil
         ;;lsp-ui-doc-use-childframe t
         lsp-ui-doc-max-width 150
         lsp-ui-doc-max-height 15
         lsp-ui-doc-include-signature t
-        lsp-ui-doc-show-with-cursor t
+        lsp-ui-doc-show-with-cursor nil
         lsp-ui-doc-show-with-mouse t
         lsp-ui-doc-delay 1))
 

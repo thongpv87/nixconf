@@ -18,6 +18,7 @@ in {
       nixconf = {
         core.enable = true;
         apps = {
+          enable = true;
           emacs.enable = true;
           rofi.enable = true;
           alacritty.enable = true;

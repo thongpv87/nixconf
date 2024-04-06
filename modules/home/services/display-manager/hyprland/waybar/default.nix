@@ -166,6 +166,7 @@ in {
               "google-chrome (.*) - Google Chrome" = " $1";
               "chromium-browser (.*) - Chromium" = " $1";
               "microsoft-edge (.*) - Microsoft​ Edge" = " $1";
+              "code-url-handler (.*) - Visual Studio Code" = "󰨞 $1";
               "org.gnome.Nautilus (.*)" = "󰉋 $1";
               "org.kde.Okular (.*)" = " $1";
               "discord (.*)" = "󰙯 $1";

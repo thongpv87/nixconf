@@ -16,6 +16,9 @@ let
     echo "default" > /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference
   '';
 
+  fake-docker-compose = pkgs.writeScriptBin "docker-compose" ''
+    ${pkgs.podman-compose}/bin/podman-compose
+  '';
 in {
   options.nixconf.adhoc = { enable = mkEnableOption "Enable adhoc configs"; };
 
@@ -361,7 +364,6 @@ in {
           firefox
           chromium
           microsoft-edge
-          brave
           ghc
           libreoffice-fresh
           nixfmt
@@ -377,7 +379,7 @@ in {
       virtualisation.virtualbox = { host.enable = true; };
       users.extraGroups.vboxusers.members = [ "thongpv87" ];
 
-      environment.systemPackages = [ pkgs.podman-compose ];
+      environment.systemPackages = [ pkgs.podman-compose fake-docker-compose ];
       virtualisation = {
         podman = {
           enable = true;
