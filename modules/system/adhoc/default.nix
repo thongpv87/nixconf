@@ -17,7 +17,7 @@ let
   '';
 
   fake-docker-compose = pkgs.writeScriptBin "docker-compose" ''
-    ${pkgs.podman-compose}/bin/podman-compose
+    ${pkgs.podman-compose}/bin/podman-compose $@
   '';
 in {
   options.nixconf.adhoc = { enable = mkEnableOption "Enable adhoc configs"; };
@@ -379,7 +379,7 @@ in {
       virtualisation.virtualbox = { host.enable = true; };
       users.extraGroups.vboxusers.members = [ "thongpv87" ];
 
-      environment.systemPackages = [ pkgs.podman-compose fake-docker-compose ];
+      environment.systemPackages = with pkgs; [ podman-compose fake-docker-compose postman mongodb ];
       virtualisation = {
         podman = {
           enable = true;
@@ -391,6 +391,20 @@ in {
           defaultNetwork.settings.dns_enabled = true;
         };
       };
+    }
+
+    {
+      nix.settings= {
+        trusted-substituters = [ "https://nixcache.reflex-frp.org" "https://nix-node.cachix.org" ];
+        trusted-public-keys = [ "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" "nix-node.cachix.org-1:2YOHGtGxa8VrFiWAkYnYlcoQ0sSu+AqCniSfNagzm60=" ];
+      };
+
+      nix.registry."node".to = {
+        type = "github";
+        owner = "andyrichardson";
+        repo = "nix-node";
+      };
+
     }
   ]);
 }

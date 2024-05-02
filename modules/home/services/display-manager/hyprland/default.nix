@@ -200,6 +200,7 @@ in {
             "$mod SHIFT, Q, exec, systemctl suspend"
             "$mod, m, layoutmsg, focusmaster"
             "$mod, RETURN, layoutmsg, swapwithmaster"
+
             "$mod, J, layoutmsg, cyclenext"
             "$mod, K, layoutmsg, cycleprev"
             "$mod SHIFT,J,layoutmsg,swapnext"
@@ -213,7 +214,6 @@ in {
             "$mod, backslash, exec, screenshot-region"
             "$mod, F, fullscreen,1"
             "$mod SHIFT, F, fullscreen,0"
-            "$mod SHIFT, L, exec, hyprlock"
 
             #apps
             "$mod, B, exec, firefox"
@@ -224,17 +224,23 @@ in {
             ",122,exec, pamixer -d 5"
             ",123,exec, pamixer -i 5"
 
-            "$mod,slash,exec,switch-input-method"
+            "$mod,slash, exec, ibus engine xkb:us::eng"
+            "$mod SHIFT, slash, exec, ibus engine Bamboo"
 
             "$mod,W, focusmonitor, DP-2"
             "$mod,W, focusmonitor, DP-1"
             "$mod,E, focusmonitor,eDP-1"
 
             # Move focus with mod + arrow keys
-            "$mod, left, movefocus, l"
-            "$mod, right, movefocus, r"
-            "$mod, up, movefocus, u"
-            "$mod, down, movefocus, d"
+            "$mod, left, movewindow, l"
+            "$mod, right, movewindow, r"
+            "$mod, up, movewindow, u"
+            "$mod, down, movewindow, d"
+            "$mod SHIFT, left, resizeactive, -40 0"
+            "$mod SHIFT, right, resizeactive, 40 0"
+            "$mod SHIFT, up, resizeactive, 0 -40"
+            "$mod SHIFT, down, resizeactive, 0 40"
+
 
             # Switch workspaces with mod + [0-9]
             "$mod,1,moveworkspacetomonitor,1 current"
