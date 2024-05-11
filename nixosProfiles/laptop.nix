@@ -14,6 +14,10 @@
       enable = true;
       desktopEnv = "hyprland";
     };
+    networking.cloudflare-warp = {
+      openFirewall = false;
+      enable = false;
+    };
   };
 
   networking.networkmanager.enable = true;

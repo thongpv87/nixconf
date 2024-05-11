@@ -4,7 +4,7 @@ let
   inherit (lib)
     mkOption mkMerge mkIf mkDefault mkForce types mdDoc mkEnableOption;
 in {
-  options.laptop = {
+  options.nixconf.laptop = {
     enable = mkOption { default = false; };
     tlp = mkOption {
 

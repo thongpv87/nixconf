@@ -33,6 +33,7 @@ in {
       libgccjit
       ripgrep
       coreutils
+      wordnet
       fd
       git
       doom
