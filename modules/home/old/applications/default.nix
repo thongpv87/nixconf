@@ -40,7 +40,7 @@ in {
       hunspell
       hunspellDicts.en_US-large
       hyphen
-      nixfmt
+      nixfmt-rfc-style
 
       # nixpkgs
       # nixpkgs-review

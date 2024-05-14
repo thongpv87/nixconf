@@ -366,7 +366,7 @@ in {
           microsoft-edge
           ghc
           libreoffice-fresh
-          nixfmt
+          nixfmt-rfc-style
 
           config.boot.kernelPackages.bcc
         ];
@@ -376,10 +376,10 @@ in {
 
     {
       nixpkgs.config.allowUnfree = true;
-      virtualisation.virtualbox = { host.enable = true; };
-      users.extraGroups.vboxusers.members = [ "thongpv87" ];
+      #virtualisation.virtualbox = { host.enable = true; };
+      #users.extraGroups.vboxusers.members = [ "thongpv87" ];
 
-      environment.systemPackages = with pkgs; [ podman-compose fake-docker-compose postman mongodb ];
+      environment.systemPackages = with pkgs; [ podman-compose fake-docker-compose postman ];
       virtualisation = {
         podman = {
           enable = true;

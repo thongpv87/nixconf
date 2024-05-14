@@ -55,7 +55,7 @@ in {
 
     qt = {
       enable = true;
-      platformTheme = "gnome";
+      platformTheme.name = "adwaita";
       style = {
         package = pkgs.pop-gtk-theme;
         name = "Pop";
@@ -78,7 +78,7 @@ in {
       hunspell
       hunspellDicts.en_US-large
       hyphen
-      nixfmt
+      nixfmt-rfc-style
 
       # Themes
       theme-sh
