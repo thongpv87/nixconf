@@ -85,7 +85,7 @@ in {
         # cpupower-gui.enable = true;
 
         tlp = {
-          enable = false;
+          enable = true;
           settings = {
             NMI_WATCHDOG = 0;
             RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
@@ -95,15 +95,15 @@ in {
             # PLATFORM_PROFILE_ON_AC = "balanced";
             # PLATFORM_PROFILE_ON_BAT = "balanced";
 
-            CPU_DRIVER_OPMODE_ON_AC = "passive";
-            CPU_DRIVER_OPMODE_ON_BAT = "active";
-            CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
-            CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-            # CPU_ENERGY_PERF_POLICY_ON_AC = "power";
-            CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+            # CPU_DRIVER_OPMODE_ON_AC = "passive";
+            # CPU_DRIVER_OPMODE_ON_BAT = "active";
+            # CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
+            # CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+            # # CPU_ENERGY_PERF_POLICY_ON_AC = "power";
+            # CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
 
-            # CPU_HWP_DYN_BOOST_ON_AC = 1;
-            # CPU_HWP_DYN_BOOST_ON_BAT = 1;
+            CPU_HWP_DYN_BOOST_ON_AC = 1;
+            CPU_HWP_DYN_BOOST_ON_BAT = 1;
 
             # DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wwan";
             # DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
@@ -145,7 +145,7 @@ in {
 
       networking = {
         wireless.iwd = {
-          #enable = true;
+          enable = true;
           settings = { Settings = { AutoConnect = true; }; };
         };
         networkmanager = {
