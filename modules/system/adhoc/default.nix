@@ -152,7 +152,13 @@ in {
           enable = true;
           wifi = {
             powersave = true;
-            # backend = mkForce "iwd";
+            backend = mkForce "iwd";
+          };
+
+          settings = {
+            device = {
+              "wifi.scan-rand-mac-address" = "no";
+            };
           };
         };
       };

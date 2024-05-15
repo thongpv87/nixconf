@@ -36,7 +36,7 @@ in {
       pkgs.pciutils
       pkgs.nethogs
       pkgs.pfetch
-      pkgs.neovim
+      pkgs.nixvim
       pkgs.htop
       pkgs.eza
       pkgs.fzf
