@@ -23,7 +23,6 @@ in {
     };
     boot.kernelPackages = pkgs.linuxPackages_testing;
     # boot.kernelPackages = pkgs.zen4KernelPackages;
-    # boot.kernelPackages = pkgs.linuxPackages_zen;
 
     boot.kernelParams =
       [ "rtc_cmos.use_acpi_alarm=1" ];
