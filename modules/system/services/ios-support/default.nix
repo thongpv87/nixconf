@@ -6,7 +6,7 @@
   ...
 }:
 let
-  cfg = config.nixconf.services;
+  cfg = config.nixconf.services.ios-support;
   inherit (lib)
     mkOption
     mkMerge
@@ -19,12 +19,19 @@ let
     ;
 in
 {
-  options.nixconf.services = {
+  options.nixconf.services.ios-support = {
     enable = mkOption { default = false; };
   };
 
-  imports = [ ./ios-support ./virtualisation ];
-
   config = lib.mkIf cfg.enable {
+    services.usbmuxd = {
+      enable = true;
+      package = pkgs.usbmuxd2;
+    };
+
+    environment.systemPackages = with pkgs; [
+      pkgs.libimobiledevice
+      pkgs.ifuse
+    ];
   };
 }
