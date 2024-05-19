@@ -169,7 +169,8 @@
   (add-hook 'before-save-hook 'lsp-format-buffer nil t))
 
 ;; Elixir lsp
-(setq lsp-elixir-server-command '("/nix/store/7yxbq69ln8m9p89wynms70bmj7zg01y5-elixir-ls-0.14.6/bin/elixir-ls"))
+;; (setq lsp-elixir-server-command '("/nix/store/7yxbq69ln8m9p89wynms70bmj7zg01y5-elixir-ls-0.14.6/bin/elixir-ls"))
+
 ;; TREEMACS
 (setq winum-scope 'frame-local)
 (map! "M-0" #'treemacs-select-window

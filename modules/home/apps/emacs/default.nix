@@ -41,6 +41,7 @@ in {
       mu
       isync
       gnutls
+      editorconfig-core-c
 
       python3Packages.pygments
       emacsPackages.pdf-tools
