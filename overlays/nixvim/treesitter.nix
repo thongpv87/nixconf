@@ -9,6 +9,9 @@
       enable = true;
       settings = { max_lines = 2; };
     };
+
+    haskell-scope-highlighting.enable = true;
+
     rainbow-delimiters.enable = true;
   };
 }

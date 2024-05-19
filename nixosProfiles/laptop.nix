@@ -31,7 +31,7 @@
 
     networking = {
       enable = true;
-      encrypted-dns.enable = true;
+      encrypted-dns.enable = false;
     };
 
     services = {

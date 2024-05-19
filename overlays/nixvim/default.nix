@@ -3,7 +3,7 @@
     ./bufferline.nix
     ./cmp.nix
     ./git.nix
-    ./lightline.nix
+    ./plugins.nix
     ./lsp/default.nix
     ./lsp/fidget.nix
     ./lsp/ionide.nix
