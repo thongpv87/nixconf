@@ -32,10 +32,6 @@
     networking = {
       enable = true;
       encrypted-dns.enable = true;
-      cloudflare-warp = {
-        openFirewall = false;
-        enable = false;
-      };
     };
 
     services = {

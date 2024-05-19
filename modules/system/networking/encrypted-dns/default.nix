@@ -48,6 +48,10 @@ in
         ipv6_servers = true;
         require_dnssec = true;
 
+        dnscrypt_servers = true;
+        doh_servers = true;
+        ignore_system_dns = true;
+
         sources.public-resolvers = {
           urls = [
             "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
@@ -55,6 +59,13 @@ in
           ];
           cache_file = "/var/lib/dnscrypt-proxy2/public-resolvers.md";
           minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+        };
+
+        sources.quad9-resolvers = {
+          urls = ["https://www.quad9.net/quad9-resolvers.md"];
+          minisign_key = "RWQBphd2+f6eiAqBsvDZEBXBGHQBJfeG6G+wJPPKxCZMoEQYpmoysKUN";
+          cache_file = "quad9-resolvers.md";
+          prefix = "quad9-";
         };
 
         # You can choose a specific set of servers from https://github.com/DNSCrypt/dnscrypt-resolvers/blob/master/v3/public-resolvers.md

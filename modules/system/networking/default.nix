@@ -24,7 +24,6 @@ in
   };
 
   imports = [
-    ./cloudflare-warp
     ./encrypted-dns
   ];
 
