@@ -42,6 +42,8 @@
       nixosProfiles = import ./nixosProfiles;
       users = import ./modules/users;
     in {
+      formatter = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
+
       nixosConfigurations = {
         laptop = import ./lib/makeHost.nix {
           inherit inputs system overlays;

@@ -111,35 +111,38 @@ in
         enableWindowsFonts = false;
       };
 
-      nixvim = nixvim.legacyPackages.x86_64-linux.makeNixvim {
-        plugins = {
-          telescope.enable = true;
-          none-ls.enable = true;
-          none-ls.sources.formatting.alejandra.enable = true;
-          nix.enable = true;
-          gitsigns.enable = true;
-          fugitive.enable = true;
-          lsp = {
-            enable = true;
-            servers.nil_ls.enable = true;
-          };
-          treesitter.enable = true;
-          lightline.enable = true;
-        };
+      nixvim = nixvim.legacyPackages.x86_64-linux.makeNixvimWithModule {
+        pkgs = prev;
+        module = import ./nixvim;
+        # plugins = {
+        #   bufferline.enable = true;
+        #   telescope.enable = true;
+        #   none-ls.enable = true;
+        #   none-ls.sources.formatting.alejandra.enable = true;
+        #   nix.enable = true;
+        #   gitsigns.enable = true;
+        #   fugitive.enable = true;
+        #   lsp = {
+        #     enable = true;
+        #     servers.nil_ls.enable = true;
+        #   };
+        #   treesitter.enable = true;
+        #   lightline.enable = true;
+        # };
 
-        colorschemes.base16 = {
-          enable = true;
-          colorscheme = "solarized-dark";
-        };
+        # colorschemes.base16 = {
+        #   enable = true;
+        #   colorscheme = "solarized-dark";
+        # };
 
-        clipboard.providers.wl-copy.enable = true;
+        # clipboard.providers.wl-copy.enable = true;
 
-        opts = {
-          termguicolors = true;
-          number = true; # Show line numbers
-          relativenumber = true; # Show relative line numbers
-          shiftwidth = 2; # Tab width should be 2
-        };
+        # opts = {
+        #   termguicolors = true;
+        #   number = true; # Show line numbers
+        #   relativenumber = true; # Show relative line numbers
+        #   shiftwidth = 2; # Tab width should be 2
+        # };
       };
     }
   )
