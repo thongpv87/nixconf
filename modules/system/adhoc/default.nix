@@ -10,10 +10,10 @@ in {
   config = mkIf cfg.enable (mkMerge [
     {
       services.tailscale = {
-        enable = true;
+        enable = false;
         useRoutingFeatures = "client";
       };
-      networking.firewall.enable = false;
+      #networking.firewall.enable = false;
     }
 
     # adhoc

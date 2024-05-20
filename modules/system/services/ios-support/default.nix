@@ -24,10 +24,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    services.usbmuxd = {
-      enable = true;
-      package = pkgs.usbmuxd2;
-    };
+    # services.usbmuxd = {
+    #   enable = true;
+    #   package = pkgs.usbmuxd2;
+    # };
 
     environment.systemPackages = with pkgs; [
       pkgs.libimobiledevice
