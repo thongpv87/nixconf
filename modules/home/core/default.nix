@@ -41,11 +41,11 @@ in {
       enable = true;
       theme = {
         package = pkgs.breeze-gtk;
-        name = "Breeze";
+        name = "breeze";
       };
       iconTheme = {
         package = pkgs.breeze-icons;
-        name = "Breeze";
+        name = "breeze";
       };
       font = {
         name = "Berkeley Mono Variable";
@@ -55,10 +55,10 @@ in {
 
     qt = {
       enable = true;
-      platformTheme.name = "Breeze";
+      platformTheme.name = "breeze";
       style = {
         package = pkgs.breeze-qt5;
-        name = "Breeze";
+        name = "breeze";
       };
     };
 

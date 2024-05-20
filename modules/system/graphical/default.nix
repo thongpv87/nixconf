@@ -38,11 +38,11 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
-      services.xserver.enable = true;
-      services.xserver.displayManager.gdm = {
+      services.displayManager.sddm = {
         enable = true;
-        wayland = true;
+        wayland.enable = true;
       };
+
 
       hardware = {
         opengl = {

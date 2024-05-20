@@ -84,7 +84,10 @@ in
       ibus.engines = with pkgs.ibus-engines; [ bamboo ];
     };
 
-    security.rtkit.enable = true;
+    security = {
+      polkit.enable = true;
+      rtkit.enable = true;
+    };
     services = {
       pipewire = {
         enable = true;

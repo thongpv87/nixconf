@@ -118,9 +118,19 @@ in {
     }
 
     {
+      home.sessionVariables = {
+        XDG_SESSION_DESKTOP = "Hyprland";
+        GTK_IM_MODULE="ibus";
+        QT_IM_MODULE="ibus";
+        XMODIFIERS="@im=ibus";
+        SDL_IM_MODULE="ibus";
+        GLFW_IM_MODULE="ibus";
+      };
+
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = true;
+        # systemd.enableXdgAutoStart = true;
         xwayland.enable = true;
         # systemd.extraCommands = [ "ibus-deamon -d" ];
 

@@ -9,12 +9,19 @@ in {
   };
 
   config = mkIf cfg.enable {
-    programs.hyprland = {
-      enable = true;
-      xwayland.enable = true;
+    programs = {
+      dconf.enable = true;
+      hyprland = {
+        enable = true;
+        xwayland.enable = true;
+      };
     };
+    security.polkit.enable = true;
 
-    xdg.portal.xdgOpenUsePortal = true;
+    xdg.portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+    };
 
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1";
