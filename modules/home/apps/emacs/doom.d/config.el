@@ -159,6 +159,14 @@
         lsp-ui-doc-show-with-mouse t
         lsp-ui-doc-delay 1))
 
+(after! lsp-mode
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection "nixd")
+                    :major-modes '(nix-mode)
+                    :priority 0
+                    :server-id 'nixd)
+   ))
+
 (map! :after lsp-mode
       :map lsp-mode-map
       "M-/" #'lsp-ui-doc-show

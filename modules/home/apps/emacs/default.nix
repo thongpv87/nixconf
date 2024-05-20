@@ -37,6 +37,7 @@ in {
       fd
       git
       doom
+      nixd
       #tex
       mu
       isync

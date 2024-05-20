@@ -38,6 +38,7 @@
       enable = true;
       ios-support.enable = true;
       virtualisation = {
+        enable = true;
         enablePodman = true;
         enableVirtualBox = false;
       };

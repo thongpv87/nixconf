@@ -16,6 +16,10 @@ let
     mdDoc
     mkEnableOption
     ;
+
+  initial_session_config = pkgs.writeText "hyprland-initial-session.conf" ''
+    exec-once = ${lib.getExe config.programs.regreet.package}; hyprctl dispatch exit
+  '';
 in
 {
   imports = [
@@ -34,6 +38,12 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
+      services.xserver.enable = true;
+      services.xserver.displayManager.gdm = {
+        enable = true;
+        wayland = true;
+      };
+
       hardware = {
         opengl = {
           enable = true;
