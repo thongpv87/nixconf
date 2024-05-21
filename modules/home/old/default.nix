@@ -5,7 +5,6 @@
     ./git
     ./gpg
     ./zsh
-    ./nushell
     ./ssh
     ./terminal
     ./others

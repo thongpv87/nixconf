@@ -2,7 +2,7 @@
 with lib;
 let cfg = config.nixconf.apps;
 in {
-  imports = [ ./emacs ./rofi ./wal ./alacritty ];
+  imports = [ ./emacs ./rofi ./wal ./alacritty ./nushell ];
 
   options.nixconf.apps = {
     enable = mkOption {

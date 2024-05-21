@@ -36,7 +36,7 @@ in {
           };
         };
 
-        shell.program = "zsh";
+        shell.program = "nu";
 
         window.padding = {
           x = 15;

@@ -22,6 +22,7 @@ in {
           emacs.enable = true;
           rofi.enable = true;
           alacritty.enable = true;
+          nushell.enable = true;
         };
 
         services = {

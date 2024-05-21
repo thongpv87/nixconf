@@ -144,7 +144,7 @@ in {
 
       "oh-my-zsh" = {
         enable = true;
-        plugins = [ "git" "sudo" "gitignore" "cp" "docker" "safe-paste" ];
+        plugins = [ "git" "sudo" "gitignore" "cp" "safe-paste" ];
       };
     };
   });
