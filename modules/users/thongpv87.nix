@@ -54,7 +54,7 @@ in {
           enable = true;
           tmux = {
             enable = true;
-            shell = "zsh";
+            shell = "nu";
           };
         };
 

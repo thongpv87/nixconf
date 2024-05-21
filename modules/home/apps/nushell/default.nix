@@ -26,10 +26,12 @@ in {
         enable = true;
         enableNushellIntegration = true;
       };
+
       thefuck = {
         enable = true;
         enableNushellIntegration = true;
       };
+
       yazi = {
         enable = true;
         enableNushellIntegration = true;
@@ -45,19 +47,12 @@ in {
         enableNushellIntegration = true;
       };
 
-
       nushell = {
         enable = true;
         package = pkgs.nushellFull;
         # configFile.source = ./_config.nu;
-        # envFile.source = ./_env.nu;
+        envFile.source = ./_env.nu;
         extraConfig = "${lib.readFile ./_extra_config.nu}";
-        extraEnv = ''
-          $env.PROMPT_INDICATOR = "〉"
-          $env.PROMPT_INDICATOR_VI_INSERT = "〉 "
-          $env.PROMPT_INDICATOR_VI_NORMAL = " "
-          $env.PROMPT_MULTILINE_INDICATOR = "::: "
-        '';
       };
     };
   });
