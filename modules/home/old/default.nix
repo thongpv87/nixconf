@@ -4,9 +4,7 @@
     ./graphical
     ./git
     ./gpg
-    ./zsh
     ./ssh
-    ./terminal
     ./others
   ];
 }

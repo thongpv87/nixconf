@@ -10,6 +10,7 @@ in {
   };
 
   home-manager = {
+    backupFileExtension = "bk";
     useGlobalPkgs = true;
     useUserPackages = true;
     users."${username}" = {
@@ -22,7 +23,6 @@ in {
           emacs.enable = true;
           rofi.enable = true;
           alacritty.enable = true;
-          nushell.enable = true;
         };
 
         services = {
@@ -30,6 +30,14 @@ in {
             enable = true;
             window-manager = "hyprland";
           };
+        };
+
+        terminal = {
+          enable = true;
+          zsh.enable = true;
+          nushell.enable = true;
+          tmux.enable = true;
+          tmux.shell = "nu";
         };
       };
       nixconf.old = {
@@ -50,17 +58,8 @@ in {
           direnv.enable = true;
         };
 
-        terminal = {
-          enable = true;
-          tmux = {
-            enable = true;
-            shell = "nu";
-          };
-        };
-
         gpg.enable = true;
         git = { enable = true; };
-        zsh.enable = true;
         ssh.enable = true;
         others.enable = true;
       };

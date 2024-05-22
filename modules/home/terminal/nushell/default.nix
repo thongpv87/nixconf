@@ -1,8 +1,8 @@
 { pkgs, config, lib, ... }:
 with lib;
-let cfg = config.nixconf.apps.nushell;
+let cfg = config.nixconf.terminal.nushell;
 in {
-  options.nixconf.apps.nushell = {
+  options.nixconf.terminal.nushell = {
     enable = mkOption {
       description = "Enable nushell with settings";
       type = types.bool;
@@ -17,27 +17,12 @@ in {
     programs = {
       fish.enable = true;
 
-      starship = {
-        enable = true;
-        enableNushellIntegration = true;
-      };
-
-      direnv = {
-        enable = true;
-        enableNushellIntegration = true;
-      };
-
-      thefuck = {
-        enable = true;
-        enableNushellIntegration = true;
-      };
+      starship.enableNushellIntegration = true;
+      direnv.enableNushellIntegration = true;
+      thefuck.enableNushellIntegration = true;
+      atuin.enableNushellIntegration = true;
 
       yazi = {
-        enable = true;
-        enableNushellIntegration = true;
-      };
-
-      atuin = {
         enable = true;
         enableNushellIntegration = true;
       };

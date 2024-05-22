@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.nixconf.old.terminal.tmux;
+  cfg = config.nixconf.terminal.tmux;
   shellCmd = if cfg.shell == "zsh" then
     "${pkgs.zsh}/bin/zsh"
   else if cfg.shell == "nu" then
@@ -9,7 +9,7 @@ let
   else
     "${pkgs.bashInteractive}/bin/bash";
 in {
-  options.nixconf.old.terminal.tmux = {
+  options.nixconf.terminal.tmux = {
     enable = mkOption {
       default = false;
       description = ''
@@ -23,8 +23,9 @@ in {
     };
   };
 
-  config = mkIf cfg.enable (mkMerge [{
-    home.packages = [ pkgs.xsel ];
+  config = mkIf cfg.enable (mkMerge [
+    {
+    home.packages = [ pkgs.xsel pkgs.wl-clipboard ];
     programs.tmux = {
       enable = true;
       plugins = with pkgs.tmuxPlugins; [
@@ -34,14 +35,6 @@ in {
         prefix-highlight
         pain-control
         better-mouse-mode
-        # {
-        #   plugin = net-speed;
-        #   extraConfig = "${readFile ./needspeed.conf}";
-        # }
-        # {
-        #   plugin = mode-indicator;
-        #   extraConfig = "${readFile ./mode-indicator.conf}";
-        # }
         # THEMES
         {
           plugin = rose-pine;
@@ -50,10 +43,6 @@ in {
             ${readFile ./rose-pine-theme.conf}
           '';
         }
-        # {
-        #   plugin = power-theme;
-        #   extraConfig = "set -g @tmux_power_theme 'default'";
-        # }
       ];
       baseIndex = 1;
       shortcut = "o";
