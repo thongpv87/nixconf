@@ -28,7 +28,7 @@ in {
         pkgs.zoom-us
         pkgs.slack
         pkgs.ngrok
-        pkgs.dbeaver
+        pkgs.dbeaver-bin
         pkgs.teams-for-linux
         pkgs.dia
       ];
