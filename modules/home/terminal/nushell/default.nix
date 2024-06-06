@@ -34,7 +34,6 @@ in {
 
       nushell = {
         enable = true;
-        package = pkgs.nushellFull;
         # configFile.source = ./_config.nu;
         envFile.source = ./_env.nu;
         extraConfig = "${lib.readFile ./_extra_config.nu}";
