@@ -25,12 +25,9 @@ in {
         pkgs.shellcheck
         pkgs.nodePackages.bash-language-server
 
-        pkgs.zoom-us
         pkgs.slack
         pkgs.ngrok
         pkgs.dbeaver-bin
-        pkgs.teams-for-linux
-        pkgs.dia
       ];
 
       services.postgresql = {
@@ -59,7 +56,6 @@ in {
         owner = "andyrichardson";
         repo = "nix-node";
       };
-
     }
   ]);
 }
