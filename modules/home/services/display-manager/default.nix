@@ -17,8 +17,8 @@ in {
         hyprland = {
           enable = true;
 
-          window = "no-border-more-gaps";
-          decoration = "rounding-more-blur";
+          window = "no-border-no-gaps";
+          decoration = "default";
           animation = "fast";
         };
       };

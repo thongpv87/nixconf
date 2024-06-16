@@ -21,6 +21,7 @@ in {
         "default"
         "no-border"
         "no-border-more-gaps"
+        "no-border-no-gaps"
         "border-1"
         "border-2"
         "border-3"
