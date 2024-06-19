@@ -121,11 +121,26 @@ in {
     {
       home.sessionVariables = {
         XDG_SESSION_DESKTOP = "Hyprland";
-        GTK_IM_MODULE="ibus";
-        QT_IM_MODULE="ibus";
-        XMODIFIERS="@im=ibus";
-        SDL_IM_MODULE="ibus";
-        GLFW_IM_MODULE="ibus";
+        # GTK_IM_MODULE="ibus";
+        # QT_IM_MODULE="ibus";
+        # XMODIFIERS="@im=ibus";
+        # SDL_IM_MODULE="ibus";
+        # GLFW_IM_MODULE="ibus";
+
+        GTK_IM_MODULE="fcitx";
+        QT_IM_MODULE="fcitx";
+        XMODIFIERS="@im=fcitx";
+        SDL_IM_MODULE="fcitx";
+        GLFW_IM_MODULE="fcitx";
+        QT_IM_MODULES="wayland;fcitx;ibus";
+      };
+
+      gtk.gtk3.extraConfig = {
+        gtk-im-module="fcitx";
+      };
+
+      gtk.gtk4.extraConfig = {
+        gtk-im-module="fcitx";
       };
 
       wayland.windowManager.hyprland = {
@@ -137,7 +152,8 @@ in {
 
         settings = {
           exec-once = [
-            "ibus-daemon -d"
+            # "ibus-daemon -d"
+            "fcitx5 -r"
             "${pkgs.dunst}/bin/dunst"
             #"hypridle"
             "hyprpaper"
@@ -235,8 +251,10 @@ in {
             ",122,exec, pamixer -d 5"
             ",123,exec, pamixer -i 5"
 
-            "$mod,slash, exec, ibus engine xkb:us::eng"
-            "$mod SHIFT, slash, exec, ibus engine Bamboo"
+            # "$mod,slash, exec, ibus engine xkb:us::eng"
+            # "$mod SHIFT, slash, exec, ibus engine Bamboo"
+            "$mod,slash, exec, fcitx5-remote -s keyboard-us"
+            "$mod SHIFT, slash, exec, fcitx5-remote -s bamboo"
 
             "$mod,W, focusmonitor, DP-2"
             "$mod,W, focusmonitor, DP-1"
