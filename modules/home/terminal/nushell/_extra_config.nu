@@ -24,3 +24,7 @@ $env.config = {
 }
 
 alias nix-shell = nix-shell --run nu
+
+def rlw [prog] {
+  which $prog | readlink -f $in.0.path
+}
