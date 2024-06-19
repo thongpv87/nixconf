@@ -1,4 +1,6 @@
 $env.config = {
+  show_banner: false
+
   plugins: {
   }
 
@@ -20,3 +22,5 @@ $env.config = {
     }
   ]
 }
+
+alias nix-shell = nix-shell --run nu
