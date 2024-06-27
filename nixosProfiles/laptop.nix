@@ -13,7 +13,7 @@
       enable = true;
       power-management = {
         enable = true;
-        useTlp = true;
+        useTlp = false;
       };
     };
 
