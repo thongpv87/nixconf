@@ -192,8 +192,9 @@ in {
 
           master = {
             # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-            new_is_master = true;
-            new_on_top = true;
+            #new_status = "master";
+            new_on_top = false;
+            new_on_active = "after";
             no_gaps_when_only = 0;
             special_scale_factor = 0.85;
             orientation = "right";
