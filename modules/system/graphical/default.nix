@@ -48,15 +48,16 @@ in
 
 
       hardware = {
-        opengl = {
+        graphics = {
           enable = true;
-          driSupport32Bit = true;
           extraPackages = with pkgs; [
             rocm-opencl-icd
             rocm-opencl-runtime
             amdvlk
             libva
           ];
+
+          enable32Bit = true;
         };
       };
     }

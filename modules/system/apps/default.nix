@@ -30,6 +30,7 @@ in
         iftop.enable = true;
         iotop.enable = true;
         zsh.enable = true;
+        appimage.binfmt = true;
       };
 
       environment = {

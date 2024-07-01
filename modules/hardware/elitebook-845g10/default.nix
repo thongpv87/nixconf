@@ -30,6 +30,15 @@ in {
     nix.settings.system-features = [ "gccarch-znver4" ];
 
     nixpkgs.hostPlatform = { system = "x86_64-linux"; };
+
+    hardware.amdgpu = {
+      opencl.enable = true;
+      initrd.enable = true;
+      amdvlk = {
+        enable = true;
+        support32Bit.enable = true;
+      };
+    };
     hardware.cpu.amd.updateMicrocode =
       lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
