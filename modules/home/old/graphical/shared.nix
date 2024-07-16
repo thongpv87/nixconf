@@ -12,7 +12,7 @@ in {
       sessionVariables = {
         QT_QPA_PLATFORMTHEME = "pop";
         SSH_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/keyring/ssh";
-        SSH_ASKPASS = "${pkgs.gnome.seahorse}/libexec/seahorse/ssh-askpass";
+        SSH_ASKPASS = "${pkgs.seahorse}/libexec/seahorse/ssh-askpass";
       };
 
       packages = with pkgs; [
@@ -42,7 +42,7 @@ in {
         fontpreview
         emote
 
-        gnome.seahorse
+        seahorse
       ];
     };
 

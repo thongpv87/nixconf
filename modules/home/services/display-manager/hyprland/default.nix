@@ -74,7 +74,7 @@ in {
         dunst
         qt5.qtwayland
         qt6.qtwayland
-        gnome3.nautilus
+        nautilus
         btop
         # hypridle
         # hyprlock
@@ -192,7 +192,7 @@ in {
 
           master = {
             # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-            #new_status = "master";
+            new_status = "master";
             new_on_top = false;
             new_on_active = "after";
             no_gaps_when_only = 0;

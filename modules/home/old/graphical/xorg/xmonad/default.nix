@@ -30,7 +30,7 @@ in {
       dconf
       glib.bin
       gnome.gnome-tweaks
-      gnome.nautilus
+      nautilus
       okular
       rhythmbox
       pavucontrol

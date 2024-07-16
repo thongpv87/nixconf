@@ -36,7 +36,7 @@ in {
       sessionVariables = {
         QT_QPA_PLATFORMTHEME = mkForce "pop";
         SSH_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/keyring/ssh";
-        SSH_ASKPASS = "${pkgs.gnome.seahorse}/libexec/seahorse/ssh-askpass";
+        SSH_ASKPASS = "${pkgs.seahorse}/libexec/seahorse/ssh-askpass";
         NIX_GSETTINGS_OVERRIDES_DIR =
           "${my-gsettings-desktop-schemas}/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas";
       };
@@ -67,7 +67,7 @@ in {
         emote
         #openmoji-color
 
-        gnome.seahorse
+        seahorse
 
         pop-gtk-theme
         numix-icon-theme

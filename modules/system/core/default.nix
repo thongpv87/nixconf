@@ -80,13 +80,14 @@ in
 
     time.timeZone = mkForce "Asia/Ho_Chi_Minh";
     i18n.inputMethod = {
-      # enabled = "ibus";
-      # ibus.engines = with pkgs.ibus-engines; [ bamboo ];
-      enabled = "fcitx5";
+      enable = true;
+      type = "fcitx5";
       fcitx5 = {
         waylandFrontend = true;
         addons = [ pkgs.fcitx5-gtk pkgs.fcitx5-bamboo ];
       };
+
+      ibus.engines = with pkgs.ibus-engines; [ bamboo ];
     };
 
     security = {
