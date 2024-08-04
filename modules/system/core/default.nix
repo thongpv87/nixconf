@@ -34,7 +34,7 @@ in
       ascii
       file
       shared-mime-info
-      ffmpeg_5-full
+      ffmpeg_4-full
 
       binutils
       coreutils
