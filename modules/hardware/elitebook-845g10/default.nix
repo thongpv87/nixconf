@@ -21,7 +21,7 @@ in {
       '';
 
     };
-    boot.kernelPackages = pkgs.linuxPackages_testing;
+    boot.kernelPackages = pkgs.linuxPackages_latest;
     # boot.kernelPackages = pkgs.zen4KernelPackages;
 
     boot.kernelParams =
