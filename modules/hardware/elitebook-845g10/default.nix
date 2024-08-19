@@ -31,6 +31,20 @@ in {
 
     nixpkgs.hostPlatform = { system = "x86_64-linux"; };
 
+    services.keyd = {
+      enable = true;
+      keyboards = {
+        default = {
+          ids = [ "*" ];
+          settings = {
+            main = {
+              f2 = "noop";
+            };
+          };
+        };
+      };
+    };
+
     hardware.amdgpu = {
       opencl.enable = true;
       initrd.enable = true;

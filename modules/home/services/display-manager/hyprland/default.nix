@@ -1,9 +1,22 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 with lib;
 let
   cfg = config.nixconf.services.display-manager.hyprland;
   inherit (lib)
-    mkOption mkMerge mkIf mkDefault mkForce types mdDoc mkEnableOption;
+    mkOption
+    mkMerge
+    mkIf
+    mkDefault
+    mkForce
+    types
+    mdDoc
+    mkEnableOption
+    ;
 
   switch-input-method = pkgs.writeShellScriptBin "switch-input-method" ''
     if [ $(ibus engine) == xkb:us::eng ]; then ibus engine Bamboo; else ibus engine xkb:us::eng ; fi
@@ -12,7 +25,8 @@ let
     ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)"
   '';
 
-in {
+in
+{
   options.nixconf.services.display-manager.hyprland = {
     enable = mkEnableOption "Enable Hyprland display server";
 
@@ -49,7 +63,12 @@ in {
     };
 
     animation = mkOption {
-      type = types.enum [ "default" "moving" "fast" "high" ];
+      type = types.enum [
+        "default"
+        "moving"
+        "fast"
+        "high"
+      ];
       default = "default";
     };
 
@@ -65,7 +84,9 @@ in {
         services.display-manager.hyprland.waybar.enable = true;
       };
 
-      home.sessionVariables = { QT_QPA_PLATFORM = "wayland"; };
+      home.sessionVariables = {
+        QT_QPA_PLATFORM = "wayland";
+      };
 
       home.packages = with pkgs; [
         switch-input-method
@@ -82,7 +103,9 @@ in {
       ];
 
       fonts.fontconfig.enable = true;
-      services.copyq = { enable = true; };
+      services.copyq = {
+        enable = true;
+      };
 
       xdg.configFile = {
         "dunst" = {
@@ -91,13 +114,16 @@ in {
         };
         "hypr/hypridle.conf".source = ./hypridle.conf;
         "hypr/hyprlock.conf".source = ./hyprlock.conf;
-        "hypr/hyprpaper.conf".text = let pic = "peaceful-autumn.jpg";
-        in ''
-          preload = ${./wallpapers}/${pic}
-          wallpaper = DP-1,${./wallpapers}/${pic}
-          wallpaper = DP-2,${./wallpapers}/${pic}
-          wallpaper = eDP-1,${./wallpapers}/${pic}
-        '';
+        "hypr/hyprpaper.conf".text =
+          let
+            pic = "peaceful-autumn.jpg";
+          in
+          ''
+            preload = ${./wallpapers}/${pic}
+            wallpaper = DP-1,${./wallpapers}/${pic}
+            wallpaper = DP-2,${./wallpapers}/${pic}
+            wallpaper = eDP-1,${./wallpapers}/${pic}
+          '';
       };
 
       systemd.user.services = {
@@ -113,7 +139,9 @@ in {
             BusName = "org.freedesktop.Notifications";
             ExecStart = "${pkgs.dunst}/bin/dunst";
           };
-          Install = { WantedBy = [ "graphical-session.target" ]; };
+          Install = {
+            WantedBy = [ "graphical-session.target" ];
+          };
         };
       };
     }
@@ -127,20 +155,20 @@ in {
         # SDL_IM_MODULE="ibus";
         # GLFW_IM_MODULE="ibus";
 
-        GTK_IM_MODULE="fcitx";
-        QT_IM_MODULE="fcitx";
-        XMODIFIERS="@im=fcitx";
-        SDL_IM_MODULE="fcitx";
-        GLFW_IM_MODULE="fcitx";
-        QT_IM_MODULES="wayland;fcitx;ibus";
+        GTK_IM_MODULE = "fcitx";
+        QT_IM_MODULE = "fcitx";
+        XMODIFIERS = "@im=fcitx";
+        SDL_IM_MODULE = "fcitx";
+        GLFW_IM_MODULE = "fcitx";
+        QT_IM_MODULES = "wayland;fcitx;ibus";
       };
 
       gtk.gtk3.extraConfig = {
-        gtk-im-module="fcitx";
+        gtk-im-module = "fcitx";
       };
 
       gtk.gtk4.extraConfig = {
-        gtk-im-module="fcitx";
+        gtk-im-module = "fcitx";
       };
 
       wayland.windowManager.hyprland = {
@@ -185,8 +213,7 @@ in {
           #
           dwindle = {
             # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
-            pseudotile =
-              true; # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+            pseudotile = true; # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
             preserve_split = true; # you probably want this
           };
 
@@ -200,7 +227,9 @@ in {
             orientation = "right";
           };
 
-          gestures = { workspace_swipe = true; };
+          gestures = {
+            workspace_swipe = true;
+          };
 
           "$mod" = "SUPER";
 
@@ -214,12 +243,15 @@ in {
             "float,^(blueman-manager)$"
             "float,^(nm-connection-editor)$"
           ];
-          windowrulev2 =
-            [ "stayfocused,class:(Rofi)" "forceinput,class:(Rofi)"
-              "opacity 1 1,class:^(firefox|google-chrome|microsoft-edge)"
-            ];
+          windowrulev2 = [
+            "stayfocused,class:(Rofi)"
+            "opacity 1 1,class:^(firefox|google-chrome|microsoft-edge)"
+          ];
 
-          layerrule = [ "blur, gtk-layer-shell" "blur, logout_dialog" ];
+          layerrule = [
+            "blur, gtk-layer-shell"
+            "blur, logout_dialog"
+          ];
 
           bind = [
             "$mod SHIFT, RETURN, exec, alacritty"
@@ -271,7 +303,6 @@ in {
             "$mod SHIFT, up, resizeactive, 0 -40"
             "$mod SHIFT, down, resizeactive, 0 40"
 
-
             # Switch workspaces with mod + [0-9]
             "$mod,1,moveworkspacetomonitor,1 current"
             "$mod, 1, workspace, 1"
@@ -313,8 +344,10 @@ in {
             "$mod, mouse_up, workspace, e-1"
           ];
           # Move/resize windows with mod + LMB/RMB and dragging
-          bindm =
-            [ "$mod, mouse:272, movewindow" "$mod, mouse:273, resizewindow" ];
+          bindm = [
+            "$mod, mouse:272, movewindow"
+            "$mod, mouse:273, resizewindow"
+          ];
 
           misc = {
             disable_hyprland_logo = true;
