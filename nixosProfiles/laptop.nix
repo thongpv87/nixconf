@@ -40,7 +40,7 @@
       virtualisation = {
         enable = true;
         enablePodman = true;
-        enableVirtualBox = false;
+        enableVirtualBox = true;
       };
     };
   };

@@ -58,8 +58,16 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
+      environment.systemPackages = [
+        pkgs.minicom
+        pkgs.picocom
+        pkgs.socat
+        pkgs.screen
+      ];
+    }
+    {
       services.tailscale = {
-        enable = false;
+        enable = true;
         useRoutingFeatures = "client";
       };
       #networking.firewall.enable = false;
@@ -70,7 +78,6 @@ in
       environment.systemPackages = [
         pkgs.python3
         pkgs.elixir_1_15
-        keet
         pkgs.gtk4
         pkgs.appimage-run
 

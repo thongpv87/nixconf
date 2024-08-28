@@ -9,7 +9,11 @@ let
   cfg = config.nixconf.terminal;
 in
 {
-  imports = [./tmux ./zsh ./nushell];
+  imports = [
+    ./tmux
+    ./zsh
+    ./nushell
+  ];
 
   options.nixconf.terminal = {
     enable = mkOption {
@@ -74,7 +78,7 @@ in
 
         settings = {
           keymap_mode = "vim-insert";
-          # filter_mode = "directory";
+          filter_mode = "global";
           workspaces = true;
           exit_mode = "return-query";
           enter_accept = false;
