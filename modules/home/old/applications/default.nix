@@ -25,17 +25,12 @@ in
   };
 
   config = mkIf (cfg.enable) {
-    home.sessionVariables = {
-      EDITOR = "${pkgs.nixvim}/bin/nvim";
-    };
 
     xdg.enable = true;
 
     # TTY compatible CLI applications
     home.packages = with pkgs; [
       home-manager
-
-      nixvim
       # ssh mount
       sshfs
 

@@ -1,8 +1,21 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
-let cfg = config.nixconf.apps;
-in {
-  imports = [ ./emacs ./rofi ./wal ./alacritty ];
+let
+  cfg = config.nixconf.apps;
+in
+{
+  imports = [
+    ./emacs
+    ./rofi
+    ./wal
+    ./alacritty
+    ./neovim
+  ];
 
   options.nixconf.apps = {
     enable = mkOption {
@@ -16,8 +29,15 @@ in {
     home.packages = [ pkgs.insomnia ];
     programs.vscode = {
       enable = true;
-      package = pkgs.vscode.fhsWithPackages
-        (ps: with ps; [ zlib openssl.dev pkg-config yarn nodejs_latest ]);
+      package = pkgs.vscode.fhsWithPackages (
+        ps: with ps; [
+          zlib
+          openssl.dev
+          pkg-config
+          yarn
+          nodejs_latest
+        ]
+      );
     };
   };
 }

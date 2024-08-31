@@ -1,11 +1,19 @@
-let username = "thongpv87";
-in {
+let
+  username = "thongpv87";
+in
+{
   users.users."${username}" = {
     isNormalUser = true;
     password = "demo";
     # shell = "${pkgs.zsh}/bin/zsh";
-    extraGroups =
-      [ "wheel" "networkmanager" "video" "libvirtd" "audio" "docker" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "video"
+      "libvirtd"
+      "audio"
+      "docker"
+    ];
     uid = 1000;
   };
 
@@ -21,6 +29,7 @@ in {
         apps = {
           enable = true;
           emacs.enable = true;
+          neovim.enable = true;
           rofi.enable = true;
           alacritty.enable = true;
         };
@@ -45,10 +54,14 @@ in {
           enable = true;
           theme = "breeze";
           mime.enable = true;
-          applications = { enable = false; };
+          applications = {
+            enable = false;
+          };
           xorg = {
             enable = false;
-            xmonad = { enable = false; };
+            xmonad = {
+              enable = false;
+            };
 
             screenlock.enable = false;
           };
@@ -59,7 +72,9 @@ in {
         };
 
         gpg.enable = true;
-        git = { enable = true; };
+        git = {
+          enable = true;
+        };
         ssh.enable = true;
         others.enable = true;
       };
