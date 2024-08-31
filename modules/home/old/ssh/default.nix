@@ -29,6 +29,7 @@ in
       };
       addKeysToAgent = "yes";
       controlMaster = "auto";
+      controlPersist = "10d";
     };
   };
 }
