@@ -3,8 +3,8 @@
     treesitter = {
       enable = true;
       nixGrammars = true;
-      ensureInstalled = "all";
       settings = {
+        ensure_installed = "all";
         indent.enable = true;
       };
     };
