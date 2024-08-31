@@ -9,6 +9,7 @@
       enable = true;
       enableTelescope = true;
     };
+    trouble.enable = true;
 
     lazygit.enable = true;
     direnv.enable = true;

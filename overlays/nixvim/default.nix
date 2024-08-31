@@ -19,9 +19,10 @@
     ./utils/toggleterm.nix
     ./utils/which-key.nix
     ./utils/wilder.nix
+    ./color-schemes.nix
   ];
 
-  colorschemes.dracula.enable = true;
+  # colorschemes.dracula.enable = true;
 
   globals.mapleader = " ";
   clipboard.providers.wl-copy.enable = true;

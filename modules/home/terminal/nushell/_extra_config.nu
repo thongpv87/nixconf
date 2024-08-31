@@ -24,6 +24,7 @@ $env.config = {
 }
 
 alias nix-shell = nix-shell --run nu
+alias vi = nvim
 
 def rlw [prog] {
   which $prog | readlink -f $in.0.path

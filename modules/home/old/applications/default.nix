@@ -1,8 +1,20 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
-let cfg = config.nixconf.old.applications;
-in {
-  imports = [ ./taskwarrior ./direnv ./syncthing ./neomutt ];
+let
+  cfg = config.nixconf.old.applications;
+in
+{
+  imports = [
+    ./taskwarrior
+    ./direnv
+    ./syncthing
+    ./neomutt
+  ];
 
   options.nixconf.old.applications = {
     enable = mkOption {
@@ -13,7 +25,9 @@ in {
   };
 
   config = mkIf (cfg.enable) {
-    home.sessionVariables = { EDITOR = "${pkgs.nixvim}/bin/nvim"; };
+    home.sessionVariables = {
+      EDITOR = "${pkgs.nixvim}/bin/nvim";
+    };
 
     xdg.enable = true;
 
@@ -21,7 +35,6 @@ in {
     home.packages = with pkgs; [
       home-manager
 
-      vim
       nixvim
       # ssh mount
       sshfs
@@ -67,8 +80,7 @@ in {
         profile = "gpu-hq";
         vo = "gpu";
         hwdec = "auto-safe";
-        ytdl-format =
-          "ytdl-format=bestvideo[height<=?1920][fps<=?30][vcodec!=?vp9]+bestaudio/best";
+        ytdl-format = "ytdl-format=bestvideo[height<=?1920][fps<=?30][vcodec!=?vp9]+bestaudio/best";
       };
     };
 
