@@ -106,6 +106,7 @@ in
           "Iosevka"
           "RobotoMono"
           "JetBrainsMono"
+          "VictorMono"
           "Terminus"
         ];
         enableWindowsFonts = false;

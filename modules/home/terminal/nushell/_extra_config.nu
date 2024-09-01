@@ -7,11 +7,24 @@ $env.config = {
   edit_mode: vi
   keybindings: [
     {
+      name: open_editor
+      modifier: control
+      keycode: char_i
+      mode: [ vi_normal, vi_insert]
+      event: { send: openeditor }
+    }
+
+    {
       name: move_one_word_right_or_take_history_hint
       modifier: none
       keycode: char_w
       mode: [ vi_normal ]
-      event: { edit: movewordright }
+      event: { 
+        until: [
+          { send: historyhintwordcomplete }
+          { edit: movewordright select: false}
+        ]
+      }
     }
     {
       name: move_one_word_left_or_take_history_hint
