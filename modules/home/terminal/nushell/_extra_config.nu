@@ -6,6 +6,13 @@ $env.config = {
 
   edit_mode: vi
   keybindings: [
+      {
+        name: unbind_ctrl_i
+        modifier: control
+        keycode: char_i
+        mode: [ vi_normal, vi_insert]
+        event: null
+      }
     {
       name: open_editor
       modifier: control

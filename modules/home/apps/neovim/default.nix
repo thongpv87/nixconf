@@ -45,6 +45,7 @@ in
       fd
       coreutils
       fd
+      gnumake
       git
       nixd
       selected-nerdfonts
