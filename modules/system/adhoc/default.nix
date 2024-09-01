@@ -85,6 +85,7 @@ in
         pkgs.nodePackages.bash-language-server
         pkgs.sweethome3d.application
 
+        pkgs.discord
         pkgs.slack
         pkgs.ngrok
         pkgs.dbeaver-bin

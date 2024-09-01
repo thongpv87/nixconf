@@ -22,12 +22,12 @@ in
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
-
     };
 
     home = {
       sessionVariables = {
         EDITOR = "${pkgs.nixvim}/bin/nvim";
+        DIRENV_LOG_FORMAT = "";
       };
       stateVersion = "23.11";
       pointerCursor = {

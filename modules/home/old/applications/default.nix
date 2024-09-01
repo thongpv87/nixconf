@@ -11,7 +11,6 @@ in
 {
   imports = [
     ./taskwarrior
-    ./direnv
     ./syncthing
     ./neomutt
   ];
@@ -61,16 +60,10 @@ in
 
       # music
       playerctl
-
-      discord
-      upwork
-      telegram-desktop
-      google-cloud-sdk
-      openvpn
     ];
 
     programs.mpv = {
-      enable = true;
+      enable = false;
       config = {
         profile = "gpu-hq";
         vo = "gpu";

@@ -68,7 +68,6 @@ in
         };
         applications = {
           enable = true;
-          direnv.enable = true;
         };
 
         gpg.enable = true;
