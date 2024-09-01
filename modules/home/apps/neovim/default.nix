@@ -7,6 +7,8 @@
 with lib;
 let
   cfg = config.nixconf.apps.neovim;
+  neovimPkgs = pkgs.neovim.override { withNodeJs = true; };
+
   inherit (lib)
     mkOption
     mkMerge
@@ -19,7 +21,7 @@ let
     ;
   myvim = pkgs.writeShellScriptBin "vim" ''
     #!/usr/bin/env bash
-    ${pkgs.neovim}/bin/nvim $@
+    ${neovimPkgs}/bin/nvim $@
   '';
 in
 {
@@ -32,8 +34,9 @@ in
   };
 
   config = mkIf cfg.enable {
+
     home.packages = with pkgs; [
-      neovim
+      neovimPkgs
       myvim
       sqlite
       gcc
@@ -45,18 +48,13 @@ in
       git
       nixd
       selected-nerdfonts
+      luarocks
+      lua
+      cargo
+      zlib
+      zlib.dev
+      #nodejs
+      stack
     ];
-
-    xdg.configFile."nvim" = {
-      source = ./nvim;
-      recursive = true;
-    };
-
-    # home.activation = {
-    #   myActivationAction = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    #     run cp -r $HOME/.local/share/nvim $HOME/.config
-    #     chmod -R 600 $HOME/.config/nvim
-    #   '';
-    # };
   };
 }

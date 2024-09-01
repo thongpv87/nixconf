@@ -2,6 +2,7 @@
   nixconf = {
     hardware.elitebook-845g10.enable = true;
     core.enable = true;
+    core.nix-ld.enable = true;
 
     apps = {
       enable = true;

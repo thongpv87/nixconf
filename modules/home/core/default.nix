@@ -1,7 +1,14 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
-let cfg = config.nixconf.core;
-in {
+let
+  cfg = config.nixconf.core;
+in
+{
 
   options.nixconf.core = {
     enable = mkOption {
@@ -19,7 +26,9 @@ in {
     };
 
     home = {
-      sessionVariables = { EDITOR = "${pkgs.nixvim}/bin/nvim"; };
+      sessionVariables = {
+        EDITOR = "${pkgs.nixvim}/bin/nvim";
+      };
       stateVersion = "23.11";
       pointerCursor = {
         gtk.enable = true;

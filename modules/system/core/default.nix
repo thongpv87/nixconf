@@ -25,6 +25,8 @@ in
     };
   };
 
+  imports = [ ./nix-ld.nix ];
+
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       neofetch
@@ -84,7 +86,10 @@ in
       type = "fcitx5";
       fcitx5 = {
         waylandFrontend = true;
-        addons = [ pkgs.fcitx5-gtk pkgs.fcitx5-bamboo ];
+        addons = [
+          pkgs.fcitx5-gtk
+          pkgs.fcitx5-bamboo
+        ];
       };
 
       ibus.engines = with pkgs.ibus-engines; [ bamboo ];
