@@ -22,7 +22,10 @@ in
         import = [ "/home/thongpv87/.cache/wal/colors-alacritty.toml" ];
 
         live_config_reload = true;
-        window.opacity = 1;
+        window = {
+          opacity = 1;
+          decorations_theme_variant = "Dark";
+        };
 
         env = {
           TERM = "xterm-256color";

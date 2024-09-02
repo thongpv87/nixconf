@@ -1,9 +1,23 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   cfg = config.nixconf.services.display-manager;
   inherit (lib)
-    mkOption mkMerge mkIf mkDefault mkForce types mdDoc mkEnableOption;
-in {
+    mkOption
+    mkMerge
+    mkIf
+    mkDefault
+    mkForce
+    types
+    mdDoc
+    mkEnableOption
+    ;
+in
+{
   options.nixconf.services.display-manager = {
     enable = mkEnableOption "Enable display manager";
     window-manager = mkOption { type = types.enum [ "hyprland" ]; };
@@ -17,8 +31,8 @@ in {
         hyprland = {
           enable = true;
 
-          window = "no-border-no-gaps";
-          decoration = "default";
+          window = "default";
+          decoration = "rounding";
           animation = "fast";
         };
       };
