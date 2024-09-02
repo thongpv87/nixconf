@@ -222,7 +222,7 @@ in
             new_status = "master";
             new_on_top = false;
             new_on_active = "after";
-            no_gaps_when_only = 0;
+            no_gaps_when_only = 1;
             special_scale_factor = 0.85;
             orientation = "right";
           };
