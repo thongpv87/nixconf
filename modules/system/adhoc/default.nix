@@ -16,40 +16,6 @@ let
     mdDoc
     mkEnableOption
     ;
-
-  keet =
-    let
-      pname = "Keet";
-      version = "latest";
-
-      src = pkgs.fetchurl {
-        url = "https://keet.io/downloads/${version}/Keet-x64.tar.gz";
-        sha256 = "sha256-Z0/Ft+vK2lKsqz1rKdy7e9OCopq4b8cRLIhmTFfoSCI=";
-        postFetch = ''
-          cp $out src.tar.gz
-          ${pkgs.gnutar}/bin/tar -xzf src.tar.gz -O > $out
-        '';
-      };
-
-      appimageContents = pkgs.appimageTools.extract { inherit pname version src; };
-    in
-    pkgs.appimageTools.wrapType2 {
-      inherit src pname version;
-
-      extraInstallCommands = ''
-        install -m 444 -D ${appimageContents}/${pname}.desktop -t $out/share/applications
-        substituteInPlace $out/share/applications/${pname}.desktop \
-          --replace 'Exec=AppRun' 'Exec=${pname}'
-      '';
-
-      meta = with lib; {
-        description = "Peer-to-Peer Chat";
-        homepage = "https://keet.io";
-        license = licenses.unfree;
-        maintainers = with maintainers; [ extends ];
-        platforms = [ "x86_64-linux" ];
-      };
-    };
 in
 {
   options.nixconf.adhoc = {
@@ -85,7 +51,7 @@ in
         pkgs.nodePackages.bash-language-server
         pkgs.sweethome3d.application
 
-        pkgs.vesktop
+        pkgs.discord
         pkgs.slack
         pkgs.ngrok
         pkgs.dbeaver-bin

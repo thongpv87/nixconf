@@ -84,6 +84,15 @@ in
         ];
       });
 
+      discord = prev.discord.overrideAttrs (e: rec {
+        desktopItem = e.desktopItem.override (d: {
+          exec = "${d.exec} --enable-wayland-ime";
+        });
+
+        # Update the install script to use the new .desktop entry
+        installPhase = builtins.replaceStrings [ "${e.desktopItem}" ] [ "${desktopItem}" ] e.installPhase;
+      });
+
       ryzenadj = prev.ryzenadj.overrideAttrs (_: {
         src = prev.fetchFromGitHub {
           owner = "FlyGoat";
