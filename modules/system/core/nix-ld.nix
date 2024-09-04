@@ -31,6 +31,7 @@ in
         lua-language-server
         zlib
         zlib.dev
+        icu.dev
         gnumake
       ];
     };

@@ -7,6 +7,11 @@
 with lib;
 let
   cfg = config.nixconf.apps.rofi;
+  myshell = pkgs.writeShellScriptBin "myshell" ''
+    #!/usr/bin/env sh
+    ${pkgs.pywal}/bin/wal --theme tokyonight_storm &> /dev/null
+    ${pkgs.nushell}/bin/nu $@
+  '';
 in
 {
   options.nixconf.apps.alacritty = {
@@ -14,7 +19,10 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.selected-nerdfonts ];
+    home.packages = [
+      pkgs.selected-nerdfonts
+      myshell
+    ];
 
     programs.alacritty = {
       enable = true;
@@ -53,10 +61,9 @@ in
             family = "RobotoMono Nerd Font Propo";
             style = "Bold Italic";
           };
-
         };
 
-        shell.program = "nu";
+        shell.program = "myshell";
 
         window.padding = {
           x = 15;
