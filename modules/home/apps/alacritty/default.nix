@@ -12,6 +12,11 @@ let
     ${pkgs.pywal}/bin/wal --theme tokyonight_storm &> /dev/null
     ${pkgs.nushell}/bin/nu $@
   '';
+  themes = {
+    tokyonight_night = import ./tokyonight_night_theme.nix;
+    tokyonight_storm = import ./tokyonight_storm_theme.nix;
+    tokyonight_moody = import ./tokyonight_moody_theme.nix;
+  };
 in
 {
   options.nixconf.apps.alacritty = {
@@ -27,7 +32,7 @@ in
     programs.alacritty = {
       enable = true;
       settings = {
-        import = [ "/home/thongpv87/.cache/wal/colors-alacritty.toml" ];
+        # import = [ "/home/thongpv87/.cache/wal/colors-alacritty.toml" ];
 
         live_config_reload = true;
         window = {
@@ -63,13 +68,13 @@ in
           };
         };
 
-        shell.program = "myshell";
+        shell.program = "nu"; # myshell;
 
         window.padding = {
           x = 15;
           y = 10;
         };
-      };
+      } // themes.tokyonight_night;
     };
   };
 }
