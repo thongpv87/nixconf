@@ -100,6 +100,7 @@ in
         # hypridle
         # hyprlock
         hyprpaper
+        pavucontrol
       ];
 
       fonts.fontconfig.enable = true;
