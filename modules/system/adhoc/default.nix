@@ -58,7 +58,7 @@ in
       ];
 
       services.postgresql = {
-        enable = true;
+        enable = false;
         extraPlugins = with pkgs.postgresql.pkgs; [ timescaledb ];
         authentication = pkgs.lib.mkOverride 10 ''
           #type database  DBuser  auth-method
