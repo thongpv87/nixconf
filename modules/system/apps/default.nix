@@ -42,7 +42,7 @@ in
           nixfmt-rfc-style
           config.boot.kernelPackages.bcc
 
-          taskwarrior
+          taskwarrior3
           timewarrior
           taskwarrior-tui
         ];

@@ -225,6 +225,7 @@ in
             new_on_active = "after";
             no_gaps_when_only = 1;
             special_scale_factor = 0.85;
+            inherit_fullscreen = true;
             orientation = "right";
           };
 

@@ -6,14 +6,17 @@
         bashls.enable = true;
         clangd.enable = false;
         pyright.enable = true;
-        tsserver.enable = true;
+        ts_ls.enable = true;
         tailwindcss.enable = true;
         nushell.enable = true;
         html.enable = true;
         elixirls.enable = true;
         nixd.enable = true;
-        helm-ls.enable = true;
-        hls.enable = true;
+        helm_ls.enable = true;
+        hls = {
+          enable = true;
+          installGhc = true;
+        };
         jsonls.enable = true;
       };
       keymaps.lspBuf = {

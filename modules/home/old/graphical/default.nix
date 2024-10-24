@@ -1,23 +1,41 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
 let
   cfg = config.nixconf.old.graphical;
   my-gsettings-desktop-schemas =
-    let defaultPackages = with pkgs; [ gsettings-desktop-schemas gtk3 ];
-    in pkgs.runCommand "nixos-gsettings-desktop-schemas" {
-      preferLocalBuild = true;
-    } ''
-      mkdir -p $out/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas
-      ${concatMapStrings (pkg: ''
-        cp -rf ${pkg}/share/gsettings-schemas/*/glib-2.0/schemas/*.xml $out/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas
-      '') (defaultPackages)}
-      # cp -f ${pkgs.gnome.gnome-shell}/share/gsettings-schemas/*/glib-2.0/schemas/*.gschema.override $out/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas
+    let
+      defaultPackages = with pkgs; [
+        gsettings-desktop-schemas
+        gtk3
+      ];
+    in
+    pkgs.runCommand "nixos-gsettings-desktop-schemas"
+      {
+        preferLocalBuild = true;
+      }
+      ''
+        mkdir -p $out/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas
+        ${concatMapStrings (pkg: ''
+          cp -rf ${pkg}/share/gsettings-schemas/*/glib-2.0/schemas/*.xml $out/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas
+        '') (defaultPackages)}
+        # cp -f ${pkgs.gnome-shell}/share/gsettings-schemas/*/glib-2.0/schemas/*.gschema.override $out/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas
 
-      chmod -R a+w $out/share/gsettings-schemas/nixos-gsettings-overrides
-      ${pkgs.glib.dev}/bin/glib-compile-schemas $out/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas/
-    '';
-in {
-  imports = [ ./applications ./xorg ./config.nix ./mime.nix ];
+        chmod -R a+w $out/share/gsettings-schemas/nixos-gsettings-overrides
+        ${pkgs.glib.dev}/bin/glib-compile-schemas $out/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas/
+      '';
+in
+{
+  imports = [
+    ./applications
+    ./xorg
+    ./config.nix
+    ./mime.nix
+  ];
 
   options.nixconf.old.graphical = {
     enable = mkOption {
@@ -26,7 +44,12 @@ in {
     };
 
     theme = mkOption {
-      type = with types; enum [ "breeze" "pop" ];
+      type =
+        with types;
+        enum [
+          "breeze"
+          "pop"
+        ];
       default = "pop";
     };
   };
@@ -37,8 +60,7 @@ in {
         QT_QPA_PLATFORMTHEME = mkForce "pop";
         SSH_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/keyring/ssh";
         SSH_ASKPASS = "${pkgs.seahorse}/libexec/seahorse/ssh-askpass";
-        NIX_GSETTINGS_OVERRIDES_DIR =
-          "${my-gsettings-desktop-schemas}/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas";
+        NIX_GSETTINGS_OVERRIDES_DIR = "${my-gsettings-desktop-schemas}/share/gsettings-schemas/nixos-gsettings-overrides/glib-2.0/schemas";
       };
 
       packages = with pkgs; [
@@ -57,7 +79,7 @@ in {
         # google-fonts
 
         # bm-font
-        noto-fonts-cjk # Chinese
+        noto-fonts-cjk-sans # Chinese
         dejavu_fonts
         liberation_ttf
         corefonts # microsoft
@@ -102,7 +124,9 @@ in {
       ];
 
       configFile = {
-        "wallpapers" = { source = ./wallpapers; };
+        "wallpapers" = {
+          source = ./wallpapers;
+        };
 
         "kdeglobals" = {
           text = ''
@@ -142,7 +166,9 @@ in {
     xdg = {
       enable = true;
       mime.enable = true;
-      mimeApps = { enable = true; };
+      mimeApps = {
+        enable = true;
+      };
     };
   };
 

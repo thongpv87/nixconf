@@ -53,7 +53,7 @@ in
 
     services = {
       fstrim.enable = true;
-      udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+      udev.packages = [ pkgs.gnome-settings-daemon ];
       upower.enable = true;
       fprintd.enable = true;
       blueman.enable = config.hardware.bluetooth.enable;

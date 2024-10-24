@@ -46,18 +46,25 @@ in
         theme = "chili";
       };
 
-
       hardware = {
         graphics = {
           enable = true;
           extraPackages = with pkgs; [
-            rocm-opencl-icd
-            rocm-opencl-runtime
+            rocmPackages.clr.icd
+            rocmPackages.rocm-runtime
             amdvlk
             libva
           ];
-
           enable32Bit = true;
+        };
+
+        amdgpu = {
+          opencl.enable = true;
+          initrd.enable = true;
+          amdvlk = {
+            enable = true;
+            support32Bit.enable = true;
+          };
         };
       };
     }

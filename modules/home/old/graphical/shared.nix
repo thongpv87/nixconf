@@ -1,7 +1,14 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
-let cfg = config.nixconf.old.graphical;
-in {
+let
+  cfg = config.nixconf.old.graphical;
+in
+{
   options.nixconf.old.graphical.theme = mkOption {
     type = with types; enum [ "breeze" ];
     default = "breeze";
@@ -22,7 +29,7 @@ in {
         noto-fonts-emoji
         selected-nerdfonts
         # google-fonts
-        noto-fonts-cjk # Chinese
+        noto-fonts-cjk-sans # Chinese
         dejavu_fonts
         liberation_ttf
         corefonts # microsoft
@@ -101,7 +108,9 @@ in {
       ];
 
       configFile = {
-        "wallpapers" = { source = ./wallpapers; };
+        "wallpapers" = {
+          source = ./wallpapers;
+        };
 
         "kdeglobals" = {
           text = ''
