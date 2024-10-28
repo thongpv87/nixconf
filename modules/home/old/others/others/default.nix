@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.nixconf.old.others.others;
@@ -20,7 +25,8 @@ let
         echo "set alacritty theme: $next"
         sed -e "s/colors: \*monokai_pro/colors: *$next/" $config_in > $config
     fi'';
-in {
+in
+{
   options.nixconf.old.others.others = {
     enable = mkOption { default = false; };
   };
@@ -30,7 +36,7 @@ in {
       alacritty
       irssi
       alacritty-switch-theme
-      colorpicker
+      gcolor3
       tree
       shotwell
       ranger

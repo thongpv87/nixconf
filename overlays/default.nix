@@ -1,9 +1,10 @@
 { inputs }:
 let
-  inherit (inputs) nixvim hyprland;
+  inherit (inputs) nixvim hyprland hyprpanel;
 in
 [
-  #hyprland.overlays.default
+  hyprland.overlays.default
+  hyprpanel.overlay
 
   # native compile package
   (
