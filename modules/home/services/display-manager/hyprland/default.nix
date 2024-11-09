@@ -193,6 +193,9 @@ in
             #"${pkgs.wpaperd}/bin/wpaperd"
           ];
 
+          general = {
+            snap.enabled = true;
+          };
           monitor = [
             "eDP-1,2560x1600@120,640x2160,1"
             "DP-1,3840x2160@60,0x0,1,bitdepth,10"
@@ -227,7 +230,6 @@ in
             new_status = "master";
             new_on_top = false;
             new_on_active = "after";
-            no_gaps_when_only = 1;
             special_scale_factor = 0.85;
             inherit_fullscreen = true;
             orientation = "right";

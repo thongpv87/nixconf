@@ -34,7 +34,10 @@ in
       settings = {
         # import = [ "/home/thongpv87/.cache/wal/colors-alacritty.toml" ];
 
-        live_config_reload = true;
+        general = {
+          live_config_reload = true;
+        };
+
         window = {
           opacity = 1;
           decorations_theme_variant = "Dark";
@@ -42,6 +45,10 @@ in
 
         env = {
           TERM = "xterm-256color";
+        };
+
+        terminal.shell = {
+          program = "nu";
         };
 
         font = {
@@ -67,8 +74,6 @@ in
             style = "Bold Italic";
           };
         };
-
-        shell.program = "nu"; # myshell;
 
         window.padding = {
           x = 15;

@@ -40,10 +40,13 @@ in
     {
       environment.systemPackages = [ pkgs.sddm-chili-theme ];
 
-      services.displayManager.sddm = {
-        enable = true;
-        wayland.enable = true;
-        theme = "chili";
+      services.displayManager = {
+        sddm = {
+          enable = false;
+          wayland.enable = true;
+          theme = "chili";
+        };
+        ly.enable = true;
       };
 
       hardware = {
