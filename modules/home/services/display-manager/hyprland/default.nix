@@ -379,6 +379,7 @@ in
         env = QT_AUTO_SCREEN_SCALE_FACTOR=1
         env = QT_WAYLAND_DISABLE_WINDOWDECORATION=1
         source = /home/thongpv87/.cache/wal/colors-hyprland.conf
+        source = ${./extra.conf}
         source = ${./decorations}/${cfg.decoration}.conf
         source = ${./animations}/${cfg.animation}.conf
         source = ${./windows}/${cfg.window}.conf
