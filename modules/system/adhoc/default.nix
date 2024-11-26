@@ -38,7 +38,12 @@ in
       };
       #networking.firewall.enable = false;
     }
-
+    {
+      environment.systemPackages = [
+        (pkgs.wineWowPackages.stable.override { waylandSupport = true; })
+        pkgs.lutris
+      ];
+    }
     # adhoc
     {
       environment.systemPackages = [
@@ -54,7 +59,8 @@ in
         pkgs.discord
         pkgs.slack
         pkgs.ngrok
-        pkgs.dbeaver-bin
+        #pkgs.dbeaver-bin
+        pkgs.antares
       ];
 
       services.postgresql = {

@@ -44,7 +44,30 @@ in
 
     };
 
-    fonts.fontconfig.enable = true;
+    fonts.fontconfig = {
+      enable = true;
+      defaultFonts = {
+        emoji = [
+          "Noto Color Emoji"
+          "JoyPixels"
+        ];
+        monospace = [
+          "Fira Mono"
+          "Hack"
+          "DejaVu Sans Mono"
+        ];
+        sansSerif = [
+          "Noto Sans"
+          "Arial"
+          "Liberation Sans"
+        ];
+        serif = [
+          "Noto Serif"
+          "Times New Roman"
+          "Liberation Serif"
+        ];
+      };
+    };
 
     gtk = {
       enable = true;
