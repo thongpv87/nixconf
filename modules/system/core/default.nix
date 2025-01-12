@@ -64,7 +64,6 @@ in
       pciutils
       nethogs
       pfetch
-      nixvim
       htop
       eza
       fzf

@@ -48,7 +48,7 @@ in
     {
       environment.systemPackages = [
         pkgs.python3
-        pkgs.elixir_1_15
+        pkgs.elixir
         pkgs.gtk4
         pkgs.appimage-run
 

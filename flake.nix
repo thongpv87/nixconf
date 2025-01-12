@@ -31,6 +31,10 @@
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprpaper = {
+      url = "github:hyprwm/hyprpaper";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprpanel = {
       url = "github:Jas-SinghFSU/HyprPanel";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -26,7 +26,7 @@ in
 
     home = {
       sessionVariables = {
-        EDITOR = "${pkgs.nixvim}/bin/nvim";
+        EDITOR = "${pkgs.neovim}/bin/nvim";
         DIRENV_LOG_FORMAT = "";
       };
       stateVersion = "23.11";
