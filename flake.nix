@@ -22,14 +22,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      #inputs = { nixpkgs.follows = "nixpkgs"; };
-    };
-
     hyprland = {
       url = "github:hyprwm/Hyprland";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprpaper = {
       url = "github:hyprwm/hyprpaper";
@@ -51,7 +46,6 @@
       home-manager,
       disko,
       nixos-generators,
-      nixvim,
       ...
     }@inputs:
     let

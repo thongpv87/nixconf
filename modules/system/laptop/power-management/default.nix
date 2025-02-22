@@ -43,8 +43,11 @@ let
 
   ac-connected = pkgs.writeScriptBin "ac-connected" ''
     #!${pkgs.zsh}/bin/zsh
-    echo "passive" > /sys/devices/system/cpu/amd_pstate/status
-    ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g schedutil
+    # echo "passive" > /sys/devices/system/cpu/amd_pstate/status
+    # ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g schedutil
+    echo "active" > /sys/devices/system/cpu/amd_pstate/status
+    ${config.boot.kernelPackages.cpupower}/bin/cpupower frequency-set -g performance 
+    echo "performance" > /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference
   '';
 
   ac-disconnected = pkgs.writeScriptBin "ac-disconnected" ''
@@ -102,8 +105,11 @@ in
     })
 
     (mkIf (!cfg.useTlp) {
-      environment.systemPackages =
-        [ config.boot.kernelPackages.cpupower ac-connected ac-disconnected ];
+      environment.systemPackages = [
+        config.boot.kernelPackages.cpupower
+        ac-connected
+        ac-disconnected
+      ];
 
       services.udev.extraRules = mkIf (!config.services.tlp.enable) ''
         SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${ac-connected}/bin/ac-connected"

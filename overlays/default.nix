@@ -1,7 +1,6 @@
 { inputs }:
 let
   inherit (inputs)
-    nixvim
     hyprland
     hyprpanel
     hyprpaper
@@ -111,23 +110,6 @@ in
 
       chromium = prev.chromium.override { commandLineArgs = "--gtk-version=4"; };
 
-      # old-selected-nerdfonts = prev.nerdfonts.override {
-      #   fonts = [
-      #     "FiraCode"
-      #     "FiraMono"
-      #     "SourceCodePro"
-      #     "DejaVuSansMono"
-      #     "DroidSansMono"
-      #     "Inconsolata"
-      #     "Iosevka"
-      #     "RobotoMono"
-      #     "JetBrainsMono"
-      #     "VictorMono"
-      #     "Terminus"
-      #   ];
-      #   enableWindowsFonts = false;
-      # };
-
       selected-nerdfonts = prev.buildEnv {
         name = "myutils";
         paths = with prev.nerd-fonts; [
@@ -143,10 +125,10 @@ in
           victor-mono
         ];
       };
-      nixvim = nixvim.legacyPackages.x86_64-linux.makeNixvimWithModule {
-        pkgs = prev;
-        module = import ./nixvim;
-      };
+      # nixvim = nixvim.legacyPackages.x86_64-linux.makeNixvimWithModule {
+      #   pkgs = prev;
+      #   module = import ./nixvim;
+      # };
     }
   )
 ]

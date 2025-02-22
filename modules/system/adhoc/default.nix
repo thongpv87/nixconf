@@ -29,6 +29,7 @@ in
         pkgs.picocom
         pkgs.socat
         pkgs.screen
+        pkgs.jetbrains.pycharm-community
       ];
     }
     {
@@ -40,8 +41,8 @@ in
     }
     {
       environment.systemPackages = [
-        (pkgs.wineWowPackages.stable.override { waylandSupport = true; })
-        pkgs.lutris
+        # (pkgs.wineWowPackages.stable.override { waylandSupport = true; })
+        # pkgs.lutris
       ];
     }
     # adhoc
