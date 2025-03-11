@@ -46,7 +46,13 @@ in
           wayland.enable = true;
           theme = "chili";
         };
-        ly.enable = true;
+        #ly.enable = true;
+      };
+      services.xserver.displayManager = {
+        gdm = {
+          wayland = true;
+          enable = true;
+        };
       };
 
       hardware = {

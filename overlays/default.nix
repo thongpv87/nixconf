@@ -7,7 +7,7 @@ let
     ;
 in
 [
-  hyprland.overlays.default
+  #hyprland.overlays.default
   hyprpaper.overlays.default
   hyprpanel.overlay
 

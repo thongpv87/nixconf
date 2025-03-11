@@ -42,7 +42,7 @@ in
       home.packages = with pkgs; [
         vlc
         alacritty
-        okular
+        kdePackages.okular
         rhythmbox
       ];
 

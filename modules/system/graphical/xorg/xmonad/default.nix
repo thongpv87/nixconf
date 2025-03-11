@@ -1,9 +1,23 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   cfg = config.nixconf.graphical.xorg.xmonad;
   inherit (lib)
-    mkOption mkMerge mkIf mkDefault mkForce types mdDoc mkEnableOption;
-in {
+    mkOption
+    mkMerge
+    mkIf
+    mkDefault
+    mkForce
+    types
+    mdDoc
+    mkEnableOption
+    ;
+in
+{
   options.nixconf.graphical.xorg.xmonad = {
     enable = mkEnableOption "Enable xorg desktop server";
   };
@@ -19,7 +33,7 @@ in {
       imagemagick
       elisa
       gwenview
-      okular
+      kdePackages.okular
       konversation
 
       # xmonad pkgs

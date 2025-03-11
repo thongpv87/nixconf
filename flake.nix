@@ -23,7 +23,7 @@
     };
 
     hyprland = {
-      url = "github:hyprwm/Hyprland";
+      url = "github:hyprwm/Hyprland?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprpaper = {
@@ -45,6 +45,7 @@
       agenix,
       home-manager,
       disko,
+      hyprland,
       nixos-generators,
       ...
     }@inputs:

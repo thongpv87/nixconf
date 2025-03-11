@@ -72,11 +72,11 @@ in
     gtk = {
       enable = true;
       theme = {
-        package = pkgs.breeze-gtk;
+        package = pkgs.kdePackages.breeze-gtk;
         name = "breeze";
       };
       iconTheme = {
-        package = pkgs.breeze-icons;
+        package = pkgs.kdePackages.breeze-icons;
         name = "breeze";
       };
       font = {
@@ -89,7 +89,7 @@ in
       enable = true;
       platformTheme.name = "breeze";
       style = {
-        package = pkgs.breeze-qt5;
+        package = pkgs.kdePackages.breeze;
         name = "breeze";
       };
     };

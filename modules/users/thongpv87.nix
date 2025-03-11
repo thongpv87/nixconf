@@ -28,7 +28,7 @@ in
         core.enable = true;
         apps = {
           enable = true;
-          emacs.enable = true;
+          emacs.enable = false;
           neovim.enable = true;
           rofi.enable = true;
           alacritty.enable = true;

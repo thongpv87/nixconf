@@ -1,9 +1,15 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
 let
   cfg = config.nixconf.old.graphical;
   systemCfg = config.machineData.systemConfig;
-in {
+in
+{
   options.nixconf.old.graphical.applications = {
     enable = mkOption {
       type = types.bool;
@@ -14,7 +20,7 @@ in {
 
   config = mkIf (cfg.applications.enable) {
     home.packages = with pkgs; [
-      okular
+      kdePackages.okular
       xorg.xinput
 
       # microsoft-edge

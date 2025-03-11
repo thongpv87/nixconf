@@ -29,7 +29,7 @@ in
     {
       home.packages = with pkgs; [
         pop-gtk-theme
-        numix-icon-theme
+        #numix-icon-theme
         pop-icon-theme
         papirus-icon-theme
         vlc
@@ -38,7 +38,7 @@ in
         glib.bin
         gnome.gnome-tweaks
         nautilus
-        okular
+        kdePackages.okular
         rhythmbox
         pavucontrol
 

@@ -69,7 +69,7 @@ in
         gsettings-desktop-schemas
         gtk3
         # qt
-        breeze-qt5
+        kdePackages.breeze-gtk
 
         xdg-utils
 
@@ -92,7 +92,7 @@ in
         seahorse
 
         pop-gtk-theme
-        numix-icon-theme
+        #numix-icon-theme
         pop-icon-theme
       ];
     };
