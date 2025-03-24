@@ -40,18 +40,29 @@ in
     {
       environment.systemPackages = [ pkgs.sddm-chili-theme ];
 
-      services.displayManager = {
-        sddm = {
-          enable = false;
-          wayland.enable = true;
-          theme = "chili";
+      services = {
+        desktopManager = {
+          plasma6 = {
+            enableQt5Integration = true;
+            enable = false;
+          };
         };
-        #ly.enable = true;
-      };
-      services.xserver.displayManager = {
-        gdm = {
-          wayland = true;
-          enable = true;
+        displayManager = {
+          sddm = {
+            enable = false;
+            wayland.enable = true;
+            theme = "chili";
+          };
+          #ly.enable = true;
+        };
+        xserver = {
+          displayManager = {
+            gdm = {
+              wayland = true;
+              enable = true;
+            };
+          };
+
         };
       };
 

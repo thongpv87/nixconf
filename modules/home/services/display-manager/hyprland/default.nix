@@ -178,7 +178,7 @@ in
 
       wayland.windowManager.hyprland = {
         enable = true;
-        systemd.enable = true;
+        systemd.enable = false; # it conflicts with uwsm.
         # systemd.enableXdgAutoStart = true;
         xwayland.enable = true;
         # systemd.extraCommands = [ "ibus-deamon -d" ];

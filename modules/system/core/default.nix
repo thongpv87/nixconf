@@ -173,6 +173,6 @@ in
       "vm.swappiness" = 30;
     };
 
-    system.stateVersion = lib.mkDefault "23.11";
+    system.stateVersion = lib.mkDefault "24.11";
   };
 }

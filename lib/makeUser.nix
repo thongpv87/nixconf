@@ -23,7 +23,7 @@
     users."${username}" = {
       imports = [ ../home ];
 
-      home.stateVersion = "23.11";
+      home.stateVersion = "24.11";
     } // (builtins.foldl' (a: b: lib.attrsets.recursiveUpdate a b) { } userProfiles);
   };
 

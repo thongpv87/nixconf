@@ -25,9 +25,11 @@ in
   config = mkIf cfg.enable {
     programs = {
       dconf.enable = true;
+      uwsm.enable = true;
       hyprland = {
         enable = true;
         xwayland.enable = true;
+        withUWSM = true;
       };
     };
     security.polkit.enable = true;

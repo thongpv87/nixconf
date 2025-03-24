@@ -30,6 +30,7 @@ in
         pkgs.socat
         pkgs.screen
         pkgs.jetbrains.pycharm-community
+        pkgs.code-cursor
       ];
     }
     {

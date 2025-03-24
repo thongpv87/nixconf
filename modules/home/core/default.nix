@@ -29,7 +29,7 @@ in
         EDITOR = "${pkgs.neovim}/bin/nvim";
         DIRENV_LOG_FORMAT = "";
       };
-      stateVersion = "23.11";
+      stateVersion = "24.11";
       pointerCursor = {
         gtk.enable = true;
         # x11.enable = true;
