@@ -22,18 +22,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland?submodules=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hyprpaper = {
-      url = "github:hyprwm/hyprpaper";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hyprpanel = {
-      url = "github:Jas-SinghFSU/HyprPanel";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # hyprland = {
+    #   url = "github:hyprwm/Hyprland?submodules=1";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    # hyprpaper = {
+    #   url = "github:hyprwm/hyprpaper";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    # hyprpanel = {
+    #   url = "github:Jas-SinghFSU/HyprPanel";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
@@ -45,7 +45,6 @@
       agenix,
       home-manager,
       disko,
-      hyprland,
       nixos-generators,
       ...
     }@inputs:

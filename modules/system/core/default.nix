@@ -68,7 +68,6 @@ in
       eza
       fzf
       firefox
-      ix
       traceroute
       util-linux
       lm_sensors

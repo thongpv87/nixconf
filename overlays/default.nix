@@ -1,15 +1,15 @@
 { inputs }:
 let
   inherit (inputs)
-    hyprland
-    hyprpanel
-    hyprpaper
+    # hyprland
+    # hyprpanel
+    # hyprpaper
     ;
 in
 [
   #hyprland.overlays.default
-  hyprpaper.overlays.default
-  hyprpanel.overlay
+  # hyprpaper.overlays.default
+  # hyprpanel.overlay
 
   # native compile package
   (
@@ -97,15 +97,6 @@ in
 
         # Update the install script to use the new .desktop entry
         installPhase = builtins.replaceStrings [ "${e.desktopItem}" ] [ "${desktopItem}" ] e.installPhase;
-      });
-
-      ryzenadj = prev.ryzenadj.overrideAttrs (_: {
-        src = prev.fetchFromGitHub {
-          owner = "FlyGoat";
-          repo = "RyzenAdj";
-          rev = "0460a4d3d3676a7647b3e22b35255947a8530d09";
-          sha256 = "sha256-Lqq4LNRmqQyeIJfr/+tYdKMEk+P54VnwZAQZcE0ev8Y=";
-        };
       });
 
       chromium = prev.chromium.override { commandLineArgs = "--gtk-version=4"; };

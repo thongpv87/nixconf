@@ -31,8 +31,6 @@ in
       ];
 
       programs = {
-        fish.enable = true;
-
         starship.enableNushellIntegration = true;
         direnv.enableNushellIntegration = true;
         thefuck.enableNushellIntegration = true;
