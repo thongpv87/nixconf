@@ -244,18 +244,16 @@ in
           workspace = [ "special, on-created-empty:alacritty" ];
 
           windowrule = [
-            "tile,^(Microsoft-edge)$"
-            "tile,^(Brave-browser)$"
-            "tile,^(Chromium)$"
-            "float,^(pavucontrol)$"
-            "float,^(blueman-manager)$"
-            "float,^(nm-connection-editor)$"
-          ];
-          windowrulev2 = [
+            "tile,class:^(Microsoft-edge)$"
+            "tile,class:^(Brave-browser)$"
+            "tile,class:^(Chromium)$"
+            "float,class:^(pavucontrol)$"
+            "float,class:^(blueman-manager)$"
+            "float,class:^(nm-connection-editor)$"
             "stayfocused,class:(Rofi)"
             "opacity 1 1,class:^(firefox|google-chrome|microsoft-edge)"
-          ];
 
+          ];
           layerrule = [
             "blur, gtk-layer-shell"
             "blur, logout_dialog"
