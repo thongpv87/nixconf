@@ -89,7 +89,7 @@ in
 
           initExtraFirst = "";
           initExtraBeforeCompInit = "";
-          initExtra = ''
+          initContent = ''
             # OSC-7 Escape Sequence
             # https://codeberg.org/dnkl/foot/wiki#spawning-new-terminal-instances-in-the-current-working-directory
             function osc7 {

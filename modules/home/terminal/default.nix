@@ -43,7 +43,7 @@ in
           vim = "nvim";
         };
 
-        initContent = ''
+        initExtra = ''
           # enable vim navigation
           set -o vi
         '';
