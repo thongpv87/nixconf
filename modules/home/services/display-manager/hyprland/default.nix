@@ -197,9 +197,10 @@ in
             snap.enabled = true;
           };
           monitor = [
-            "eDP-1,2560x1600@120,640x2160,1"
-            "DP-1,3840x2160@60,0x0,1,bitdepth,10"
-            "DP-2,3840x2160@60,0x0,1,bitdepth,10"
+            #"eDP-1,2560x1600@120,640x1440,1"
+            # "DP-1,3840x2160@60,0x0,1,bitdepth,10" #U2720Q
+            "eDP-1,2560x1600@120,1000x1440,1,vrr,1"
+            "DP-1, 3440x1440@120,0x0,1,bitdepth,10,vrr,1" # P34WD-40
           ];
 
           input = {

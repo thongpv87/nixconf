@@ -67,11 +67,6 @@ in
         enableBashIntegration = true;
       };
 
-      thefuck = {
-        enable = true;
-        enableBashIntegration = true;
-      };
-
       atuin = {
         enable = true;
         enableBashIntegration = true;

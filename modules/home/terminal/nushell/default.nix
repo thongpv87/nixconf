@@ -33,7 +33,6 @@ in
       programs = {
         starship.enableNushellIntegration = true;
         direnv.enableNushellIntegration = true;
-        thefuck.enableNushellIntegration = true;
         atuin.enableNushellIntegration = true;
 
         yazi = {

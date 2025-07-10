@@ -1,6 +1,14 @@
-{ pkgs, config, lib, modulesPath, ... }:
-let cfg = config.nixconf.hardware.elitebook-845g10;
-in {
+{
+  pkgs,
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
+let
+  cfg = config.nixconf.hardware.elitebook-845g10;
+in
+{
   options.nixconf.hardware.elitebook-845g10 = {
     enable = lib.mkOption { default = false; };
   };
@@ -9,10 +17,21 @@ in {
 
   config = lib.mkIf cfg.enable {
     boot = {
-      initrd.availableKernelModules =
-        [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" "amdgpu" ];
-      kernelModules =
-        [ "kvm-amd" "synaptics_usb" "hp-wmi" "hp-wmi-sensors" "k10temp" ];
+      initrd.availableKernelModules = [
+        "nvme"
+        "xhci_pci"
+        "thunderbolt"
+        "usb_storage"
+        "sd_mod"
+        "amdgpu"
+      ];
+      kernelModules = [
+        "kvm-amd"
+        "synaptics_usb"
+        "hp-wmi"
+        "hp-wmi-sensors"
+        "k10temp"
+      ];
     };
     services.xserver = {
       videoDrivers = [ "amdgpu" ];
@@ -24,12 +43,13 @@ in {
     boot.kernelPackages = pkgs.linuxPackages_latest;
     # boot.kernelPackages = pkgs.zen4KernelPackages;
 
-    boot.kernelParams =
-      [ "rtc_cmos.use_acpi_alarm=1" ];
+    boot.kernelParams = [ "rtc_cmos.use_acpi_alarm=1" ];
 
     nix.settings.system-features = [ "gccarch-znver4" ];
 
-    nixpkgs.hostPlatform = { system = "x86_64-linux"; };
+    nixpkgs.hostPlatform = {
+      system = "x86_64-linux";
+    };
 
     services.keyd = {
       enable = true;
@@ -39,6 +59,7 @@ in {
           settings = {
             main = {
               f2 = "noop";
+              f6 = "capslock";
             };
           };
         };
@@ -53,7 +74,6 @@ in {
         support32Bit.enable = true;
       };
     };
-    hardware.cpu.amd.updateMicrocode =
-      lib.mkDefault config.hardware.enableRedistributableFirmware;
+    hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
 }

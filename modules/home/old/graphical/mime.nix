@@ -44,6 +44,7 @@ in
         alacritty
         kdePackages.okular
         rhythmbox
+        #postman
       ];
 
       xdg = {

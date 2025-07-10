@@ -27,10 +27,11 @@ in
       environment.systemPackages = [
         pkgs.minicom
         pkgs.picocom
+        pkgs.obsidian
         pkgs.socat
         pkgs.screen
         pkgs.jetbrains.pycharm-community
-        pkgs.code-cursor
+        # pkgs.code-cursor
       ];
     }
     {
@@ -42,8 +43,8 @@ in
     }
     {
       environment.systemPackages = [
-        # (pkgs.wineWowPackages.stable.override { waylandSupport = true; })
-        # pkgs.lutris
+        (pkgs.wineWowPackages.stable.override { waylandSupport = true; })
+        pkgs.lutris
       ];
     }
     # adhoc

@@ -33,7 +33,10 @@ in
 
   config = lib.mkIf cfg.enable (mkMerge [
     (mkIf cfg.enablePodman {
-      environment.systemPackages = with pkgs; [ podman-compose fake-docker-compose postman ];
+      environment.systemPackages = with pkgs; [
+        podman-compose
+        fake-docker-compose
+      ];
       virtualisation = {
         podman = {
           enable = true;
@@ -48,7 +51,9 @@ in
     })
 
     (mkIf cfg.enableVirtualBox {
-      virtualisation.virtualbox = { host.enable = true; };
+      virtualisation.virtualbox = {
+        host.enable = true;
+      };
       users.extraGroups.vboxusers.members = [ "thongpv87" ];
     })
   ]);
