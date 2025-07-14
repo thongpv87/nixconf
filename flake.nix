@@ -21,6 +21,10 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    astal = {
+      url = "github:aylur/astal";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # hyprland = {
     #   url = "github:hyprwm/Hyprland?submodules=1";

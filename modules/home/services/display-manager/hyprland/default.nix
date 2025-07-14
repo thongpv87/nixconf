@@ -85,7 +85,7 @@ in
       nixconf = {
         apps.rofi.enable = true;
         apps.wal.enable = true;
-        services.display-manager.hyprland.waybar.enable = true;
+        services.display-manager.hyprland.waybar.enable = false;
         services.display-manager.hyprland.hyprpanel.enable = false;
       };
 
