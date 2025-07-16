@@ -34,8 +34,6 @@ in
           window = "default";
           decoration = "rounding";
           animation = "fast";
-
-          quickshell.enable = true;
         };
       };
     })

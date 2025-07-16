@@ -85,8 +85,9 @@ in
       nixconf = {
         apps.rofi.enable = true;
         apps.wal.enable = true;
-        services.display-manager.hyprland.waybar.enable = false;
-        services.display-manager.hyprland.hyprpanel.enable = false;
+        services.display-manager.hyprland = {
+          waybar.enable = true;
+        };
       };
 
       home.sessionVariables = {
@@ -202,6 +203,7 @@ in
             # "DP-1,3840x2160@60,0x0,1,bitdepth,10" #U2720Q
             "eDP-1,2560x1600@120,440x1440,1,vrr,1"
             "DP-1, 3440x1440@120,0x0,1,bitdepth,10,vrr,1" # P34WD-40
+            "DP-2, 3440x1440@120,0x0,1,bitdepth,10,vrr,1" # P34WD-40
           ];
 
           input = {
