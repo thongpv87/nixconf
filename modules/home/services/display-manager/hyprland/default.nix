@@ -103,6 +103,7 @@ in
         qt6.qtwayland
         nautilus
         btop
+        wlr-randr
         # hypridle
         # hyprlock
         hyprpaper

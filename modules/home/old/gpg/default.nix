@@ -1,7 +1,14 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
-let cfg = config.nixconf.old.gpg;
-in {
+let
+  cfg = config.nixconf.old.gpg;
+in
+{
   options.nixconf.old.gpg = {
     enable = mkOption {
       description = "enable gpg";
@@ -11,7 +18,7 @@ in {
   };
 
   config = mkIf (cfg.enable) {
-    home.packages = with pkgs; [ pinentry-curses];
+    home.packages = with pkgs; [ pinentry-curses ];
 
     programs.gpg = {
       enable = true;
@@ -20,7 +27,7 @@ in {
 
     services.gpg-agent = {
       enable = true;
-      pinentryPackage = pkgs.pinentry-curses;
+      pinentry.package = pkgs.pinentry-curses;
       enableExtraSocket = true;
       enableScDaemon = false;
     };

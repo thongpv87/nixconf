@@ -55,12 +55,10 @@ in
           };
           #ly.enable = true;
         };
-        xserver = {
-          displayManager = {
-            gdm = {
-              wayland = true;
-              enable = true;
-            };
+        displayManager = {
+          gdm = {
+            wayland = true;
+            enable = true;
           };
 
         };

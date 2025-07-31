@@ -26,6 +26,7 @@ in
     {
       environment.systemPackages = [
         pkgs.minicom
+        pkgs.freecad
         pkgs.picocom
         pkgs.obsidian
         pkgs.socat
