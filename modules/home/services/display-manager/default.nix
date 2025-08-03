@@ -31,7 +31,7 @@ in
         hyprland = {
           enable = true;
 
-          window = "default";
+          window = "no-border";
           decoration = "rounding";
           animation = "fast";
         };

@@ -16,6 +16,7 @@ let
     tokyonight_night = import ./tokyonight_night_theme.nix;
     tokyonight_storm = import ./tokyonight_storm_theme.nix;
     tokyonight_moody = import ./tokyonight_moody_theme.nix;
+    rosepine_dawn = import ./rosepine_dawn.nix;
   };
 in
 {
@@ -79,7 +80,8 @@ in
           x = 15;
           y = 10;
         };
-      } // themes.tokyonight_night;
+      }
+      // themes.rosepine_dawn;
     };
   };
 }
