@@ -38,6 +38,7 @@ in
           #utilities packages
           firefox
           chromium
+          google-chrome
           ghc
           nixfmt-rfc-style
           config.boot.kernelPackages.bcc

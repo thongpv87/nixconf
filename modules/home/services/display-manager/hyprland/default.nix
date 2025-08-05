@@ -124,7 +124,8 @@ in
         "hypr/hyprlock.conf".source = ./hyprlock.conf;
         "hypr/hyprpaper.conf".text =
           let
-            pic = "peaceful-autumn.jpg";
+            # pic = "peaceful-autumn.jpg";
+            pic = "countryside_landscape.jpg";
           in
           ''
             preload = ${./wallpapers}/${pic}
@@ -279,7 +280,7 @@ in
 
             "$mod, T, togglefloating,"
             # "$mod, P, exec, wofi --show drun"
-            "$mod, P, exec, rofi -config ~/.cache/wal/colors-rofi-light.rasi -show drun -replace -i"
+            "$mod, P, exec, rofi -show drun -replace -i"
             "$mod, I, pseudo," # dwindle
             "$mod, U, togglesplit," # dwindle
             "$mod, backslash, exec, screenshot-region"

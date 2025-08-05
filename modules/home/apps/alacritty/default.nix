@@ -53,7 +53,7 @@ in
         };
 
         font = {
-          size = 15;
+          size = 13;
 
           bold = {
             family = "RobotoMono Nerd Font Propo";
