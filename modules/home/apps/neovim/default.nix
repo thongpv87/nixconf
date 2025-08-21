@@ -103,5 +103,7 @@ in
       #nodejs
       stack
     ];
+
+    xdg.dataFile."fonts/kodama-regular.ttf".source = ./fonts/Kodama-0.0.0-Regular.ttf;
   };
 }
