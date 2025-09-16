@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.nixconf.apps.rofi;
-in {
+let
+  cfg = config.nixconf.apps.rofi;
+in
+{
   options.nixconf.apps.rofi = {
     enable = mkOption { default = false; };
 
@@ -18,9 +25,8 @@ in {
     {
       home.packages = [ pkgs.noto-fonts-extra ];
 
-      programs.rofi= {
+      programs.rofi = {
         enable = true;
-        package = pkgs.rofi-wayland;
       };
 
       xdg = {

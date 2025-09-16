@@ -241,10 +241,6 @@ in
             orientation = "right";
           };
 
-          gestures = {
-            workspace_swipe = true;
-          };
-
           "$mod" = "SUPER";
 
           workspace = [ "special, on-created-empty:alacritty" ];

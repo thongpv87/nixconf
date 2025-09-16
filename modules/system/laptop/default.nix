@@ -69,13 +69,13 @@ in
         # idleaction with startx: https://bbs.archlinux.org/viewtopic.php?id=207536
         # <LeftMouse>https://wiki.archlinux.org/title/Power_management
         # Options: ttps://www.freedesktop.org/software/systemd/man/logind.conf.html
-        extraConfig = ''
-          HandleLidSwitch=suspend
-          HandlePowerKey=suspend
-          HandleLidSwitchDocked=ignore
-          IdleAction=suspend
-          IdleActionSec=30min
-        '';
+        settings.Login = {
+          HandleLidSwitch = "suspend";
+          HandlePowerKey = "suspend";
+          HandleLidSwitchDocked = "ignore";
+          IdleAction = "suspend";
+          IdleActionSec = "30min";
+        };
       };
 
       acpid = {
