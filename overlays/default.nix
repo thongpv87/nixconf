@@ -64,7 +64,7 @@ in
       zen4pkg = pkg: pkg.override { stdenv = final.optimizedZnver4Stdenv; };
     in
     {
-      lib = prev.lib // builtins;
+      # lib = prev.lib // builtins;
 
       zen4KernelPackages = prev.linuxPackagesFor (
         prev.linux_testing.override {

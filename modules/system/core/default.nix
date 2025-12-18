@@ -59,7 +59,7 @@ in
       gptfdisk
       iputils
       usbutils
-      utillinux
+      util-linux
       file
       pciutils
       nethogs
@@ -172,6 +172,6 @@ in
       "vm.swappiness" = 30;
     };
 
-    system.stateVersion = lib.mkDefault "24.11";
+    system.stateVersion = lib.mkDefault "25.11";
   };
 }

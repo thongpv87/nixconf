@@ -23,7 +23,7 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
-      home.packages = [ pkgs.noto-fonts-extra ];
+      home.packages = [ pkgs.noto-fonts ];
 
       programs.rofi = {
         enable = true;

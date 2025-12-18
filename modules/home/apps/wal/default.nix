@@ -5,7 +5,7 @@ in {
   options.nixconf.apps.wal = { enable = mkOption { default = false; }; };
 
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.noto-fonts-extra ];
+    home.packages = [ pkgs.noto-fonts ];
 
     programs.pywal.enable = true;
 

@@ -62,7 +62,7 @@ in
         };
 
         sources.quad9-resolvers = {
-          urls = ["https://www.quad9.net/quad9-resolvers.md"];
+          urls = [ "https://www.quad9.net/quad9-resolvers.md" ];
           minisign_key = "RWQBphd2+f6eiAqBsvDZEBXBGHQBJfeG6G+wJPPKxCZMoEQYpmoysKUN";
           cache_file = "quad9-resolvers.md";
           prefix = "quad9-";

@@ -48,6 +48,7 @@ in
       ];
 
       xdg = {
+        configFile."mimeapps.list".force = true;
         mime.enable = true;
 
         mimeApps = {

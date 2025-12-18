@@ -26,7 +26,7 @@ in
         xdg-utils
 
         # Fonts
-        noto-fonts-emoji
+        noto-fonts-color-emoji
         selected-nerdfonts
         # google-fonts
         noto-fonts-cjk-sans # Chinese

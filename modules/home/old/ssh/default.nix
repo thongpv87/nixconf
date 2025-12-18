@@ -20,16 +20,19 @@ in
   config = mkIf cfg.enable {
     programs.ssh = {
       enable = true;
+      enableDefaultConfig = false;
       matchBlocks = {
+        "*" = {
+          addKeysToAgent = "yes";
+          controlMaster = "auto";
+          controlPersist = "10d";
+        };
         localhost = {
           hostname = "127.0.0.1";
           user = "root";
           identityFile = "~/.ssh/local";
         };
       };
-      addKeysToAgent = "yes";
-      controlMaster = "auto";
-      controlPersist = "10d";
     };
   };
 }

@@ -75,7 +75,7 @@ in
 
         # Fonts
         selected-nerdfonts
-        noto-fonts-emoji
+        noto-fonts-color-emoji
         # google-fonts
 
         # bm-font

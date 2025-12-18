@@ -70,7 +70,6 @@ in
           extraPackages = with pkgs; [
             rocmPackages.clr.icd
             rocmPackages.rocm-runtime
-            amdvlk
             libva
           ];
           enable32Bit = true;
@@ -79,10 +78,6 @@ in
         amdgpu = {
           opencl.enable = true;
           initrd.enable = true;
-          amdvlk = {
-            enable = true;
-            support32Bit.enable = true;
-          };
         };
       };
     }

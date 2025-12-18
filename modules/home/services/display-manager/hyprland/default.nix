@@ -77,7 +77,6 @@ in
   imports = [
     ./waybar
     ./hyprpanel
-    ./quickshell
   ];
 
   config = mkIf cfg.enable (mkMerge [
