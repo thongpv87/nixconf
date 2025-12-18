@@ -31,7 +31,8 @@ in
         pkgs.obsidian
         pkgs.socat
         pkgs.screen
-        # pkgs.code-cursor
+        pkgs.code-cursor
+        pkgs.claude-code
       ];
     }
     {
