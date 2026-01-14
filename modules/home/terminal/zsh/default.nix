@@ -134,9 +134,9 @@ in
           export LESSHISTSIZE=0
 
           # theme.sh
-          if command -v theme.sh > /dev/null; then
-            [ -e ~/.theme_history ] && theme.sh "$(theme.sh -l|tail -n1)"
-          fi
+          # if command -v theme.sh > /dev/null; then
+          #   [ -e ~/.theme_history ] && theme.sh "$(theme.sh -l|tail -n1)"
+          # fi
           # any-nix-shell
           any-nix-shell zsh --info-right | source /dev/stdin
           export DIRENV_LOG_FORMAT=
@@ -148,17 +148,6 @@ in
            nix-shell -p "haskellPackages.ghcWithPackages (pkgs: with pkgs; [$pkgs])"
           }
         ''; # profiles to add to .zprofile
-
-        "oh-my-zsh" = {
-          enable = true;
-          plugins = [
-            "git"
-            "sudo"
-            "gitignore"
-            "cp"
-            "safe-paste"
-          ];
-        };
       };
     };
   });

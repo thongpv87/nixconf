@@ -56,7 +56,7 @@ in
           {
             plugin = rose-pine;
             extraConfig = ''
-              set -g @rose_pine_variant 'main'
+              set -g @rose_pine_variant 'dawn'
               ${readFile ./rose-pine-theme.conf}
             '';
           }

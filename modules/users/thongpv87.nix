@@ -5,7 +5,7 @@ in
   users.users."${username}" = {
     isNormalUser = true;
     password = "demo";
-    # shell = "${pkgs.zsh}/bin/zsh";
+    #shell = "${pkgs.zsh}/bin/zsh";
     extraGroups = [
       "wheel"
       "networkmanager"
@@ -46,7 +46,7 @@ in
           zsh.enable = true;
           nushell.enable = true;
           tmux.enable = true;
-          tmux.shell = "nu";
+          tmux.shell = "zsh";
         };
       };
       nixconf.old = {

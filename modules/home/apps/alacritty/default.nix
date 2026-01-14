@@ -49,7 +49,7 @@ in
         };
 
         terminal.shell = {
-          program = "nu";
+          program = "zsh";
         };
 
         font = {
