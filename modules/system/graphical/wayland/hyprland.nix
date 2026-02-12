@@ -29,7 +29,7 @@ in
       hyprland = {
         enable = true;
         xwayland.enable = true;
-        withUWSM = true;
+        withUWSM = false;
       };
     };
     security.polkit.enable = true;
