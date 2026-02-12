@@ -105,13 +105,37 @@ in
         wlr-randr
         # hypridle
         # hyprlock
-        hyprpaper
         pavucontrol
       ];
 
       fonts.fontconfig.enable = true;
       services.copyq = {
         enable = true;
+      };
+
+      services.hyprpaper = {
+        enable = true;
+        settings = {
+          wallpaper =
+            let
+              pic = "countryside_landscape.jpg";
+            in
+            [
+              {
+                monitor = "DP-1";
+                path = "${./wallpapers}/${pic}";
+              }
+              {
+                monitor = "DP-2";
+                path = "${./wallpapers}/${pic}";
+              }
+              {
+                monitor = "eDP-1";
+                path = "${./wallpapers}/${pic}";
+              }
+
+            ];
+        };
       };
 
       xdg.configFile = {
@@ -121,17 +145,17 @@ in
         };
         "hypr/hypridle.conf".source = ./hypridle.conf;
         "hypr/hyprlock.conf".source = ./hyprlock.conf;
-        "hypr/hyprpaper.conf".text =
-          let
-            # pic = "peaceful-autumn.jpg";
-            pic = "countryside_landscape.jpg";
-          in
-          ''
-            preload = ${./wallpapers}/${pic}
-            wallpaper = DP-1,${./wallpapers}/${pic}
-            wallpaper = DP-2,${./wallpapers}/${pic}
-            wallpaper = eDP-1,${./wallpapers}/${pic}
-          '';
+      };
+
+      i18n.inputMethod = {
+        type = "fcitx5";
+        fcitx5 = {
+          waylandFrontend = true;
+          addons = [
+            pkgs.fcitx5-gtk
+            pkgs.fcitx5-bamboo
+          ];
+        };
       };
 
       systemd.user.services = {
@@ -163,12 +187,12 @@ in
         # SDL_IM_MODULE="ibus";
         # GLFW_IM_MODULE="ibus";
 
-        GTK_IM_MODULE = "fcitx";
-        QT_IM_MODULE = "fcitx";
-        XMODIFIERS = "@im=fcitx";
-        SDL_IM_MODULE = "fcitx";
-        GLFW_IM_MODULE = "fcitx";
-        QT_IM_MODULES = "wayland;fcitx;ibus";
+        # GTK_IM_MODULE = "fcitx";
+        # QT_IM_MODULE = "fcitx";
+        # XMODIFIERS = "@im=fcitx";
+        # SDL_IM_MODULE = "fcitx";
+        # GLFW_IM_MODULE = "fcitx";
+        # QT_IM_MODULES = "wayland;fcitx;ibus";
       };
 
       gtk.gtk3.extraConfig = {
@@ -181,7 +205,7 @@ in
 
       wayland.windowManager.hyprland = {
         enable = true;
-        systemd.enable = false; # it conflicts with uwsm.
+        systemd.enable = true;
         # systemd.enableXdgAutoStart = true;
         xwayland.enable = true;
         # systemd.extraCommands = [ "ibus-deamon -d" ];
@@ -192,16 +216,12 @@ in
             "fcitx5 -r"
             "${pkgs.dunst}/bin/dunst"
             #"hypridle"
-            "hyprpaper"
-            #"${pkgs.wpaperd}/bin/wpaperd"
           ];
 
           general = {
             snap.enabled = true;
           };
           monitor = [
-            #"eDP-1,2560x1600@120,640x1440,1"
-            # "DP-1,3840x2160@60,0x0,1,bitdepth,10" #U2720Q
             "eDP-1,2560x1600@120,440x1440,1,vrr,1"
             "DP-1, 3440x1440@120,0x0,1,bitdepth,10,vrr,1" # P34WD-40
             "DP-2, 3440x1440@120,0x0,1,bitdepth,10,vrr,1" # P34WD-40
@@ -377,7 +397,7 @@ in
         env = QT_AUTO_SCREEN_SCALE_FACTOR=1
         env = QT_WAYLAND_DISABLE_WINDOWDECORATION=1
         source = /home/thongpv87/.cache/wal/colors-hyprland.conf
-        # source = ${./decorations}/${cfg.decoration}.conf
+        source = ${./decorations}/${cfg.decoration}.conf
         source = ${./animations}/${cfg.animation}.conf
         source = ${./windows}/${cfg.window}.conf
       '';
