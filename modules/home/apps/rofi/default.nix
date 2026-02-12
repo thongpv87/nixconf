@@ -27,29 +27,7 @@ in
 
       programs.rofi = {
         enable = true;
-      };
-
-      xdg = {
-        configFile = {
-          "rofi" = {
-            source = ./rofi/1080p;
-            recursive = true;
-          };
-        };
-
-        dataFile = {
-          "fonts" = {
-            source = ./rofi/fonts;
-            recursive = true;
-          };
-        };
-      };
-
-      home.activation = {
-        myActivationAction = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          cp $HOME/.config/rofi/powermenu/styles/colors.rasi.in $HOME/.config/rofi/powermenu/styles/colors.rasi
-          chmod 600 $HOME/.config/rofi/powermenu/styles/colors.rasi
-        '';
+        theme = ./theme.rasi;
       };
     }
 

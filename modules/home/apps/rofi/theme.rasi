@@ -1,0 +1,148 @@
+/*
+ * Rose Pine (dark) on Rose Pine Dawn desktop
+ * Dark popup for contrast against light desktop
+ */
+
+* {
+    /* Rose Pine (dark) palette */
+    base:           #191724;
+    surface:        #1f1d2e;
+    overlay:        #26233a;
+    muted:          #6e6a86;
+    subtle:         #908caa;
+    text:           #e0def4;
+    love:           #eb6f92;
+    gold:           #f6c177;
+    rose:           #ebbcba;
+    pine:           #31748f;
+    foam:           #9ccfd8;
+    iris:           #c4a7e7;
+    highlight-low:  #21202e;
+    highlight-med:  #403d52;
+    highlight-high: #524f67;
+
+    background-color: transparent;
+    text-color:       @text;
+    font:             "Sans 13";
+}
+
+window {
+    location:         north;
+    anchor:           north;
+    y-offset:         200px;
+    width:            560px;
+    background-color: @base;
+    border:           1px solid;
+    border-color:     @highlight-med;
+    border-radius:    14px;
+    padding:          0;
+    transparency:     "real";
+}
+
+mainbox {
+    spacing:          0;
+    children:         [ inputbar, message, listview ];
+    background-color: @base;
+    border-radius:    14px;
+}
+
+inputbar {
+    padding:          16px 20px;
+    spacing:          12px;
+    children:         [ prompt, entry ];
+    background-color: @surface;
+    border-radius:    14px 14px 0 0;
+    border:           0 0 1px 0 solid;
+    border-color:     @highlight-med;
+}
+
+prompt {
+    text-color:       @foam;
+    font:             "Sans Bold 13";
+    background-color: transparent;
+}
+
+entry {
+    placeholder:       "Type to search...";
+    placeholder-color: @muted;
+    text-color:        @text;
+    background-color:  transparent;
+    cursor:            text;
+}
+
+message {
+    padding:          10px 20px;
+    background-color: @surface;
+}
+
+textbox {
+    text-color:       @subtle;
+    background-color: transparent;
+}
+
+listview {
+    lines:            8;
+    columns:          1;
+    fixed-height:     true;
+    spacing:          0;
+    padding:          8px 0;
+    background-color: @base;
+    border-radius:    0 0 14px 14px;
+    scrollbar:        false;
+}
+
+element {
+    padding:          10px 20px;
+    spacing:          14px;
+    background-color: transparent;
+    border-radius:    0;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color:       @subtle;
+}
+
+element normal.urgent {
+    background-color: transparent;
+    text-color:       @love;
+}
+
+element normal.active {
+    background-color: transparent;
+    text-color:       @iris;
+}
+
+element selected.normal {
+    background-color: @overlay;
+    text-color:       @foam;
+    border-radius:    8px;
+}
+
+element selected.urgent {
+    background-color: @overlay;
+    text-color:       @love;
+    border-radius:    8px;
+}
+
+element selected.active {
+    background-color: @overlay;
+    text-color:       @iris;
+    border-radius:    8px;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color:       @subtle;
+}
+
+element-icon {
+    size:             24px;
+    background-color: transparent;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}

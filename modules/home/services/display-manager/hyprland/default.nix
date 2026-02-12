@@ -22,7 +22,95 @@ let
     if [ $(ibus engine) == xkb:us::eng ]; then ibus engine Bamboo; else ibus engine xkb:us::eng ; fi
   '';
   screenshot-region = pkgs.writeShellScriptBin "screenshot-region" ''
-    ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)"
+    ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy
+  '';
+  toggle-special = pkgs.writeShellScriptBin "toggle-special" ''
+    count=$(hyprctl clients -j | ${pkgs.jq}/bin/jq '[.[] | select(.workspace.name == "special:term")] | length')
+    if [ "$count" -eq 0 ]; then
+      hyprctl dispatch exec "[workspace special:term]" ${lib.getExe pkgs.alacritty}
+    else
+      hyprctl dispatch togglespecialworkspace term
+    fi
+  '';
+
+  toggle-layout = pkgs.writeShellScriptBin "toggle-layout" ''
+    STATE_FILE="/tmp/hypr-layout-mode"
+    current=$(cat "$STATE_FILE" 2>/dev/null || echo "side")
+
+    # Find which external monitor is connected
+    has_dp1=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '[.[] | select(.name == "DP-1")] | length')
+    has_dp2=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '[.[] | select(.name == "DP-2")] | length')
+
+    if [ "$has_dp1" -eq 0 ] && [ "$has_dp2" -eq 0 ]; then
+      exit 0
+    fi
+
+    if [ "$current" = "side" ]; then
+      # Switch to above layout
+      # eDP-1 logical @1.6: 1600x1000, centered: -920 = (1600 - 3440) / 2
+      if [ "$has_dp1" -gt 0 ]; then
+        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+        hyprctl keyword monitor "DP-1,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
+      elif [ "$has_dp2" -gt 0 ]; then
+        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+        hyprctl keyword monitor "DP-2,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
+      fi
+      echo "above" > "$STATE_FILE"
+    else
+      # Switch to side layout (laptop right, bottom-aligned)
+      # eDP-1 logical @1.6: 1600x1000, bottom-aligned: -440 = 1000 - 1440
+      if [ "$has_dp1" -gt 0 ]; then
+        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+        hyprctl keyword monitor "DP-1,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
+      elif [ "$has_dp2" -gt 0 ]; then
+        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+        hyprctl keyword monitor "DP-2,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
+      fi
+      echo "side" > "$STATE_FILE"
+    fi
+
+    # Restart waybar to pick up new monitor layout
+    systemctl --user restart waybar
+  '';
+
+  monitor-scale = pkgs.writeShellScriptBin "monitor-scale" ''
+    apply_config() {
+      has_dp1=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '[.[] | select(.name == "DP-1")] | length')
+      has_dp2=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '[.[] | select(.name == "DP-2")] | length')
+
+      if [ "$has_dp1" -gt 0 ]; then
+        # DP-1: laptop right of external, bottom-aligned, scale 1.6
+        # eDP-1 logical @1.6: 1600x1000, DP-1: 3440x1440
+        # Bottom-aligned: -440 = 1000 - 1440
+        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+        hyprctl keyword monitor "DP-1,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
+      elif [ "$has_dp2" -gt 0 ]; then
+        # DP-2: external above laptop, centered, scale 1.6
+        # eDP-1 logical @1.6: 1600x1000
+        # Centered: -920 = (1600 - 3440) / 2
+        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+        hyprctl keyword monitor "DP-2,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
+      else
+        # Single monitor, scale 1.0
+        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1,vrr,1"
+      fi
+    }
+
+    # Apply on startup
+    sleep 1
+    apply_config
+
+    # Listen for monitor hotplug events
+    ${pkgs.socat}/bin/socat -U - UNIX-CONNECT:"$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" | while read -r line; do
+      case "$line" in
+        monitoradded*|monitorremoved*)
+          sleep 0.5
+          apply_config
+          # Restart waybar to pick up new monitor layout
+          systemctl --user restart waybar
+          ;;
+      esac
+    done
   '';
 
 in
@@ -96,6 +184,11 @@ in
       home.packages = with pkgs; [
         switch-input-method
         screenshot-region
+        toggle-special
+        toggle-layout
+        monitor-scale
+        wl-clipboard
+        cliphist
         pamixer
         dunst
         qt5.qtwayland
@@ -105,13 +198,35 @@ in
         wlr-randr
         # hypridle
         # hyprlock
-        hyprpaper
         pavucontrol
       ];
 
       fonts.fontconfig.enable = true;
-      services.copyq = {
+      # Using cliphist + wl-clipboard instead of copyq (native Wayland support)
+
+      services.hyprpaper = {
         enable = true;
+        settings = {
+          wallpaper =
+            let
+              pic = "countryside_landscape.jpg";
+            in
+            [
+              {
+                monitor = "DP-1";
+                path = "${./wallpapers}/${pic}";
+              }
+              {
+                monitor = "DP-2";
+                path = "${./wallpapers}/${pic}";
+              }
+              {
+                monitor = "eDP-1";
+                path = "${./wallpapers}/${pic}";
+              }
+
+            ];
+        };
       };
 
       xdg.configFile = {
@@ -121,17 +236,17 @@ in
         };
         "hypr/hypridle.conf".source = ./hypridle.conf;
         "hypr/hyprlock.conf".source = ./hyprlock.conf;
-        "hypr/hyprpaper.conf".text =
-          let
-            # pic = "peaceful-autumn.jpg";
-            pic = "countryside_landscape.jpg";
-          in
-          ''
-            preload = ${./wallpapers}/${pic}
-            wallpaper = DP-1,${./wallpapers}/${pic}
-            wallpaper = DP-2,${./wallpapers}/${pic}
-            wallpaper = eDP-1,${./wallpapers}/${pic}
-          '';
+      };
+
+      i18n.inputMethod = {
+        type = "fcitx5";
+        fcitx5 = {
+          waylandFrontend = true;
+          addons = [
+            pkgs.fcitx5-gtk
+            pkgs.fcitx5-bamboo
+          ];
+        };
       };
 
       systemd.user.services = {
@@ -157,18 +272,12 @@ in
     {
       home.sessionVariables = {
         XDG_SESSION_DESKTOP = "Hyprland";
-        # GTK_IM_MODULE="ibus";
-        # QT_IM_MODULE="ibus";
-        # XMODIFIERS="@im=ibus";
-        # SDL_IM_MODULE="ibus";
-        # GLFW_IM_MODULE="ibus";
-
-        GTK_IM_MODULE = "fcitx";
-        QT_IM_MODULE = "fcitx";
-        XMODIFIERS = "@im=fcitx";
-        SDL_IM_MODULE = "fcitx";
-        GLFW_IM_MODULE = "fcitx";
-        QT_IM_MODULES = "wayland;fcitx;ibus";
+        # GTK_IM_MODULE = "fcitx";
+        # QT_IM_MODULE = "fcitx";
+        # XMODIFIERS = "@im=fcitx";
+        # SDL_IM_MODULE = "fcitx";
+        # GLFW_IM_MODULE = "fcitx";
+        # QT_IM_MODULES = "wayland;fcitx;ibus";
       };
 
       gtk.gtk3.extraConfig = {
@@ -181,7 +290,7 @@ in
 
       wayland.windowManager.hyprland = {
         enable = true;
-        systemd.enable = false; # it conflicts with uwsm.
+        systemd.enable = true;
         # systemd.enableXdgAutoStart = true;
         xwayland.enable = true;
         # systemd.extraCommands = [ "ibus-deamon -d" ];
@@ -191,20 +300,18 @@ in
             # "ibus-daemon -d"
             "fcitx5 -r"
             "${pkgs.dunst}/bin/dunst"
+            "monitor-scale"
+            "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store"
             #"hypridle"
-            "hyprpaper"
-            #"${pkgs.wpaperd}/bin/wpaperd"
           ];
 
           general = {
             snap.enabled = true;
           };
           monitor = [
-            #"eDP-1,2560x1600@120,640x1440,1"
-            # "DP-1,3840x2160@60,0x0,1,bitdepth,10" #U2720Q
-            "eDP-1,2560x1600@120,440x1440,1,vrr,1"
-            "DP-1, 3440x1440@120,0x0,1,bitdepth,10,vrr,1" # P34WD-40
-            "DP-2, 3440x1440@120,0x0,1,bitdepth,10,vrr,1" # P34WD-40
+            "eDP-1,2560x1600@120,0x0,1,vrr,1"
+            "DP-1, 3440x1440@120,-3440x160,1,bitdepth,10,vrr,1" # P34WD-40 - laptop to the right, bottom-aligned
+            "DP-2, 3440x1440@120,-440x-1440,1,bitdepth,10,vrr,1" # P34WD-40 - external above, centered
           ];
 
           input = {
@@ -241,13 +348,13 @@ in
 
           "$mod" = "SUPER";
 
-          workspace = [ "special, on-created-empty:alacritty" ];
+          workspace = [ ];
 
           windowrule = [
             # "tile,class:^(Microsoft-edge)$"
             # "tile,class:^(Brave-browser)$"
             # "tile,class:^(Chromium)$"
-            "match:class ^(pavucontrol)$, float on"
+            "match:class ^(org.pulseaudio.pavucontrol), float on, size 800 800"
             "match:class ^(blueman-manager)$, float on"
             "match:class ^(nm-connection-editor)$, float on"
             "match:class (Rofi), stay_focused on"
@@ -274,10 +381,12 @@ in
 
             "$mod, T, togglefloating,"
             # "$mod, P, exec, wofi --show drun"
-            "$mod, P, exec, rofi -show drun -replace -i"
+            "$mod, P, exec, rofi -show drun -replace -i -show-icons"
             "$mod, I, pseudo," # dwindle
             "$mod, U, togglesplit," # dwindle
             "$mod, backslash, exec, screenshot-region"
+            "$mod, V, exec, ${pkgs.cliphist}/bin/cliphist list | rofi -dmenu -p clipboard -i | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"
+            "$mod SHIFT, M, exec, toggle-layout"
             "$mod, F, fullscreen,1"
             "$mod SHIFT, F, fullscreen,0"
 
@@ -330,7 +439,7 @@ in
             "$mod, 9, workspace, 9"
             "$mod,0,moveworkspacetomonitor,10 current"
             "$mod, 0, workspace, 10"
-            "$mod, space, togglespecialworkspace,"
+            "$mod, space, exec, toggle-special"
 
             # Move active window to a workspace with mod + SHIFT + [0-9]
             "$mod SHIFT, 1, movetoworkspacesilent, 1"
@@ -377,7 +486,7 @@ in
         env = QT_AUTO_SCREEN_SCALE_FACTOR=1
         env = QT_WAYLAND_DISABLE_WINDOWDECORATION=1
         source = /home/thongpv87/.cache/wal/colors-hyprland.conf
-        # source = ${./decorations}/${cfg.decoration}.conf
+        source = ${./decorations}/${cfg.decoration}.conf
         source = ${./animations}/${cfg.animation}.conf
         source = ${./windows}/${cfg.window}.conf
       '';
