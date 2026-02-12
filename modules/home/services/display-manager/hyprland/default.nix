@@ -236,7 +236,6 @@ in
             new_on_top = false;
             new_on_active = "after";
             special_scale_factor = 0.85;
-            inherit_fullscreen = true;
             orientation = "right";
           };
 
@@ -245,19 +244,19 @@ in
           workspace = [ "special, on-created-empty:alacritty" ];
 
           windowrule = [
-            "tile,class:^(Microsoft-edge)$"
-            "tile,class:^(Brave-browser)$"
-            "tile,class:^(Chromium)$"
-            "float,class:^(pavucontrol)$"
-            "float,class:^(blueman-manager)$"
-            "float,class:^(nm-connection-editor)$"
-            "stayfocused,class:(Rofi)"
-            "opacity 1 1,class:^(firefox|google-chrome|microsoft-edge)"
+            # "tile,class:^(Microsoft-edge)$"
+            # "tile,class:^(Brave-browser)$"
+            # "tile,class:^(Chromium)$"
+            "match:class ^(pavucontrol)$, float on"
+            "match:class ^(blueman-manager)$, float on"
+            "match:class ^(nm-connection-editor)$, float on"
+            "match:class (Rofi), stay_focused on"
+            "match:class ^(firefox|google-chrome|microsoft-edge), opacity 1 1"
 
           ];
           layerrule = [
-            "blur, gtk-layer-shell"
-            "blur, logout_dialog"
+            "blur on, match:namespace gtk-layer-shell"
+            "blur on, match:namespace logout_dialog"
           ];
 
           bind = [
@@ -360,7 +359,7 @@ in
             disable_hyprland_logo = true;
             disable_splash_rendering = true;
             key_press_enables_dpms = true;
-            new_window_takes_over_fullscreen = 1;
+            on_focus_under_fullscreen = 1;
             focus_on_activate = true;
             vfr = true;
           };
@@ -378,8 +377,7 @@ in
         env = QT_AUTO_SCREEN_SCALE_FACTOR=1
         env = QT_WAYLAND_DISABLE_WINDOWDECORATION=1
         source = /home/thongpv87/.cache/wal/colors-hyprland.conf
-        source = ${./extra.conf}
-        source = ${./decorations}/${cfg.decoration}.conf
+        # source = ${./decorations}/${cfg.decoration}.conf
         source = ${./animations}/${cfg.animation}.conf
         source = ${./windows}/${cfg.window}.conf
       '';
