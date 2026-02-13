@@ -33,6 +33,45 @@ let
     fi
   '';
 
+  suspend-countdown = pkgs.writeShellScriptBin "suspend-countdown" ''
+    SUSPEND_TIMEOUT=1800
+    LAST_ACTIVE=$(date +%s)
+    LAST_CURSOR=""
+
+    while true; do
+      now=$(date +%s)
+
+      # Detect activity by checking cursor position changes
+      cursor=$(hyprctl cursorpos 2>/dev/null)
+      if [ "$cursor" != "$LAST_CURSOR" ]; then
+        LAST_ACTIVE=$now
+        LAST_CURSOR="$cursor"
+      fi
+
+      idle_sec=$((now - LAST_ACTIVE))
+      remaining=$((SUSPEND_TIMEOUT - idle_sec))
+      if [ "$remaining" -le 0 ]; then
+        remaining=0
+      fi
+
+      if [ "$remaining" -le 60 ]; then
+        # Last minute: show seconds
+        class="warning"
+        printf '{"text": "󰒲 %ds", "tooltip": "Suspend in %d seconds", "class": "%s"}\n' "$remaining" "$remaining" "$class"
+      else
+        # Round up to minutes
+        mins=$(( (remaining + 59) / 60 ))
+        if [ "$remaining" -le 300 ]; then
+          class="warning"
+        else
+          class="normal"
+        fi
+        printf '{"text": "󰒲 %dm", "tooltip": "Suspend in %d minutes", "class": "%s"}\n' "$mins" "$mins" "$class"
+      fi
+      sleep 30
+    done
+  '';
+
   toggle-layout = pkgs.writeShellScriptBin "toggle-layout" ''
     STATE_FILE="/tmp/hypr-layout-mode"
     current=$(cat "$STATE_FILE" 2>/dev/null || echo "side")
@@ -96,8 +135,8 @@ let
       fi
     }
 
-    # Apply on startup
-    sleep 1
+    # Apply on startup (brief delay to let Hyprland initialize monitors)
+    sleep 0.5
     apply_config
 
     # Listen for monitor hotplug events
@@ -187,6 +226,7 @@ in
         toggle-special
         toggle-layout
         monitor-scale
+        suspend-countdown
         wl-clipboard
         cliphist
         pamixer
@@ -196,7 +236,7 @@ in
         nautilus
         btop
         wlr-randr
-        # hypridle
+        hypridle
         # hyprlock
         pavucontrol
       ];
@@ -302,16 +342,16 @@ in
             "${pkgs.dunst}/bin/dunst"
             "monitor-scale"
             "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store"
-            #"hypridle"
+            "hypridle"
           ];
 
           general = {
             snap.enabled = true;
           };
           monitor = [
-            "eDP-1,2560x1600@120,0x0,1,vrr,1"
-            "DP-1, 3440x1440@120,-3440x160,1,bitdepth,10,vrr,1" # P34WD-40 - laptop to the right, bottom-aligned
-            "DP-2, 3440x1440@120,-440x-1440,1,bitdepth,10,vrr,1" # P34WD-40 - external above, centered
+            "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+            "DP-1, 3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1" # P34WD-40 - laptop to the right, bottom-aligned
+            "DP-2, 3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1" # P34WD-40 - external above, centered
           ];
 
           input = {
@@ -348,14 +388,16 @@ in
 
           "$mod" = "SUPER";
 
-          workspace = [ ];
+          workspace = [
+            "w[t1], gapsin:0, gapsout:0, border:false"
+          ];
 
           windowrule = [
             # "tile,class:^(Microsoft-edge)$"
             # "tile,class:^(Brave-browser)$"
             # "tile,class:^(Chromium)$"
             "match:class ^(org.pulseaudio.pavucontrol), float on, size 800 800"
-            "match:class ^(blueman-manager)$, float on"
+            "match:class ^(.blueman-manager-wrapped), float on, size 800 600"
             "match:class ^(nm-connection-editor)$, float on"
             "match:class (Rofi), stay_focused on"
             "match:class ^(firefox|google-chrome|microsoft-edge), opacity 1 1"

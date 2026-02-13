@@ -52,9 +52,13 @@ in
               "custom/separator"
               "pulseaudio"
               "custom/separator"
+              "bluetooth"
+              "custom/separator"
               "network"
               "custom/separator"
               "clock"
+              "custom/separator"
+              "custom/suspend"
               "custom/separator"
               "idle_inhibitor"
               "custom/separator"
@@ -76,7 +80,7 @@ in
             };
             memory = {
               interval = 30;
-              format = " {used:0.1f}G";
+              format = "󰍛 {used:0.1f}G";
               tooltip = false;
             };
             temperature = {
@@ -114,10 +118,15 @@ in
             };
             backlight = {
               device = "acpi_video1";
-              format = "{icon}&#8239;{percent}%";
+              format = "{icon} {percent}%";
               format-icons = [
-                ""
-                ""
+                "󰃚"
+                "󰃛"
+                "󰃜"
+                "󰃝"
+                "󰃞"
+                "󰃟"
+                "󰃠"
               ];
               tooltip = false;
               #format-icons = [ "" "" ];
@@ -149,6 +158,17 @@ in
               on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
               tooltip = true;
             };
+            bluetooth = {
+              format = "󰂯";
+              format-connected = "󰂱 {num_connections}";
+              format-disabled = "󰂲";
+              format-off = "󰂲";
+              tooltip-format = "{controller_alias}\n{status}";
+              tooltip-format-connected = "{controller_alias}\n{num_connections} connected\n\n{device_enumerate}";
+              tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
+              tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_battery_percentage}%";
+              on-click = "${pkgs.blueman}/bin/blueman-manager";
+            };
             network = {
               interval = 60;
               format-wifi = " {essid} ({signalStrength}%)";
@@ -174,6 +194,13 @@ in
               format = "|";
               interval = "once";
               tooltip = false;
+            };
+
+            "custom/suspend" = {
+              exec = "suspend-countdown";
+              return-type = "json";
+              format = "{}";
+              tooltip = true;
             };
 
             "hyprland/workspaces" = {
