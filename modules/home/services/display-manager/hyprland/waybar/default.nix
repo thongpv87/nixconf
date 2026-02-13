@@ -56,6 +56,8 @@ in
               "custom/separator"
               "clock"
               "custom/separator"
+              "custom/suspend"
+              "custom/separator"
               "idle_inhibitor"
               "custom/separator"
               "tray"
@@ -76,7 +78,7 @@ in
             };
             memory = {
               interval = 30;
-              format = " {used:0.1f}G";
+              format = "󰍛 {used:0.1f}G";
               tooltip = false;
             };
             temperature = {
@@ -114,10 +116,15 @@ in
             };
             backlight = {
               device = "acpi_video1";
-              format = "{icon}&#8239;{percent}%";
+              format = "{icon} {percent}%";
               format-icons = [
-                ""
-                ""
+                "󰃚"
+                "󰃛"
+                "󰃜"
+                "󰃝"
+                "󰃞"
+                "󰃟"
+                "󰃠"
               ];
               tooltip = false;
               #format-icons = [ "" "" ];
@@ -174,6 +181,13 @@ in
               format = "|";
               interval = "once";
               tooltip = false;
+            };
+
+            "custom/suspend" = {
+              exec = "suspend-countdown";
+              return-type = "json";
+              format = "{}";
+              tooltip = true;
             };
 
             "hyprland/workspaces" = {

@@ -33,6 +33,41 @@ let
     fi
   '';
 
+  suspend-countdown = pkgs.writeShellScriptBin "suspend-countdown" ''
+    SUSPEND_TIMEOUT=1800
+    LAST_ACTIVE=$(date +%s)
+    LAST_CURSOR=""
+
+    while true; do
+      now=$(date +%s)
+
+      # Detect activity by checking cursor position changes
+      cursor=$(hyprctl cursorpos 2>/dev/null)
+      if [ "$cursor" != "$LAST_CURSOR" ]; then
+        LAST_ACTIVE=$now
+        LAST_CURSOR="$cursor"
+      fi
+
+      idle_sec=$((now - LAST_ACTIVE))
+      remaining=$((SUSPEND_TIMEOUT - idle_sec))
+      if [ "$remaining" -le 0 ]; then
+        remaining=0
+      fi
+
+      mins=$((remaining / 60))
+      secs=$((remaining % 60))
+
+      if [ "$remaining" -le 300 ]; then
+        class="warning"
+      else
+        class="normal"
+      fi
+
+      printf '{"text": "󰒲 %d:%02d", "tooltip": "Suspend in %d:%02d", "class": "%s"}\n' "$mins" "$secs" "$mins" "$secs" "$class"
+      sleep 5
+    done
+  '';
+
   toggle-layout = pkgs.writeShellScriptBin "toggle-layout" ''
     STATE_FILE="/tmp/hypr-layout-mode"
     current=$(cat "$STATE_FILE" 2>/dev/null || echo "side")
@@ -187,6 +222,7 @@ in
         toggle-special
         toggle-layout
         monitor-scale
+        suspend-countdown
         wl-clipboard
         cliphist
         pamixer
@@ -196,7 +232,7 @@ in
         nautilus
         btop
         wlr-randr
-        # hypridle
+        hypridle
         # hyprlock
         pavucontrol
       ];
@@ -302,7 +338,7 @@ in
             "${pkgs.dunst}/bin/dunst"
             "monitor-scale"
             "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store"
-            #"hypridle"
+            "hypridle"
           ];
 
           general = {
