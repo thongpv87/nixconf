@@ -1,1 +1,0 @@
-{ colorschemes.dracula.enable = true; }
