@@ -40,7 +40,7 @@ in
           chromium
           google-chrome
           ghc
-          nixfmt-rfc-style
+          nixfmt
           config.boot.kernelPackages.bcc
 
           taskwarrior3

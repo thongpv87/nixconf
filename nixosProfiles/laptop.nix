@@ -42,6 +42,7 @@
         enable = true;
         enablePodman = true;
         enableVirtualBox = true;
+        vboxUsers = [ "thongpv87" ];
       };
     };
   };

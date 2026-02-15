@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-export output=$1
-export dir="$(dirname $output)"
-export fn="$(basename $output)"
-nix-shell ./shell.nix --command 'cabal install exe:xmonadwm --enable-executable-stripping --enable-optimization=2 --installdir=$dir --overwrite-policy=always'
-ln -sf $dir/xmonadwm  "$output"

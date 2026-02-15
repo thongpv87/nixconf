@@ -17,9 +17,6 @@ let
     mkEnableOption
     ;
 
-  initial_session_config = pkgs.writeText "hyprland-initial-session.conf" ''
-    exec-once = ${lib.getExe config.programs.regreet.package}; hyprctl dispatch exit
-  '';
 in
 {
   imports = [
@@ -38,30 +35,9 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
-      environment.systemPackages = [ pkgs.sddm-chili-theme ];
-
-      services = {
-        desktopManager = {
-          plasma6 = {
-            enableQt5Integration = true;
-            enable = false;
-          };
-        };
-        displayManager = {
-          sddm = {
-            enable = false;
-            wayland.enable = true;
-            theme = "chili";
-          };
-          #ly.enable = true;
-        };
-        displayManager = {
-          gdm = {
-            wayland = true;
-            enable = true;
-          };
-
-        };
+      services.displayManager.gdm = {
+        wayland = true;
+        enable = true;
       };
 
       hardware = {

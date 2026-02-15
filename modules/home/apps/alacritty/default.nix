@@ -6,7 +6,7 @@
 }:
 with lib;
 let
-  cfg = config.nixconf.apps.rofi;
+  cfg = config.nixconf.apps.alacritty;
   myshell = pkgs.writeShellScriptBin "myshell" ''
     #!/usr/bin/env sh
     ${pkgs.pywal}/bin/wal --theme tokyonight_storm &> /dev/null

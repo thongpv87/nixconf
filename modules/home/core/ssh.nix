@@ -1,17 +1,16 @@
 {
-  pkgs,
   config,
   lib,
   ...
 }:
 with lib;
 let
-  cfg = config.nixconf.old.ssh;
+  cfg = config.nixconf.core.ssh;
 in
 {
-  options.nixconf.old.ssh = {
+  options.nixconf.core.ssh = {
     enable = mkOption {
-      description = "enable ssh";
+      description = "Enable ssh";
       type = types.bool;
       default = false;
     };
@@ -24,8 +23,10 @@ in
       matchBlocks = {
         "*" = {
           addKeysToAgent = "yes";
-          controlMaster = "auto";
-          controlPersist = "10d";
+          extraOptions = {
+            ControlMaster = "auto";
+            ControlPersist = "10d";
+          };
         };
         localhost = {
           hostname = "127.0.0.1";

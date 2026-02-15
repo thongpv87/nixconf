@@ -23,10 +23,6 @@ in
   config = mkIf (cfg.enable) ({
     home.packages = with pkgs; [ any-nix-shell ];
     programs = {
-      starship.enableNushellIntegration = true;
-      direnv.enableNushellIntegration = true;
-      atuin.enableNushellIntegration = true;
-
       zsh = {
         enable = true;
         autosuggestion = {

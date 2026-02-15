@@ -90,7 +90,6 @@ in
       ripgrep
       fd
       coreutils
-      fd
       gnumake
       git
       nixd

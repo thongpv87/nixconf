@@ -29,6 +29,12 @@ in
     enablePodman = mkEnableOption "Enable podman/docker";
 
     enableVirtualBox = mkEnableOption "Enable virtualbox";
+
+    vboxUsers = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = "Users to add to vboxusers group";
+    };
   };
 
   config = lib.mkIf cfg.enable (mkMerge [
@@ -54,7 +60,7 @@ in
       virtualisation.virtualbox = {
         host.enable = true;
       };
-      users.extraGroups.vboxusers.members = [ "thongpv87" ];
+      users.extraGroups.vboxusers.members = cfg.vboxUsers;
     })
   ]);
 }

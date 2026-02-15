@@ -25,6 +25,7 @@
       url = "github:aylur/astal";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+  };
 
   outputs =
     {

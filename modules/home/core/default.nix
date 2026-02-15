@@ -9,6 +9,11 @@ let
   cfg = config.nixconf.core;
 in
 {
+  imports = [
+    ./git.nix
+    ./ssh.nix
+    ./gpg.nix
+  ];
 
   options.nixconf.core = {
     enable = mkOption {
@@ -28,11 +33,11 @@ in
       sessionVariables = {
         EDITOR = "${pkgs.neovim}/bin/nvim";
         DIRENV_LOG_FORMAT = "";
+        SSH_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/keyring/ssh";
       };
       stateVersion = "25.11";
       pointerCursor = {
         gtk.enable = true;
-        # x11.enable = true;
         package = pkgs.pop-icon-theme;
         name = "Pop";
         size = 48;
@@ -41,7 +46,6 @@ in
         layout = "us";
         options = [ "caps:escape" ];
       };
-
     };
 
     fonts.fontconfig = {
@@ -94,28 +98,59 @@ in
       };
     };
 
-    xdg.enable = true;
+    xdg = {
+      enable = true;
+      systemDirs.data = [
+        "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
+        "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}"
+      ];
+    };
 
-    # TTY compatible CLI applications
+    dconf.settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+        text-scaling-factor = 1.0;
+      };
+    };
+
     home.packages = with pkgs; [
       home-manager
 
       # CLI tools
       glow
-      yt-dlp # download youtube
-      graphviz # dot
+      yt-dlp
+      graphviz
+      sshfs
+      pdftk
+      asciinema
 
       # Spell checking
-      # Setting up dictionary modified from:
       hunspell
       hunspellDicts.en_US-large
       hyphen
-      nixfmt-rfc-style
+      nixfmt
 
       # Themes
       theme-sh
 
-      # music
+      # Desktop integration
+      glib
+      gsettings-desktop-schemas
+      gtk3
+      kdePackages.breeze-gtk
+      xdg-utils
+      seahorse
+
+      # Fonts
+      selected-nerdfonts
+      noto-fonts-color-emoji
+      noto-fonts-cjk-sans
+      dejavu_fonts
+      liberation_ttf
+      corefonts
+      carlito
+
+      # Music
       playerctl
     ];
 

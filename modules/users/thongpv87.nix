@@ -49,33 +49,10 @@ in
           tmux.shell = "zsh";
         };
       };
-      nixconf.old = {
-        graphical = {
-          enable = true;
-          theme = "breeze";
-          mime.enable = true;
-          applications = {
-            enable = false;
-          };
-          xorg = {
-            enable = false;
-            xmonad = {
-              enable = false;
-            };
-
-            screenlock.enable = false;
-          };
-        };
-        applications = {
-          enable = true;
-        };
-
-        gpg.enable = true;
-        git = {
-          enable = true;
-        };
+      nixconf.core = {
+        git.enable = true;
         ssh.enable = true;
-        others.enable = true;
+        gpg.enable = true;
       };
 
       home.stateVersion = "25.11";

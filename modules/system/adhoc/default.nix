@@ -40,7 +40,6 @@ in
         enable = true;
         useRoutingFeatures = "client";
       };
-      #networking.firewall.enable = false;
     }
     {
       environment.systemPackages = [
@@ -67,31 +66,7 @@ in
         pkgs.antares
       ];
 
-      services.postgresql = {
-        enable = false;
-        extensions = with pkgs.postgresql.pkgs; [ timescaledb ];
-        authentication = pkgs.lib.mkOverride 10 ''
-          #type database  DBuser  auth-method
-          local all       all     trust
-          host  all       all     127.0.0.1       255.255.255.255     trust
-        '';
-        settings = {
-          shared_preload_libraries = "timescaledb";
-          log_statement = "all";
-        };
-      };
     }
-
-    # {
-    #   environment.sessionVariables = {
-    #     GTK_IM_MODULE = "fcitx";
-    #     QT_IM_MODULE = "fcitx";
-    #     XMODIFIERS = "@im=fcitx";
-    #     SDL_IM_MODULE = "fcitx";
-    #     GLFW_IM_MODULE = "fcitx";
-    #     QT_IM_MODULES = "wayland;fcitx;ibus";
-    #   };
-    # }
     {
       nix.settings = {
         trusted-substituters = [

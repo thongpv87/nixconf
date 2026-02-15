@@ -1,8 +1,14 @@
-{ pkgs, config, lib, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 with lib;
-let cfg = config.nixconf.old.git;
-in {
-  options.nixconf.old.git = {
+let
+  cfg = config.nixconf.core.git;
+in
+{
+  options.nixconf.core.git = {
     enable = mkOption {
       description = "Enable git";
       type = types.bool;
@@ -20,21 +26,9 @@ in {
       type = types.str;
       default = "thongpv87@gmail.com";
     };
-
-    signByDefault = mkOption {
-      description = "GPG signing key for git";
-      type = types.bool;
-      default = true;
-    };
-
-    allowedSignerFile = mkOption {
-      description = "Allowed ssh file for signing";
-      type = types.str;
-      default = "";
-    };
   };
 
-  config = mkIf (cfg.enable) {
+  config = mkIf cfg.enable {
     programs.git = {
       enable = true;
       settings = {
@@ -74,22 +68,7 @@ in {
           # delete merged branches
           bdm = "!git branch --merged | grep -v '*' | xargs -n 1 git branch -d";
         };
-        # commit.gpgSign = cfg.signByDefault;
-        # gpg = {
-        #   format = "ssh";
-        #   ssh = {
-        #     defaultKeyCommand = "${pkgs.openssh}/bin/ssh-add -L";
-        #     program = "${pkgs.openssh}/bin/ssh-keygen";
-        #     allowedSignersFile = cfg.allowedSignerFile;
-        #   };
-        # };
-        # Use SSH now, don't need credential helper/libsecret
-        # credential.helper = "${
-        #     pkgs.git.override { withLibsecret = true; }
-        #   }/bin/git-credential-libsecret";
         pull.rebase = false;
-        # https://blog.nilbus.com/take-the-pain-out-of-git-conflict-resolution-use-diff3/
-        # https://stackoverflow.com/questions/27417656/should-diff3-be-default-conflictstyle-on-git
         merge.conflictstyle = "zdiff3";
       };
     };

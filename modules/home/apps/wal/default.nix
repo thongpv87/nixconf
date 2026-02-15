@@ -6,7 +6,7 @@
 }:
 with lib;
 let
-  cfg = config.nixconf.apps.rofi;
+  cfg = config.nixconf.apps.wal;
 in
 {
   options.nixconf.apps.wal = {

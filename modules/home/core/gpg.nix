@@ -1,24 +1,24 @@
 {
-  pkgs,
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib;
 let
-  cfg = config.nixconf.old.gpg;
+  cfg = config.nixconf.core.gpg;
 in
 {
-  options.nixconf.old.gpg = {
+  options.nixconf.core.gpg = {
     enable = mkOption {
-      description = "enable gpg";
+      description = "Enable gpg";
       type = types.bool;
       default = false;
     };
   };
 
-  config = mkIf (cfg.enable) {
-    home.packages = with pkgs; [ pinentry-curses ];
+  config = mkIf cfg.enable {
+    home.packages = [ pkgs.pinentry-curses ];
 
     programs.gpg = {
       enable = true;
