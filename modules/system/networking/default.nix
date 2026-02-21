@@ -35,12 +35,15 @@ in
           Settings = {
             AutoConnect = true;
           };
+          General = {
+            EnableNetworkConfiguration = false;
+          };
         };
       };
       networkmanager = {
         enable = true;
         wifi = {
-          powersave = true;
+          powersave = false;
           backend = mkForce "iwd";
         };
 
@@ -51,5 +54,12 @@ in
         };
       };
     };
+
+    # Restart NetworkManager after suspend to fix WiFi reconnection (especially 5GHz)
+    powerManagement.resumeCommands = ''
+      ${pkgs.networkmanager}/bin/nmcli radio wifi off || true
+      ${pkgs.coreutils}/bin/sleep 2
+      ${pkgs.networkmanager}/bin/nmcli radio wifi on || true
+    '';
   };
 }

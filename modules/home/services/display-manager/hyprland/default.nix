@@ -382,8 +382,8 @@ in
           };
           monitor = [
             "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
-            "DP-1, 3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1" # P34WD-40 - laptop to the right, bottom-aligned
-            "DP-2, 3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1" # P34WD-40 - external above, centered
+            "DP-1, 3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1" # P34WD-40 - side layout (default)
+            "DP-2, 3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1" # P34WD-40 - side layout (default)
             ",preferred,auto,1" # catch-all for any other monitor (e.g. DP-3 after replug)
           ];
 
