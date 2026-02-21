@@ -34,7 +34,7 @@ let
   '';
 
   suspend-countdown = pkgs.writeShellScriptBin "suspend-countdown" ''
-    SUSPEND_TIMEOUT=1800
+    SUSPEND_TIMEOUT=${toString cfg.suspendTimeout}
     LAST_ACTIVE=$(date +%s)
     LAST_CURSOR=""
 
@@ -76,35 +76,24 @@ let
     STATE_FILE="/tmp/hypr-layout-mode"
     current=$(cat "$STATE_FILE" 2>/dev/null || echo "side")
 
-    # Find which external monitor is connected
-    has_dp1=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '[.[] | select(.name == "DP-1")] | length')
-    has_dp2=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '[.[] | select(.name == "DP-2")] | length')
+    # Find any external monitor (non-eDP)
+    ext_monitor=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq -r '.[] | select(.name | startswith("eDP") | not) | .name' | head -1)
 
-    if [ "$has_dp1" -eq 0 ] && [ "$has_dp2" -eq 0 ]; then
+    if [ -z "$ext_monitor" ]; then
       exit 0
     fi
 
     if [ "$current" = "side" ]; then
       # Switch to above layout
       # eDP-1 logical @1.6: 1600x1000, centered: -920 = (1600 - 3440) / 2
-      if [ "$has_dp1" -gt 0 ]; then
-        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
-        hyprctl keyword monitor "DP-1,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
-      elif [ "$has_dp2" -gt 0 ]; then
-        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
-        hyprctl keyword monitor "DP-2,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
-      fi
+      hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+      hyprctl keyword monitor "$ext_monitor,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
       echo "above" > "$STATE_FILE"
     else
       # Switch to side layout (laptop right, bottom-aligned)
       # eDP-1 logical @1.6: 1600x1000, bottom-aligned: -440 = 1000 - 1440
-      if [ "$has_dp1" -gt 0 ]; then
-        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
-        hyprctl keyword monitor "DP-1,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
-      elif [ "$has_dp2" -gt 0 ]; then
-        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
-        hyprctl keyword monitor "DP-2,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
-      fi
+      hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+      hyprctl keyword monitor "$ext_monitor,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
       echo "side" > "$STATE_FILE"
     fi
 
@@ -114,21 +103,22 @@ let
 
   monitor-scale = pkgs.writeShellScriptBin "monitor-scale" ''
     apply_config() {
-      has_dp1=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '[.[] | select(.name == "DP-1")] | length')
-      has_dp2=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq '[.[] | select(.name == "DP-2")] | length')
+      # Find any external monitor (non-eDP)
+      ext_monitor=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq -r '.[] | select(.name | startswith("eDP") | not) | .name' | head -1)
 
-      if [ "$has_dp1" -gt 0 ]; then
-        # DP-1: laptop right of external, bottom-aligned, scale 1.6
-        # eDP-1 logical @1.6: 1600x1000, DP-1: 3440x1440
-        # Bottom-aligned: -440 = 1000 - 1440
+      if [ -n "$ext_monitor" ]; then
+        # External monitor connected - use scale 1.6 for laptop
         hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
-        hyprctl keyword monitor "DP-1,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
-      elif [ "$has_dp2" -gt 0 ]; then
-        # DP-2: external above laptop, centered, scale 1.6
-        # eDP-1 logical @1.6: 1600x1000
-        # Centered: -920 = (1600 - 3440) / 2
-        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
-        hyprctl keyword monitor "DP-2,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
+
+        # Apply layout based on saved preference
+        layout=$(cat /tmp/hypr-layout-mode 2>/dev/null || echo "side")
+        if [ "$layout" = "above" ]; then
+          # External above laptop, centered: -920 = (1600 - 3440) / 2
+          hyprctl keyword monitor "$ext_monitor,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
+        else
+          # Laptop right of external, bottom-aligned: -440 = 1000 - 1440
+          hyprctl keyword monitor "$ext_monitor,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
+        fi
       else
         # Single monitor, scale 1.0
         hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1,vrr,1"
@@ -199,6 +189,24 @@ in
       default = "default";
     };
 
+    lockTimeout = mkOption {
+      type = types.int;
+      default = 1200;
+      description = "Idle seconds before locking the screen with hyprlock";
+    };
+
+    dpmsTimeout = mkOption {
+      type = types.int;
+      default = 1500;
+      description = "Idle seconds before turning off displays (DPMS)";
+    };
+
+    suspendTimeout = mkOption {
+      type = types.int;
+      default = 1800;
+      description = "Idle seconds before suspending the system";
+    };
+
   };
 
   imports = [
@@ -237,7 +245,7 @@ in
         btop
         wlr-randr
         hypridle
-        # hyprlock
+        hyprlock
         pavucontrol
       ];
 
@@ -274,7 +282,31 @@ in
           source = ./dunst;
           recursive = true;
         };
-        "hypr/hypridle.conf".source = ./hypridle.conf;
+        "hypr/hypridle.conf".text = ''
+          general {
+              lock_cmd = pidof hyprlock || hyprlock
+              unlock_cmd = pkill -USR1 hyprlock
+              before_sleep_cmd = loginctl lock-session
+              after_sleep_cmd = hyprctl dispatch dpms on
+              ignore_dbus_inhibit = false
+          }
+
+          listener {
+              timeout = ${toString cfg.lockTimeout}
+              on-timeout = loginctl lock-session
+          }
+
+          listener {
+              timeout = ${toString cfg.dpmsTimeout}
+              on-timeout = hyprctl dispatch dpms off
+              on-resume = hyprctl dispatch dpms on
+          }
+
+          listener {
+              timeout = ${toString cfg.suspendTimeout}
+              on-timeout = systemctl suspend
+          }
+        '';
         "hypr/hyprlock.conf".source = ./hyprlock.conf;
       };
 
@@ -352,6 +384,7 @@ in
             "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
             "DP-1, 3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1" # P34WD-40 - laptop to the right, bottom-aligned
             "DP-2, 3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1" # P34WD-40 - external above, centered
+            ",preferred,auto,1" # catch-all for any other monitor (e.g. DP-3 after replug)
           ];
 
           input = {

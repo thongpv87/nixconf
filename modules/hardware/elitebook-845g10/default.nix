@@ -60,6 +60,7 @@ in
             main = {
               f2 = "noop";
               f6 = "capslock";
+              delete = "backspace";
             };
           };
         };
