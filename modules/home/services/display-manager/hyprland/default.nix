@@ -74,13 +74,21 @@ let
 
   toggle-layout = pkgs.writeShellScriptBin "toggle-layout" ''
     STATE_FILE="/tmp/hypr-layout-mode"
-    current=$(cat "$STATE_FILE" 2>/dev/null || echo "side")
 
     # Find any external monitor (non-eDP)
     ext_monitor=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq -r '.[] | select(.name | startswith("eDP") | not) | .name' | head -1)
 
     if [ -z "$ext_monitor" ]; then
       exit 0
+    fi
+
+    # Detect current layout from actual monitor position instead of state file
+    # Side layout: external x = -3440; Above layout: external x = -920
+    ext_x=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq -r ".[] | select(.name == \"$ext_monitor\") | .x")
+    if [ "$ext_x" -lt -2000 ] 2>/dev/null; then
+      current="side"
+    else
+      current="above"
     fi
 
     if [ "$current" = "side" ]; then
@@ -110,15 +118,18 @@ let
         # External monitor connected - use scale 1.6 for laptop
         hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
 
-        # Apply layout based on saved preference
+        # Apply layout based on saved preference (default: side)
         layout=$(cat /tmp/hypr-layout-mode 2>/dev/null || echo "side")
         if [ "$layout" = "above" ]; then
           # External above laptop, centered: -920 = (1600 - 3440) / 2
           hyprctl keyword monitor "$ext_monitor,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
         else
+          layout="side"
           # Laptop right of external, bottom-aligned: -440 = 1000 - 1440
           hyprctl keyword monitor "$ext_monitor,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
         fi
+        # Keep state file in sync with actual layout
+        echo "$layout" > /tmp/hypr-layout-mode
       else
         # Single monitor, scale 1.0
         hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1,vrr,1"
