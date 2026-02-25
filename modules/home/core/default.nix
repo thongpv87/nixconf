@@ -152,6 +152,10 @@ in
 
       # Music
       playerctl
+
+      # Programming
+      nodejs
+      python3
     ];
 
     services.playerctld.enable = true;

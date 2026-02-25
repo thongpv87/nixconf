@@ -29,6 +29,7 @@ in
       selected-nerdfonts
       theme-sh
       bash-completion
+      claude-code
     ];
 
     programs = {

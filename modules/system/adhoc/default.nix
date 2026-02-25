@@ -32,7 +32,6 @@ in
         pkgs.socat
         pkgs.screen
         pkgs.code-cursor
-        pkgs.claude-code
       ];
     }
     {

@@ -116,6 +116,10 @@ in
           victor-mono
         ];
       };
+
+      claude-code = prev.writeShellScriptBin "claude-code" ''
+        exec ${prev.nodejs}/bin/npx @anthropic-ai/claude-code@latest "$@"
+      '';
     }
   )
 ]

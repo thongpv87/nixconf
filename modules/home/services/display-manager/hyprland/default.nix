@@ -93,14 +93,14 @@ let
 
     if [ "$current" = "side" ]; then
       # Switch to above layout
-      # eDP-1 logical @1.6: 1600x1000, centered: -920 = (1600 - 3440) / 2
-      hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+      # eDP-1 logical @1.33: 1600x1000, centered: -920 = (1600 - 3440) / 2
+      hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.33,vrr,1"
       hyprctl keyword monitor "$ext_monitor,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
       echo "above" > "$STATE_FILE"
     else
       # Switch to side layout (laptop right, bottom-aligned)
-      # eDP-1 logical @1.6: 1600x1000, bottom-aligned: -440 = 1000 - 1440
-      hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+      # eDP-1 logical @1.33: 1600x1000, bottom-aligned: -440 = 1000 - 1440
+      hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.33,vrr,1"
       hyprctl keyword monitor "$ext_monitor,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
       echo "side" > "$STATE_FILE"
     fi
@@ -115,8 +115,8 @@ let
       ext_monitor=$(hyprctl monitors -j | ${pkgs.jq}/bin/jq -r '.[] | select(.name | startswith("eDP") | not) | .name' | head -1)
 
       if [ -n "$ext_monitor" ]; then
-        # External monitor connected - use scale 1.6 for laptop
-        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+        # External monitor connected - use scale 1.33 for laptop
+        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.33,vrr,1"
 
         # Apply layout based on saved preference (default: side)
         layout=$(cat /tmp/hypr-layout-mode 2>/dev/null || echo "side")
@@ -392,7 +392,7 @@ in
             snap.enabled = true;
           };
           monitor = [
-            "eDP-1,2560x1600@120,0x0,1.6,vrr,1"
+            "eDP-1,2560x1600@120,0x0,1.33,vrr,1"
             "DP-1, 3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1" # P34WD-40 - side layout (default)
             "DP-2, 3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1" # P34WD-40 - side layout (default)
             ",preferred,auto,1" # catch-all for any other monitor (e.g. DP-3 after replug)
