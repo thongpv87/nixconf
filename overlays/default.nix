@@ -117,7 +117,7 @@ in
         ];
       };
 
-      claude-code = prev.writeShellScriptBin "claude-code" ''
+      claude-code = prev.writeShellScriptBin "claude" ''
         exec ${prev.nodejs}/bin/npx @anthropic-ai/claude-code@latest "$@"
       '';
     }

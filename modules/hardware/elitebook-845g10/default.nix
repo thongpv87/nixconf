@@ -51,22 +51,6 @@ in
       system = "x86_64-linux";
     };
 
-    services.keyd = {
-      enable = true;
-      keyboards = {
-        default = {
-          ids = [ "*" ];
-          settings = {
-            main = {
-              f2 = "noop";
-              f6 = "capslock";
-              delete = "backspace";
-            };
-          };
-        };
-      };
-    };
-
     hardware.amdgpu = {
       opencl.enable = true;
       initrd.enable = true;
