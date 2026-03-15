@@ -120,6 +120,10 @@ in
       claude-code = prev.writeShellScriptBin "claude" ''
         exec ${prev.nodejs}/bin/npx @anthropic-ai/claude-code@latest "$@"
       '';
+
+      google-gemini = prev.writeShellScriptBin "gemini" ''
+        exec ${prev.nodejs}/bin/npx @google/gemini-cli@latest "$@"
+      '';
     }
   )
 ]

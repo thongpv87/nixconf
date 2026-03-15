@@ -30,6 +30,7 @@ in
       theme-sh
       bash-completion
       claude-code
+      google-gemini
     ];
 
     programs = {

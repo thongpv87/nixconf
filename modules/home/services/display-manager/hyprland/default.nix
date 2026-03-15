@@ -200,12 +200,6 @@ in
       default = "default";
     };
 
-    lockTimeout = mkOption {
-      type = types.int;
-      default = 1200;
-      description = "Idle seconds before locking the screen with hyprlock";
-    };
-
     dpmsTimeout = mkOption {
       type = types.int;
       default = 1500;
@@ -256,7 +250,6 @@ in
         btop
         wlr-randr
         hypridle
-        hyprlock
         pavucontrol
       ];
 
@@ -295,16 +288,8 @@ in
         };
         "hypr/hypridle.conf".text = ''
           general {
-              lock_cmd = pidof hyprlock || hyprlock
-              unlock_cmd = pkill -USR1 hyprlock
-              before_sleep_cmd = loginctl lock-session
               after_sleep_cmd = hyprctl dispatch dpms on
               ignore_dbus_inhibit = false
-          }
-
-          listener {
-              timeout = ${toString cfg.lockTimeout}
-              on-timeout = loginctl lock-session
           }
 
           listener {
@@ -318,7 +303,6 @@ in
               on-timeout = systemctl suspend
           }
         '';
-        "hypr/hyprlock.conf".source = ./hyprlock.conf;
       };
 
       i18n.inputMethod = {
