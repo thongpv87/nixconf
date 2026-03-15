@@ -107,6 +107,39 @@ in
         alsa.support32Bit = true;
         pulse.enable = true;
         jack.enable = true;
+        wireplumber.extraConfig = {
+          "51-audio-sink-priority" = {
+            "monitor.alsa.rules" = [
+              {
+                # Laptop speakers / headphone jack — lowest priority
+                matches = [ { "node.name" = "alsa_output.pci-0000_c3_00.6.analog-stereo"; } ];
+                actions.update-props."priority.session" = 1000;
+              }
+              {
+                # HDMI outputs (external monitor speakers) — medium priority
+                matches = [ { "node.name" = "~alsa_output.pci-0000_c3_00.1.*"; } ];
+                actions.update-props."priority.session" = 2000;
+              }
+            ];
+            "monitor.bluez.rules" = [
+              {
+                # BT headphones/headsets — highest priority
+                matches = [ { "device.form-factor" = "headset"; } ];
+                actions.update-props."priority.session" = 4000;
+              }
+              {
+                # BT headphones (over-ear form factor)
+                matches = [ { "device.form-factor" = "headphone"; } ];
+                actions.update-props."priority.session" = 4000;
+              }
+              {
+                # BT speakers — below headphones, above HDMI
+                matches = [ { "device.form-factor" = "speaker"; } ];
+                actions.update-props."priority.session" = 3000;
+              }
+            ];
+          };
+        };
       };
       printing.enable = false;
       avahi = {
