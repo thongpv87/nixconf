@@ -39,6 +39,7 @@ in
             enable = true;
             window-manager = "hyprland";
           };
+          ai.enable = true;
         };
 
         terminal = {

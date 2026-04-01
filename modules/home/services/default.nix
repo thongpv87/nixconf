@@ -1,1 +1,6 @@
-{ imports = [ ./display-manager ]; }
+{
+  imports = [
+    ./ai
+    ./display-manager
+  ];
+}
