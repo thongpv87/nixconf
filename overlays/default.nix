@@ -117,9 +117,58 @@ in
         ];
       };
 
-      claude-code = prev.writeShellScriptBin "claude" ''
-        exec ${prev.nodejs}/bin/npx @anthropic-ai/claude-code@latest "$@"
-      '';
+      claude-code =
+        let
+          version = "2.1.89";
+          src = prev.fetchzip {
+            url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${version}.tgz";
+            hash = "sha256-FoTm6KDr+8Dzhk4ibZUlU1QLPFdPm/OriUUWqAaFswg=";
+          };
+        in
+        prev.stdenv.mkDerivation {
+          pname = "claude-code";
+          inherit version src;
+
+          nativeBuildInputs = [ prev.makeWrapper ];
+
+          dontBuild = true;
+
+          # Cache fix patch: preserve deferred_tools_delta and mcp_instructions_delta
+          # attachments in session JSONL so prompt caching works on resumed sessions.
+          # See: https://github.com/Rangizingo/cc-cache-fix
+          postPatch = ''
+            substituteInPlace cli.js \
+              --replace-fail \
+                'if(q.attachment.type==="hook_deferred_tool")return!0;return!1}' \
+                'if(q.attachment.type==="hook_deferred_tool")return!0;if(q.attachment.type==="deferred_tools_delta")return!0;if(q.attachment.type==="mcp_instructions_delta")return!0;return!1}'
+          '';
+
+          installPhase = ''
+            runHook preInstall
+
+            mkdir -p $out/lib/claude-code $out/bin
+            cp -r . $out/lib/claude-code/
+
+            makeWrapper ${prev.nodejs}/bin/node $out/bin/claude \
+              --add-flags "$out/lib/claude-code/cli.js" \
+              --set DISABLE_AUTOUPDATER 1 \
+              --set DISABLE_INSTALLATION_CHECKS 1 \
+              --prefix PATH : ${
+                prev.lib.makeBinPath [
+                  prev.procps
+                  prev.bubblewrap
+                  prev.socat
+                ]
+              }
+
+            runHook postInstall
+          '';
+
+          meta = {
+            description = "Claude Code with prompt cache fix";
+            mainProgram = "claude";
+          };
+        };
 
       google-gemini = prev.writeShellScriptBin "gemini" ''
         exec ${prev.nodejs}/bin/npx @google/gemini-cli@latest "$@"

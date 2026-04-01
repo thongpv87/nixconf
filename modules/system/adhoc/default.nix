@@ -40,12 +40,6 @@ in
         useRoutingFeatures = "client";
       };
     }
-    {
-      environment.systemPackages = [
-        (pkgs.wineWowPackages.stable.override { waylandSupport = true; })
-        pkgs.lutris
-      ];
-    }
     # adhoc
     {
       environment.systemPackages = [

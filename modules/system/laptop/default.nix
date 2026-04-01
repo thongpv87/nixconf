@@ -40,11 +40,10 @@ in
       dosfstools
       gptfdisk
       wirelesstools
+      brightnessctl
     ];
 
-    programs = {
-      light.enable = true;
-    };
+    hardware.acpilight.enable = true;
 
     boot = {
       kernelModules = [ "acpi_call" ];
@@ -86,11 +85,11 @@ in
           # Volume not controllable from acpid as pulseaudio is user service and acpid is system
           brightness-down = {
             event = "video/brightnessdown*";
-            action = "${pkgs.light}/bin/light -U 5";
+            action = "${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
           };
           brightness-up = {
             event = "video/brightnessup";
-            action = "${pkgs.light}/bin/light -A 5";
+            action = "${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
           };
           ac-power = {
             event = "ac_adapter/*";
@@ -99,8 +98,10 @@ in
               case ''${vals[3]} in
                 00000000|00000001)
                   max_bright=30
-                  curr_bright=$(echo $(${pkgs.light}/bin/light -G) | xargs printf "%0.f")
-                  ${pkgs.light}/bin/light -S $((curr_bright<max_bright ? curr_bright : max_bright))
+                  curr_bright=$(${pkgs.brightnessctl}/bin/brightnessctl get -P | xargs printf "%0.f")
+                  if [ "$curr_bright" -gt "$max_bright" ]; then
+                    ${pkgs.brightnessctl}/bin/brightnessctl set ''${max_bright}%
+                  fi
                   ;;
               esac
             '';

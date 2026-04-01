@@ -29,7 +29,7 @@ in
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      neofetch
+      fastfetch
       ntfs3g
       gnused
       gawkInteractive

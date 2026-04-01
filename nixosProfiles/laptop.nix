@@ -41,7 +41,7 @@
       virtualisation = {
         enable = true;
         enablePodman = true;
-        enableVirtualBox = true;
+        enableVirtualBox = false;
         vboxUsers = [ "thongpv87" ];
       };
     };

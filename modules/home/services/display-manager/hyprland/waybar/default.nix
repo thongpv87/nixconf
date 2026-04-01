@@ -130,8 +130,8 @@ in
               ];
               tooltip = false;
               #format-icons = [ "" "" ];
-              on-scroll-up = "${pkgs.light}/bin/light -A 2";
-              on-scroll-down = "${pkgs.light}/bin/light -U 1";
+              on-scroll-up = "${pkgs.brightnessctl}/bin/brightnessctl set 2%+";
+              on-scroll-down = "${pkgs.brightnessctl}/bin/brightnessctl set 1%-";
             };
             pulseaudio = {
               format = "{icon} {volume}%";

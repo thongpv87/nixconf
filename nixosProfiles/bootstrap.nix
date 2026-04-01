@@ -1,6 +1,6 @@
 {
   nixconf = {
-    hardware.virtualbox.enable = true;
+    hardware.virtualbox.enable = false;
     boot = {
       mode = "bios";
       diskLayout = "bios-btrfs";
