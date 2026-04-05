@@ -286,6 +286,10 @@ in
           source = ./dunst;
           recursive = true;
         };
+
+        # If you’re using the NixOS module with UWSM (programs.hyprland.withUWSM = true), you can set environment variables like this:
+        "uwsm/env".source = "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
+
         "hypr/hypridle.conf".text = ''
           general {
               after_sleep_cmd = hyprctl dispatch dpms on
@@ -339,6 +343,7 @@ in
     {
       home.sessionVariables = {
         XDG_SESSION_DESKTOP = "Hyprland";
+        XDG_CURRENT_DESKTOP = "Hyprland";
         # GTK_IM_MODULE = "fcitx";
         # QT_IM_MODULE = "fcitx";
         # XMODIFIERS = "@im=fcitx";
@@ -357,8 +362,15 @@ in
 
       wayland.windowManager.hyprland = {
         enable = true;
-        systemd.enable = true;
-        # systemd.enableXdgAutoStart = true;
+
+        # set the Hyprland and XDPH packages to null to use the ones from the NixOS module
+        package = null;
+        portalPackage = null;
+        systemd = {
+          enable = true;
+          variables = [ "--all" ];
+          enableXdgAutostart = true;
+        };
         xwayland.enable = true;
         # systemd.extraCommands = [ "ibus-deamon -d" ];
 

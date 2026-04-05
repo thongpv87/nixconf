@@ -41,11 +41,13 @@ in
         pkgs.xdg-desktop-portal-gtk
         pkgs.xdg-desktop-portal-hyprland
       ];
+      config.common.default = "*";
     };
 
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1";
       _JAVA_OPTIONS = "-Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+      XDG_CURRENT_DESKTOP = "Hyprland";
     };
   };
 }
