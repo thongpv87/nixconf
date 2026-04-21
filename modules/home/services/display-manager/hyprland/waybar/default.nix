@@ -28,8 +28,8 @@ in
         enable = true;
         systemd = {
           enable = true;
-          # target = "hyprland-session.target";
-          target = "graphical-session.target";
+          # targets = [ "hyprland-session.target" ];
+          targets = [ "graphical-session.target" ];
         };
         settings = {
           mainbar = {

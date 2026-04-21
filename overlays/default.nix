@@ -119,10 +119,10 @@ in
 
       claude-code =
         let
-          version = "2.1.89";
+          version = "2.1.100";
           src = prev.fetchzip {
             url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${version}.tgz";
-            hash = "sha256-FoTm6KDr+8Dzhk4ibZUlU1QLPFdPm/OriUUWqAaFswg=";
+            hash = "sha256-7/Rhk1z3Us2vOYGa85lkVIzzqdQFmfmAxrT39a7D27Y=";
           };
         in
         prev.stdenv.mkDerivation {
@@ -133,15 +133,15 @@ in
 
           dontBuild = true;
 
-          # Cache fix patch: preserve deferred_tools_delta and mcp_instructions_delta
-          # attachments in session JSONL so prompt caching works on resumed sessions.
-          # See: https://github.com/Rangizingo/cc-cache-fix
-          postPatch = ''
-            substituteInPlace cli.js \
-              --replace-fail \
-                'if(q.attachment.type==="hook_deferred_tool")return!0;return!1}' \
-                'if(q.attachment.type==="hook_deferred_tool")return!0;if(q.attachment.type==="deferred_tools_delta")return!0;if(q.attachment.type==="mcp_instructions_delta")return!0;return!1}'
-          '';
+          # # Cache fix patch: preserve deferred_tools_delta and mcp_instructions_delta
+          # # attachments in session JSONL so prompt caching works on resumed sessions.
+          # # See: https://github.com/Rangizingo/cc-cache-fix
+          # postPatch = ''
+          #   substituteInPlace cli.js \
+          #     --replace-fail \
+          #       'if(q.attachment.type==="hook_deferred_tool")return!0;return!1}' \
+          #       'if(q.attachment.type==="hook_deferred_tool")return!0;if(q.attachment.type==="deferred_tools_delta")return!0;if(q.attachment.type==="mcp_instructions_delta")return!0;return!1}'
+          # '';
 
           installPhase = ''
             runHook preInstall

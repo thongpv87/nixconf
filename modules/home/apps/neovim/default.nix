@@ -42,6 +42,7 @@ in
       vimdiffAlias = true;
       withNodeJs = true;
       withPython3 = true;
+      withRuby = false;
 
       extraPackages = [
         pkgs.sqlite

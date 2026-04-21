@@ -49,9 +49,8 @@ in
         pkgs.appimage-run
 
         pkgs.shellcheck
-        pkgs.nodePackages.bash-language-server
+        pkgs.bash-language-server
         pkgs.sweethome3d.application
-
         pkgs.discord
         pkgs.slack
         pkgs.ngrok

@@ -534,7 +534,7 @@ in
             "$mod SHIFT, 8, movetoworkspacesilent, 8"
             "$mod SHIFT, 9, movetoworkspacesilent, 9"
             "$mod SHIFT, 0, movetoworkspacesilent, 10"
-            "$mod SHIFT, space, movetoworkspacesilent, special"
+            "$mod SHIFT, space, movetoworkspacesilent, special:term"
 
             # # Scroll through existing workspaces with mod + scroll
             "$mod, mouse_down, workspace, e+1"
