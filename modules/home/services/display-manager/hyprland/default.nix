@@ -362,6 +362,7 @@ in
 
       wayland.windowManager.hyprland = {
         enable = true;
+        configType = "hyprlang";
 
         # set the Hyprland and XDPH packages to null to use the ones from the NixOS module
         package = null;
@@ -413,7 +414,6 @@ in
           #
           dwindle = {
             # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
-            pseudotile = true; # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
             preserve_split = true; # you probably want this
           };
 
@@ -464,8 +464,6 @@ in
             "$mod, T, togglefloating,"
             # "$mod, P, exec, wofi --show drun"
             "$mod, P, exec, rofi -show drun -replace -i -show-icons"
-            "$mod, I, pseudo," # dwindle
-            "$mod, U, togglesplit," # dwindle
             "$mod, backslash, exec, screenshot-region"
             "$mod, V, exec, ${pkgs.cliphist}/bin/cliphist list | rofi -dmenu -p clipboard -i | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"
             "$mod SHIFT, M, exec, toggle-layout"
@@ -552,6 +550,9 @@ in
             key_press_enables_dpms = true;
             on_focus_under_fullscreen = 1;
             focus_on_activate = true;
+          };
+
+          debug = {
             vfr = true;
           };
         };

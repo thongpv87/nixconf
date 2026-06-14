@@ -20,18 +20,16 @@ in
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = {
+      settings = {
         "*" = {
-          addKeysToAgent = "yes";
-          extraOptions = {
-            ControlMaster = "auto";
-            ControlPersist = "10d";
-          };
+          AddKeysToAgent = "yes";
+          ControlMaster = "auto";
+          ControlPersist = "10d";
         };
         localhost = {
-          hostname = "127.0.0.1";
-          user = "root";
-          identityFile = "~/.ssh/local";
+          HostName = "127.0.0.1";
+          User = "root";
+          IdentityFile = "~/.ssh/local";
         };
       };
     };

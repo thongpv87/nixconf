@@ -36,7 +36,6 @@ in
   config = mkIf cfg.enable (mkMerge [
     {
       services.displayManager.gdm = {
-        wayland = true;
         enable = true;
       };
 
