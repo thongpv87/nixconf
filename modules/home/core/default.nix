@@ -37,6 +37,7 @@ in
       };
       stateVersion = "25.11";
       pointerCursor = {
+        enable = true;
         gtk.enable = true;
         package = pkgs.pop-icon-theme;
         name = "Pop";
@@ -157,6 +158,9 @@ in
       # Programming
       nodejs
       python3
+
+      # video call
+      zoom-us
     ];
 
     services.playerctld.enable = true;

@@ -415,6 +415,7 @@ in
           dwindle = {
             # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
             preserve_split = true; # you probably want this
+            special_scale_factor = 0.85;
           };
 
           master = {

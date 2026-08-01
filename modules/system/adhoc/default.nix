@@ -44,18 +44,14 @@ in
     {
       environment.systemPackages = [
         pkgs.python3
-        pkgs.elixir
         pkgs.gtk4
         pkgs.appimage-run
 
         pkgs.shellcheck
         pkgs.bash-language-server
-        pkgs.sweethome3d.application
         pkgs.discord
         pkgs.slack
         pkgs.ngrok
-        #pkgs.dbeaver-bin
-        pkgs.antares
       ];
 
     }

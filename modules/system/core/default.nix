@@ -78,7 +78,6 @@ in
       ifuse
       psmisc
       lsof
-      antigravity
     ];
 
     time.timeZone = mkForce "Asia/Ho_Chi_Minh";

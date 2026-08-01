@@ -51,7 +51,8 @@ in
 
       fzf = {
         enable = true;
-        fileWidgetOptions = [ "--preview 'head {}'" ];
+        fileWidget.options = [ "--preview 'head {}'" ];
+        historyWidget.command = "";
       };
 
       direnv = {
