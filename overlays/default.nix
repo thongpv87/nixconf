@@ -101,6 +101,42 @@ in
 
       chromium = prev.chromium.override { commandLineArgs = "--gtk-version=4"; };
 
+      antigravity-ide =
+        let
+          anti-power-src = prev.fetchFromGitHub {
+            owner = "daoif";
+            repo = "anti-power";
+            rev = "master";
+            hash = "sha256-TGaKxWKxkATflXF/za3cCcO0FRPN8v47CkluZ5lrwHU=";
+          };
+        in
+        prev.antigravity-ide.overrideAttrs (oldAttrs: {
+          postInstall =
+            (oldAttrs.postInstall or "")
+            + ''
+              echo "Applying anti-power patch to antigravity-ide..."
+              APP_DIR="$out/lib/antigravity-ide/resources/app"
+              PATCH_DIR="${anti-power-src}/patcher/patches"
+
+              if [ -d "$APP_DIR/extensions/antigravity" ]; then
+                cp -f "$PATCH_DIR/cascade-panel.html" "$APP_DIR/extensions/antigravity/cascade-panel.html"
+                rm -rf "$APP_DIR/extensions/antigravity/cascade-panel"
+                cp -r "$PATCH_DIR/cascade-panel" "$APP_DIR/extensions/antigravity/cascade-panel"
+              fi
+
+              WORKBENCH_DIR="$APP_DIR/out/vs/code/electron-browser/workbench"
+              if [ -d "$WORKBENCH_DIR" ]; then
+                cp -f "$PATCH_DIR/workbench.html" "$WORKBENCH_DIR/workbench.html"
+                rm -rf "$WORKBENCH_DIR/sidebar-panel"
+                cp -r "$PATCH_DIR/sidebar-panel" "$WORKBENCH_DIR/sidebar-panel"
+
+                cp -f "$PATCH_DIR/workbench-jetski-agent.html" "$WORKBENCH_DIR/workbench-jetski-agent.html"
+                rm -rf "$WORKBENCH_DIR/manager-panel"
+                cp -r "$PATCH_DIR/manager-panel" "$WORKBENCH_DIR/manager-panel"
+              fi
+            '';
+        });
+
       selected-nerdfonts = prev.buildEnv {
         name = "myutils";
         paths = with prev.nerd-fonts; [

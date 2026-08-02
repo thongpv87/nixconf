@@ -57,16 +57,19 @@ in
           "JoyPixels"
         ];
         monospace = [
-          "Fira Mono"
-          "Hack"
+          "JetBrainsMono Nerd Font"
           "DejaVu Sans Mono"
+          "FiraCode Nerd Font"
+          "Berkeley Mono"
         ];
         sansSerif = [
+          "Roboto"
           "Noto Sans"
           "Arial"
           "Liberation Sans"
         ];
         serif = [
+          "Roboto Slab"
           "Noto Serif"
           "Times New Roman"
           "Liberation Serif"
@@ -86,7 +89,7 @@ in
         name = "breeze";
       };
       font = {
-        name = "Berkeley Mono Variable";
+        name = "Roboto Slab";
         size = 11;
       };
     };
@@ -112,6 +115,9 @@ in
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
         text-scaling-factor = 1.0;
+        font-name = "Roboto Slab 11";
+        document-font-name = "Roboto Slab 11";
+        monospace-font-name = "Berkeley Mono 11";
       };
     };
 
@@ -151,6 +157,8 @@ in
       liberation_ttf
       corefonts
       carlito
+      roboto
+      roboto-slab
 
       # Music
       playerctl

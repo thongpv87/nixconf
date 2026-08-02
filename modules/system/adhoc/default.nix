@@ -52,6 +52,7 @@ in
         pkgs.discord
         pkgs.slack
         pkgs.ngrok
+        pkgs.antigravity-ide
       ];
 
     }
