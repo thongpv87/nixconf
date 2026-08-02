@@ -153,10 +153,37 @@ let
     done
   '';
 
+  cycle-hypr-layout = pkgs.writeShellScriptBin "cycle-hypr-layout" ''
+    DEFAULT_LAYOUT="${cfg.defaultLayout}"
+    if [ "$1" == "--reset" ]; then
+      hyprctl keyword general:layout "$DEFAULT_LAYOUT"
+      ${pkgs.dunst}/bin/dunstify -r 9993 -a "Hyprland" "Layout Reset" "Switched to $DEFAULT_LAYOUT"
+      exit 0
+    fi
+
+    CURRENT=$(hyprctl getoption general:layout -j | ${pkgs.jq}/bin/jq -r '.str')
+    if [ "$CURRENT" == "master" ]; then
+      NEXT="dwindle"
+    elif [ "$CURRENT" == "dwindle" ]; then
+      NEXT="scrolling"
+    else
+      NEXT="master"
+    fi
+
+    hyprctl keyword general:layout "$NEXT"
+    ${pkgs.dunst}/bin/dunstify -r 9993 -a "Hyprland" "Layout Change" "Switched to $NEXT"
+  '';
+
 in
 {
   options.nixconf.services.display-manager.hyprland = {
     enable = mkEnableOption "Enable Hyprland display server";
+
+    defaultLayout = mkOption {
+      type = types.enum [ "master" "dwindle" "scrolling" ];
+      default = "master";
+      description = "Default layout to use for Hyprland";
+    };
 
     window = mkOption {
       type = types.enum [
@@ -237,6 +264,7 @@ in
         switch-input-method
         screenshot-region
         toggle-special
+        cycle-hypr-layout
         toggle-layout
         monitor-scale
         suspend-countdown
@@ -251,6 +279,7 @@ in
         wlr-randr
         hypridle
         pavucontrol
+        wtype
       ];
 
       fonts.fontconfig.enable = true;
@@ -387,6 +416,7 @@ in
 
           general = {
             snap.enabled = true;
+            layout = cfg.defaultLayout;
           };
           monitor = [
             "eDP-1,2560x1600@120,0x0,1.33,vrr,1"
@@ -450,6 +480,8 @@ in
           ];
 
           bind = [
+            "$mod, grave, exec, cycle-hypr-layout"
+            "$mod SHIFT, grave, exec, cycle-hypr-layout --reset"
             "$mod SHIFT, RETURN, exec, alacritty"
             "$mod SHIFT, C, killactive,"
             "$mod, Q, exec, systemctl suspend"
@@ -457,16 +489,19 @@ in
             "$mod, m, layoutmsg, focusmaster"
             "$mod, RETURN, layoutmsg, swapwithmaster"
 
-            "$mod, J, layoutmsg, cyclenext"
-            "$mod, K, layoutmsg, cycleprev"
-            "$mod SHIFT,J,layoutmsg,swapnext"
-            "$mod SHIFT,K,layoutmsg,swapprev"
+            # 1D Stack Navigation (J/K)
+            "$mod, J, cyclenext"
+            "$mod, K, cyclenext, prev"
+
+            # 1D Window Moving (J/K)
+            "$mod SHIFT, J, swapnext"
+            "$mod SHIFT, K, swapnext, prev"
 
             "$mod, T, togglefloating,"
             # "$mod, P, exec, wofi --show drun"
             "$mod, P, exec, rofi -show drun -replace -i -show-icons"
             "$mod, backslash, exec, screenshot-region"
-            "$mod, V, exec, ${pkgs.cliphist}/bin/cliphist list | rofi -dmenu -p clipboard -i | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"
+            "$mod, V, exec, ${pkgs.cliphist}/bin/cliphist list | rofi -dmenu -p clipboard -i | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy && sleep 0.1 && ${pkgs.wtype}/bin/wtype -M shift -k insert -m shift"
             "$mod SHIFT, M, exec, toggle-layout"
             "$mod, F, fullscreen,1"
             "$mod SHIFT, F, fullscreen,0"
@@ -489,11 +524,11 @@ in
             "$mod,W, focusmonitor, DP-1"
             "$mod,E, focusmonitor,eDP-1"
 
-            # Move focus with mod + arrow keys
-            "$mod, left, movewindow, l"
-            "$mod, right, movewindow, r"
-            "$mod, up, movewindow, u"
-            "$mod, down, movewindow, d"
+            # 2D Spatial Navigation with mod + arrow keys
+            "$mod, left, movefocus, l"
+            "$mod, right, movefocus, r"
+            "$mod, up, movefocus, u"
+            "$mod, down, movefocus, d"
             "$mod SHIFT, left, resizeactive, -40 0"
             "$mod SHIFT, right, resizeactive, 40 0"
             "$mod SHIFT, up, resizeactive, 0 -40"
