@@ -131,6 +131,7 @@ in
       graphviz
       sshfs
       pdftk
+      sioyek
       asciinema
 
       # Spell checking
