@@ -63,14 +63,15 @@ in
           "Berkeley Mono"
         ];
         sansSerif = [
-          "Roboto"
+          "Inter"
+          "SF Pro Text"
           "Noto Sans"
           "Arial"
           "Liberation Sans"
         ];
         serif = [
-          "Roboto Slab"
           "Noto Serif"
+          "STIX Two Text"
           "Times New Roman"
           "Liberation Serif"
         ];
@@ -89,7 +90,7 @@ in
         name = "breeze";
       };
       font = {
-        name = "Roboto Slab";
+        name = "Inter";
         size = 11;
       };
     };
@@ -115,9 +116,9 @@ in
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
         text-scaling-factor = 1.0;
-        font-name = "Roboto Slab 11";
-        document-font-name = "Roboto Slab 11";
-        monospace-font-name = "Berkeley Mono 11";
+        font-name = "Inter 11";
+        document-font-name = "Inter 11";
+        monospace-font-name = "JetBrainsMono Nerd Font 11";
       };
     };
 
@@ -150,6 +151,8 @@ in
       seahorse
 
       # Fonts
+      inter
+      stix-two
       selected-nerdfonts
       noto-fonts-color-emoji
       noto-fonts-cjk-sans
@@ -158,7 +161,6 @@ in
       corefonts
       carlito
       roboto
-      roboto-slab
 
       # Music
       playerctl
