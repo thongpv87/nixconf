@@ -590,8 +590,7 @@ in
           }
           {
             source = [ "/home/thongpv87/.cache/wal/colors-hyprland.conf" ];
-            bezier = (import ./animations/${cfg.animation}.nix).bezier or [ ];
-            animation = (import ./animations/${cfg.animation}.nix).animation or [ ];
+            animations = import ./animations/${cfg.animation}.nix;
             decoration = import ./decorations/${cfg.decoration}.nix;
             general = import ./windows/${cfg.window}.nix;
           }
