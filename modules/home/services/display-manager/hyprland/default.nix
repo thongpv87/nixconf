@@ -406,7 +406,7 @@ in
 
         settings = lib.mkMerge [
           {
-            exec-once = [
+            exec_once = [
               "fcitx5 -r"
               "${pkgs.dunst}/bin/dunst"
               "monitor-scale"
