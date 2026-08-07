@@ -110,15 +110,6 @@ in
         "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
         "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}"
       ];
-      mimeApps = {
-        enable = true;
-        defaultApplications = {
-          "application/pdf" = [ "org.kde.okular.desktop" ];
-          "text/html" = [ "google-chrome.desktop" ];
-          "x-scheme-handler/http" = [ "google-chrome.desktop" ];
-          "x-scheme-handler/https" = [ "google-chrome.desktop" ];
-        };
-      };
     };
 
     dconf.settings = {
