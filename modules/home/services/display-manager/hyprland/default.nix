@@ -391,7 +391,7 @@ in
 
       wayland.windowManager.hyprland = {
         enable = true;
-        configType = "lua";
+        configType = "hyprlang";
 
         # set the Hyprland and XDPH packages to null to use the ones from the NixOS module
         package = null;
