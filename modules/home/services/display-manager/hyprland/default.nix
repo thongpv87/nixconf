@@ -94,14 +94,14 @@ let
     if [ "$current" = "side" ]; then
       # Switch to above layout
       # eDP-1 logical @1.33: 1600x1000, centered: -920 = (1600 - 3440) / 2
-      hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.33,vrr,1"
-      hyprctl keyword monitor "$ext_monitor,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
+      hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.33,vrr,2"
+      hyprctl keyword monitor "$ext_monitor,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,2"
       echo "above" > "$STATE_FILE"
     else
       # Switch to side layout (laptop right, bottom-aligned)
       # eDP-1 logical @1.33: 1600x1000, bottom-aligned: -440 = 1000 - 1440
-      hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.33,vrr,1"
-      hyprctl keyword monitor "$ext_monitor,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
+      hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.33,vrr,2"
+      hyprctl keyword monitor "$ext_monitor,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,2"
       echo "side" > "$STATE_FILE"
     fi
 
@@ -116,23 +116,23 @@ let
 
       if [ -n "$ext_monitor" ]; then
         # External monitor connected - use scale 1.33 for laptop
-        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.33,vrr,1"
+        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1.33,vrr,2"
 
         # Apply layout based on saved preference (default: side)
         layout=$(cat /tmp/hypr-layout-mode 2>/dev/null || echo "side")
         if [ "$layout" = "above" ]; then
           # External above laptop, centered: -920 = (1600 - 3440) / 2
-          hyprctl keyword monitor "$ext_monitor,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,1"
+          hyprctl keyword monitor "$ext_monitor,3440x1440@120,-920x-1440,1,bitdepth,10,vrr,2"
         else
           layout="side"
           # Laptop right of external, bottom-aligned: -440 = 1000 - 1440
-          hyprctl keyword monitor "$ext_monitor,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
+          hyprctl keyword monitor "$ext_monitor,3440x1440@120,-3440x-440,1,bitdepth,10,vrr,2"
         fi
         # Keep state file in sync with actual layout
         echo "$layout" > /tmp/hypr-layout-mode
       else
         # Single monitor, scale 1.0
-        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1,vrr,1"
+        hyprctl keyword monitor "eDP-1,2560x1600@120,0x0,1,vrr,2"
       fi
     }
 
@@ -266,6 +266,7 @@ in
       };
 
       home.packages = with pkgs; [
+        inotify-tools
         switch-input-method
         screenshot-region
         toggle-special
@@ -414,8 +415,6 @@ in
       wayland.windowManager.hyprland = {
         enable = true;
         configType = "hyprlang";
-        sourceFirst = true;
-
         # set the Hyprland and XDPH packages to null to use the ones from the NixOS module
         package = null;
         portalPackage = null;
@@ -428,6 +427,9 @@ in
         # systemd.extraCommands = [ "ibus-deamon -d" ];
 
         settings = lib.mkMerge [
+          {
+            source = [ "~/.config/hypr/colors.conf" ];
+          }
           {
             exec-once = [
               "fcitx5 -r"
@@ -442,9 +444,9 @@ in
               layout = cfg.defaultLayout;
             };
             monitor = [
-              "eDP-1,2560x1600@120,0x0,1.33,vrr,1"
-              "DP-1, 3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
-              "DP-2, 3440x1440@120,-3440x-440,1,bitdepth,10,vrr,1"
+              "eDP-1,2560x1600@120,0x0,1.33,vrr,2"
+              "DP-1, 3440x1440@120,-3440x-440,1,bitdepth,10,vrr,2"
+              "DP-2, 3440x1440@120,-3440x-440,1,bitdepth,10,vrr,2"
               ",preferred,auto,1"
             ];
 
@@ -880,11 +882,8 @@ in
         }
       ];
 
-      # Source colors.conf BEFORE settings (sourceFirst=true puts extraConfig first)
-      # Also define quickshell passthru submap
+      # Define quickshell passthru submap
       wayland.windowManager.hyprland.extraConfig = ''
-        source = ~/.config/hypr/colors.conf
-
         submap = passthru
         bind = SUPER SHIFT CTRL ALT, F35, exec, true
         submap = reset

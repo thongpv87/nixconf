@@ -124,7 +124,7 @@ Item {
 
     Process {
         id: diskProc
-        command: ["bash", "-c", "df -h ~ | awk 'NR==2{printf(\"%s;%s / %s;\", $5, $3, $2)}'; du -sh ~/.config ~/.cache ~/.local/share ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Projects ~/Games 2>/dev/null | sort -hr | head -n 5 | awk '{printf(\"%s|%s,\", $1, $2)}'"]
+        command: ["bash", "-c", "df -h ~ | awk 'NR==2{printf(\"%s;%s / %s;;\", $5, $3, $2)}'"]
         stdout: StdioCollector {
             onStreamFinished: {
                 let text = this.text ? this.text.trim() : "";
