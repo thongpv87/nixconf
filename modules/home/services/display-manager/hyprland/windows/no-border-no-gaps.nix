@@ -1,0 +1,8 @@
+{
+  gaps_in = 0;
+  gaps_out = 0;
+  border_size = 3;
+  "col.active_border" = "$color11";
+  "col.inactive_border" = "rgba(88888800)";
+  layout = "master";
+}
