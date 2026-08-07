@@ -1,0 +1,169 @@
+{ config, pkgs, lib, ... }:
+let
+  cfg = config.nixconf.services.display-manager.hyprland;
+in
+lib.mkIf (cfg.enable && cfg.useIlyamiroConfig) {
+  nixconf.apps.wal.enable = lib.mkForce false;
+
+  home.packages = with pkgs; [
+    quickshell
+    matugen
+    swww
+    swayosd
+    cava
+    playerctl
+    socat
+    bc
+    jq
+    acpi
+    iw
+    bluez
+    libnotify
+    lm_sensors
+    imagemagick
+    ffmpeg
+    python3
+    pulseaudio
+  ];
+
+  services.swayosd = {
+    enable = true;
+    topMargin = 0.9;
+  };
+
+  xdg.configFile = {
+    "hypr/scripts".source = ./scripts;
+    "hypr/templates".source = ./templates;
+    "matugen".source = ./matugen;
+    "cava/config_base".source = ./cava_config;
+
+    "hypr/colors.conf".text = ''
+      $active_border = rgba(7aa2f7ee)
+      $inactive_border = rgba(565f89aa)
+    '';
+
+    "hypr/settings.json".text = builtins.toJSON {
+      uiScale = 1.0;
+      openGuideAtStartup = true;
+      topbarHelpIcon = true;
+      workspaceCount = 10;
+      wallpaperDir = "${config.home.homeDirectory}/Pictures/Wallpapers";
+      language = "us";
+      kbOptions = "caps:escape";
+    };
+  };
+
+  wayland.windowManager.hyprland.settings = {
+    source = [ "~/.config/hypr/colors.conf" ];
+
+    exec-once = [
+      "fcitx5-remote -s bamboo"
+      "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
+      "swww-daemon"
+      "sleep 2 && if ! swww query | grep -q 'image:'; then swww img ~/Code/nixconf/modules/home/services/display-manager/hyprland/wallpapers/countryside_landscape.jpg; fi"
+      "playerctld"
+      "~/.config/hypr/scripts/volume_listener.sh"
+    ];
+
+    general = {
+      border_size = 2;
+      gaps_in = 4;
+      gaps_out = 4;
+      resize_on_border = true;
+      extend_border_grab_area = 30;
+      "col.active_border" = "$active_border";
+      "col.inactive_border" = "$inactive_border";
+    };
+
+    animations = {
+      enabled = true;
+      bezier = [
+        "myBezier, 0.05, 0.9, 0.1, 1.05"
+      ];
+      animation = [
+        "windows, 1, 5, myBezier, popin 80%"
+        "windowsOut, 1, 5, myBezier, popin 80%"
+        "layers, 1, 5, myBezier, fade"
+        "layersIn, 1, 5, myBezier, fade"
+        "layersOut, 1, 5, myBezier, fade"
+        "fade, 1, 5, myBezier"
+        "workspaces, 1, 5, myBezier, slide"
+        "specialWorkspaceIn, 1, 5, myBezier, fade"
+        "specialWorkspaceOut, 1, 5, myBezier, fade"
+      ];
+    };
+
+    misc = {
+      font_family = "JetBrains Mono";
+    };
+
+    "$mainMod" = "SUPER";
+
+    layerrule = [
+      "no_anim on, match:namespace volume_osd"
+      "no_anim on, match:namespace brightness_osd"
+      "no_anim on, match:namespace hyprpicker"
+      "no_anim on, match:namespace qsdock"
+      "blur on, match:namespace ext-session-lock"
+      "ignore_alpha 0.2, match:namespace ext-session-lock"
+    ];
+
+    windowrule = [
+      "match:title ^(app-launcher)$, float on, center on, size 1200 600"
+    ];
+
+    bind = [
+      "$mainMod, V, exec, ~/.config/hypr/scripts/qs_manager.sh toggle clipboard || ${pkgs.cliphist}/bin/cliphist list | rofi -dmenu -p clipboard -i | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy && sleep 0.1 && ${pkgs.wtype}/bin/wtype -M shift -k insert -m shift"
+      "$mainMod, A, exec, ~/.config/hypr/scripts/qs_manager.sh toggle volume"
+      "$mainMod, N, exec, ~/.config/hypr/scripts/qs_manager.sh toggle network"
+      "$mainMod, S, exec, ~/.config/hypr/scripts/qs_manager.sh toggle calendar"
+      "$mainMod, M, exec, ~/.config/hypr/scripts/qs_manager.sh toggle music"
+      "$mainMod SHIFT, S, exec, ~/.config/hypr/scripts/qs_manager.sh toggle settings"
+      "$mainMod, H, exec, ~/.config/hypr/scripts/qs_manager.sh toggle guide"
+      "$mainMod, R, exec, ~/.config/hypr/scripts/reload.sh"
+      "$mainMod, P, exec, ~/.config/hypr/scripts/qs_manager.sh toggle applauncher || rofi -show drun -replace -i -show-icons"
+    ];
+
+    bindl = [
+      ", Caps_Lock, exec, sleep 0.1 && swayosd-client --caps-lock"
+      ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
+      ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
+      ", Print, exec, ~/.config/hypr/scripts/screenshot.sh"
+      "SHIFT, Print, exec, ~/.config/hypr/scripts/screenshot.sh --edit"
+      "SUPER, Print, exec, ~/.config/hypr/scripts/screenshot.sh --full"
+      ", XF86AudioPause, exec, playerctl play-pause"
+      ", XF86AudioPlay, exec, playerctl play-pause"
+      ", xf86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
+      ", xf86audiomute, exec, swayosd-client --output-volume mute-toggle"
+      ", XF86PowerOff, exec, systemctl suspend"
+    ];
+
+    bindel = [
+      ", xf86audiolowervolume, exec, swayosd-client --output-volume lower"
+      ", xf86audioraisevolume, exec, swayosd-client --output-volume raise"
+    ];
+  };
+
+  wayland.windowManager.hyprland.extraConfig = ''
+    submap = passthru
+    bind = SUPER SHIFT CTRL ALT, F35, exec, true
+    submap = reset
+  '';
+
+  systemd.user.services.quickshell = {
+    Unit = {
+      Description = "Quickshell daemon";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      Type = "simple";
+      ExecStart = "${pkgs.quickshell}/bin/quickshell -p %h/.config/hypr/scripts/quickshell/Shell.qml";
+      Restart = "on-failure";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
+}
