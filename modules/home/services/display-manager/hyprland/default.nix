@@ -751,12 +751,12 @@ in
         {
           # ilyamiro layer rules for quickshell/OSD
           layerrule = mkForce [
-            "noanim, match:namespace volume_osd"
-            "noanim, match:namespace brightness_osd"
-            "noanim, match:namespace hyprpicker"
-            "noanim, match:namespace qsdock"
+            "no_anim on, match:namespace volume_osd"
+            "no_anim on, match:namespace brightness_osd"
+            "no_anim on, match:namespace hyprpicker"
+            "no_anim on, match:namespace qsdock"
             "blur on, match:namespace ext-session-lock"
-            "ignorealpha 0.2, match:namespace ext-session-lock"
+            "ignore_alpha 0.2, match:namespace ext-session-lock"
           ];
 
           windowrule = mkForce [
