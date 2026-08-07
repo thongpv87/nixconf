@@ -5,7 +5,7 @@ import Quickshell.Io
 import Quickshell.Wayland
 
 Variants {
-    model: Quickshell.screens
+    model: Quickshell.screens.length > 0 ? [Quickshell.screens[0]] : []
 
     delegate: Component {
         PanelWindow {

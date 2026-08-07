@@ -7,7 +7,7 @@ import Quickshell.Wayland
 import Quickshell.Services.SystemTray
 
 Variants {
-    model: Quickshell.screens
+    model: Quickshell.screens.length > 0 ? [Quickshell.screens[0]] : []
 
     delegate: Component {
         PanelWindow {

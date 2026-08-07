@@ -682,6 +682,7 @@ in
             "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
             "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
             "swww-daemon"
+            "sleep 2 && if ! swww query | grep -q 'image:'; then swww img ~/Code/nixconf/modules/home/services/display-manager/hyprland/wallpapers/countryside_landscape.jpg; fi"
             "hypridle"
             "playerctld"
             "~/.config/hypr/scripts/volume_listener.sh"
