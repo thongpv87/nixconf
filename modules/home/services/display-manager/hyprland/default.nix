@@ -391,7 +391,7 @@ in
 
       wayland.windowManager.hyprland = {
         enable = true;
-        configType = "hyprlang";
+        configType = "lua";
 
         # set the Hyprland and XDPH packages to null to use the ones from the NixOS module
         package = null;
@@ -588,6 +588,14 @@ in
             focus_on_activate = true;
           };
 
+          env = [
+            "GDK_BACKEND,wayland,x11"
+            "QT_QPA_PLATFORM,wayland;xcb"
+            "CLUTTER_BACKEND,wayland"
+            "QT_AUTO_SCREEN_SCALE_FACTOR,1"
+            "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+          ];
+
           debug = {
             vfr = true;
           };
@@ -597,13 +605,6 @@ in
 
     {
       wayland.windowManager.hyprland.extraConfig = ''
-        # Execute your favorite apps at launch
-        # Source a file (multi-file configs)
-        env = GDK_BACKEND=wayland,x11
-        env = QT_QPA_PLATFORM="wayland;xcb"
-        env = CLUTTER_BACKEND=wayland
-        env = QT_AUTO_SCREEN_SCALE_FACTOR=1
-        env = QT_WAYLAND_DISABLE_WINDOWDECORATION=1
         source = /home/thongpv87/.cache/wal/colors-hyprland.conf
         source = ${./decorations}/${cfg.decoration}.conf
         source = ${./animations}/${cfg.animation}.conf
