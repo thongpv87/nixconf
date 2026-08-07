@@ -38,6 +38,10 @@ in
           display-manager = {
             enable = true;
             window-manager = "hyprland";
+            hyprland = {
+              # Enable/disable experimental ilyamiro shell profile (quickshell + matugen + rofi + hyprland)
+              useIlyamiroConfig = true;
+            };
           };
           ai.enable = true;
         };

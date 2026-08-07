@@ -239,6 +239,12 @@ in
       description = "Idle seconds before suspending the system";
     };
 
+    useIlyamiroConfig = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable experimental ilyamiro shell profile (quickshell, matugen, rofi, cava)";
+    };
+
   };
 
   imports = [
@@ -250,9 +256,8 @@ in
     {
       nixconf = {
         apps.rofi.enable = true;
-        apps.wal.enable = true;
         services.display-manager.hyprland = {
-          waybar.enable = true;
+          waybar.enable = mkDefault (!cfg.useIlyamiroConfig);
         };
       };
 
@@ -285,7 +290,7 @@ in
       fonts.fontconfig.enable = true;
       # Using cliphist + wl-clipboard instead of copyq (native Wayland support)
 
-      services.hyprpaper = {
+      services.hyprpaper = mkIf (!cfg.useIlyamiroConfig) {
         enable = true;
         settings = {
           wallpaper =
@@ -588,14 +593,286 @@ in
               vfr = true;
             };
           }
-          {
+          (lib.mkIf (!cfg.useIlyamiroConfig) {
             source = [ "/home/thongpv87/.cache/wal/colors-hyprland.conf" ];
             animations = import ./animations/${cfg.animation}.nix;
             decoration = import ./decorations/${cfg.decoration}.nix;
             general = import ./windows/${cfg.window}.nix;
-          }
+          })
         ];
       };
     }
+
+    (mkIf cfg.useIlyamiroConfig {
+      nixconf.apps.wal.enable = mkForce false;
+
+      home.packages = with pkgs; [
+        quickshell
+        matugen
+        swww
+        swayosd
+        cava
+        playerctl
+        socat
+        bc
+        jq
+        acpi
+        iw
+        bluez
+        libnotify
+        lm_sensors
+        imagemagick
+        ffmpeg
+        python3
+        pulseaudio # for pactl subscribe in volume_listener.sh
+      ];
+
+      services.swayosd = {
+        enable = true;
+        topMargin = 0.9;
+      };
+
+      xdg.configFile = {
+        "hypr/scripts".source = ./../../../../../.ilyamiro_upstream/config/sessions/hyprland/scripts;
+        "hypr/templates".source = ./../../../../../.ilyamiro_upstream/config/sessions/hyprland/templates;
+        "matugen".source = ./../../../../../.ilyamiro_upstream/config/programs/matugen;
+        "cava/config_base".source = ./../../../../../.ilyamiro_upstream/config/programs/cava/config;
+
+        # Default colors.conf so hyprland doesn't crash before matugen runs
+        "hypr/colors.conf".text = ''
+          $active_border = rgba(7aa2f7ee)
+          $inactive_border = rgba(565f89aa)
+        '';
+
+        # Default settings.json for quickshell
+        "hypr/settings.json".text = builtins.toJSON {
+          uiScale = 1.0;
+          openGuideAtStartup = true;
+          topbarHelpIcon = true;
+          workspaceCount = 10;
+          wallpaperDir = "${config.home.homeDirectory}/Pictures/Wallpapers";
+          language = "us";
+          kbOptions = "caps:escape";
+        };
+      };
+
+      wayland.windowManager.hyprland.settings = lib.mkMerge [
+        {
+          # Override exec-once to use ilyamiro's autostart
+          exec-once = mkForce [
+            "fcitx5 -r"
+            "${pkgs.dunst}/bin/dunst"
+            "monitor-scale"
+            "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
+            "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
+            "swww-daemon"
+            "hypridle"
+            "playerctld"
+            "~/.config/hypr/scripts/volume_listener.sh"
+            "quickshell -p ~/.config/hypr/scripts/quickshell/Shell.qml"
+          ];
+
+          # ilyamiro-style general (uses matugen color vars)
+          general = mkForce {
+            border_size = 2;
+            gaps_in = 4;
+            gaps_out = 4;
+            resize_on_border = true;
+            extend_border_grab_area = 30;
+            snap.enabled = true;
+            layout = cfg.defaultLayout;
+            "col.active_border" = "$active_border";
+            "col.inactive_border" = "$inactive_border";
+          };
+
+          # ilyamiro-style decoration
+          decoration = mkForce {
+            rounding = 4;
+            active_opacity = 1.0;
+            inactive_opacity = 1.0;
+            blur = {
+              enabled = true;
+              size = 8;
+              passes = 2;
+              new_optimizations = true;
+            };
+            shadow = {
+              enabled = false;
+            };
+          };
+
+          # ilyamiro-style animations
+          animations = mkForce {
+            enabled = true;
+            bezier = [
+              "myBezier, 0.05, 0.9, 0.1, 1.05"
+            ];
+            animation = [
+              "windows, 1, 5, myBezier, popin 80%"
+              "windowsOut, 1, 5, myBezier, popin 80%"
+              "layers, 1, 5, myBezier, fade"
+              "layersIn, 1, 5, myBezier, fade"
+              "layersOut, 1, 5, myBezier, fade"
+              "fade, 1, 5, myBezier"
+              "workspaces, 1, 5, myBezier, slide"
+              "specialWorkspaceIn, 1, 5, myBezier, fade"
+              "specialWorkspaceOut, 1, 5, myBezier, fade"
+            ];
+          };
+
+          misc = mkForce {
+            disable_hyprland_logo = true;
+            disable_splash_rendering = true;
+            focus_on_activate = true;
+            key_press_enables_dpms = true;
+            font_family = "JetBrains Mono";
+          };
+
+          # Quickshell passthru submap (required for quickshell to intercept keys)
+          "$mainMod" = "SUPER";
+        }
+
+        # ilyamiro-specific keybindings and rules
+        {
+          # ilyamiro layer rules for quickshell/OSD
+          layerrule = mkForce [
+            "noanim, match:namespace volume_osd"
+            "noanim, match:namespace brightness_osd"
+            "noanim, match:namespace hyprpicker"
+            "noanim, match:namespace qsdock"
+            "blur on, match:namespace ext-session-lock"
+            "ignorealpha 0.2, match:namespace ext-session-lock"
+          ];
+
+          windowrule = mkForce [
+            "match:class ^(org.pulseaudio.pavucontrol), float on, size 800 800"
+            "match:class ^(.blueman-manager-wrapped), float on, size 800 600"
+            "match:class ^(nm-connection-editor)$, float on"
+            "match:class ^(firefox|google-chrome|microsoft-edge), opacity 1 1"
+            "match:title ^(app-launcher)$, float on, center on, size 1200 600"
+          ];
+
+          # Merge keybinds: keep user essentials + add quickshell IPC binds
+          bind = mkForce [
+            # ─── User essentials (kept from your config) ───
+            "$mainMod, grave, exec, cycle-hypr-layout"
+            "$mainMod SHIFT, grave, exec, cycle-hypr-layout --reset"
+            "$mainMod SHIFT, RETURN, exec, alacritty"
+            "ALT, F4, exec, hyprctl dispatch killactive"
+            "$mainMod, m, layoutmsg, focusmaster"
+            "$mainMod, RETURN, layoutmsg, swapwithmaster"
+            "$mainMod, J, cyclenext"
+            "$mainMod, K, cyclenext, prev"
+            "$mainMod SHIFT, J, swapnext"
+            "$mainMod SHIFT, K, swapnext, prev"
+            "$mainMod SHIFT, T, togglefloating,"
+            "$mainMod, P, exec, rofi -show drun -replace -i -show-icons"
+            "$mainMod, backslash, exec, screenshot-region"
+            "$mainMod SHIFT, M, exec, toggle-layout"
+            "$mainMod, F, fullscreen,1"
+            "$mainMod SHIFT, F, fullscreen,0"
+
+            # ─── App launchers ───
+            "$mainMod, B, exec, firefox"
+
+            # ─── Fcitx5 ───
+            "$mainMod, slash, exec, fcitx5-remote -s keyboard-us"
+            "$mainMod SHIFT, slash, exec, fcitx5-remote -s bamboo"
+
+            # ─── Monitor focus ───
+            "$mainMod, W, focusmonitor, DP-2"
+            "$mainMod, W, focusmonitor, DP-1"
+            "$mainMod, E, focusmonitor, eDP-1"
+
+            # ─── Spatial navigation (arrows) ───
+            "$mainMod, left, movefocus, l"
+            "$mainMod, right, movefocus, r"
+            "$mainMod, up, movefocus, u"
+            "$mainMod, down, movefocus, d"
+
+            # ─── Quickshell popup toggles ───
+            "$mainMod, D, exec, ~/.config/hypr/scripts/qs_manager.sh toggle applauncher"
+            "$mainMod, C, exec, ~/.config/hypr/scripts/qs_manager.sh toggle clipboard"
+            "$mainMod, V, exec, ~/.config/hypr/scripts/qs_manager.sh toggle volume"
+            "$mainMod, N, exec, ~/.config/hypr/scripts/qs_manager.sh toggle network"
+            "$mainMod, S, exec, ~/.config/hypr/scripts/qs_manager.sh toggle calendar"
+            "$mainMod, Q, exec, ~/.config/hypr/scripts/qs_manager.sh toggle music"
+            "$mainMod SHIFT, S, exec, ~/.config/hypr/scripts/qs_manager.sh toggle settings"
+            "$mainMod, H, exec, ~/.config/hypr/scripts/qs_manager.sh toggle guide"
+            "$mainMod, R, exec, ~/.config/hypr/scripts/reload.sh"
+
+            # ─── Workspaces via quickshell IPC ───
+            "$mainMod, 1, exec, ~/.config/hypr/scripts/qs_manager.sh 1"
+            "$mainMod, 2, exec, ~/.config/hypr/scripts/qs_manager.sh 2"
+            "$mainMod, 3, exec, ~/.config/hypr/scripts/qs_manager.sh 3"
+            "$mainMod, 4, exec, ~/.config/hypr/scripts/qs_manager.sh 4"
+            "$mainMod, 5, exec, ~/.config/hypr/scripts/qs_manager.sh 5"
+            "$mainMod, 6, exec, ~/.config/hypr/scripts/qs_manager.sh 6"
+            "$mainMod, 7, exec, ~/.config/hypr/scripts/qs_manager.sh 7"
+            "$mainMod, 8, exec, ~/.config/hypr/scripts/qs_manager.sh 8"
+            "$mainMod, 9, exec, ~/.config/hypr/scripts/qs_manager.sh 9"
+            "$mainMod, 0, exec, ~/.config/hypr/scripts/qs_manager.sh 10"
+            "$mainMod SHIFT, 1, exec, ~/.config/hypr/scripts/qs_manager.sh 1 move"
+            "$mainMod SHIFT, 2, exec, ~/.config/hypr/scripts/qs_manager.sh 2 move"
+            "$mainMod SHIFT, 3, exec, ~/.config/hypr/scripts/qs_manager.sh 3 move"
+            "$mainMod SHIFT, 4, exec, ~/.config/hypr/scripts/qs_manager.sh 4 move"
+            "$mainMod SHIFT, 5, exec, ~/.config/hypr/scripts/qs_manager.sh 5 move"
+            "$mainMod SHIFT, 6, exec, ~/.config/hypr/scripts/qs_manager.sh 6 move"
+            "$mainMod SHIFT, 7, exec, ~/.config/hypr/scripts/qs_manager.sh 7 move"
+            "$mainMod SHIFT, 8, exec, ~/.config/hypr/scripts/qs_manager.sh 8 move"
+            "$mainMod SHIFT, 9, exec, ~/.config/hypr/scripts/qs_manager.sh 9 move"
+            "$mainMod SHIFT, 0, exec, ~/.config/hypr/scripts/qs_manager.sh 10 move"
+
+            "$mainMod, space, exec, toggle-special"
+            "$mainMod SHIFT, space, movetoworkspacesilent, special:term"
+
+            "$mainMod, mouse_down, workspace, e+1"
+            "$mainMod, mouse_up, workspace, e-1"
+          ];
+
+          # SwayOSD + media key binds
+          bindl = [
+            ", Caps_Lock, exec, sleep 0.1 && swayosd-client --caps-lock"
+            ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
+            ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
+            ", Print, exec, ~/.config/hypr/scripts/screenshot.sh"
+            "SHIFT, Print, exec, ~/.config/hypr/scripts/screenshot.sh --edit"
+            "SUPER, Print, exec, ~/.config/hypr/scripts/screenshot.sh --full"
+            ", XF86AudioPause, exec, playerctl play-pause"
+            ", XF86AudioPlay, exec, playerctl play-pause"
+            ", xf86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
+            ", xf86audiomute, exec, swayosd-client --output-volume mute-toggle"
+            ", XF86PowerOff, exec, systemctl suspend"
+          ];
+
+          bindel = [
+            ", xf86audiolowervolume, exec, swayosd-client --output-volume lower"
+            ", xf86audioraisevolume, exec, swayosd-client --output-volume raise"
+          ];
+
+          binde = [
+            "$mainMod SHIFT, left, resizeactive, -50 0"
+            "$mainMod SHIFT, right, resizeactive, 50 0"
+            "$mainMod SHIFT, up, resizeactive, 0 -50"
+            "$mainMod SHIFT, down, resizeactive, 0 50"
+          ];
+
+          bindm = mkForce [
+            "$mainMod, mouse:272, movewindow"
+            "$mainMod, mouse:273, resizewindow"
+          ];
+        }
+      ];
+
+      # Source colors.conf BEFORE settings (sourceFirst=true puts extraConfig first)
+      # Also define quickshell passthru submap
+      wayland.windowManager.hyprland.extraConfig = ''
+        source = ~/.config/hypr/colors.conf
+
+        submap = passthru
+        bind = SUPER SHIFT CTRL ALT, F35, exec, true
+        submap = reset
+      '';
+    })
   ]);
 }
