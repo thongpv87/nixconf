@@ -391,7 +391,8 @@ in
 
       wayland.windowManager.hyprland = {
         enable = true;
-        configType = "lua";
+        configType = "hyprlang";
+        sourceFirst = true;
 
         # set the Hyprland and XDPH packages to null to use the ones from the NixOS module
         package = null;
@@ -406,7 +407,7 @@ in
 
         settings = lib.mkMerge [
           {
-            exec_once = [
+            exec-once = [
               "fcitx5 -r"
               "${pkgs.dunst}/bin/dunst"
               "monitor-scale"
@@ -453,7 +454,7 @@ in
               orientation = "right";
             };
 
-            mod = { _var = "SUPER"; };
+            "$mod" = "SUPER";
 
             workspace = [
               "w[t1], gapsin:0, gapsout:0, border:false"
@@ -472,99 +473,99 @@ in
             ];
 
             bind = [
-              "SUPER, grave, exec, cycle-hypr-layout"
-              "SUPER SHIFT, grave, exec, cycle-hypr-layout --reset"
-              "SUPER SHIFT, RETURN, exec, alacritty"
-              "SUPER SHIFT, C, killactive,"
-              "SUPER, Q, exec, systemctl suspend"
-              "SUPER SHIFT, Q, exec, systemctl suspend"
-              "SUPER, m, layoutmsg, focusmaster"
-              "SUPER, RETURN, layoutmsg, swapwithmaster"
+              "$mod, grave, exec, cycle-hypr-layout"
+              "$mod SHIFT, grave, exec, cycle-hypr-layout --reset"
+              "$mod SHIFT, RETURN, exec, alacritty"
+              "$mod SHIFT, C, killactive,"
+              "$mod, Q, exec, systemctl suspend"
+              "$mod SHIFT, Q, exec, systemctl suspend"
+              "$mod, m, layoutmsg, focusmaster"
+              "$mod, RETURN, layoutmsg, swapwithmaster"
 
               # 1D Stack Navigation (J/K)
-              "SUPER, J, cyclenext"
-              "SUPER, K, cyclenext, prev"
+              "$mod, J, cyclenext"
+              "$mod, K, cyclenext, prev"
 
               # 1D Window Moving (J/K)
-              "SUPER SHIFT, J, swapnext"
-              "SUPER SHIFT, K, swapnext, prev"
+              "$mod SHIFT, J, swapnext"
+              "$mod SHIFT, K, swapnext, prev"
 
-              "SUPER, T, togglefloating,"
-              "SUPER, P, exec, rofi -show drun -replace -i -show-icons"
-              "SUPER, backslash, exec, screenshot-region"
-              "SUPER, V, exec, ${pkgs.cliphist}/bin/cliphist list | rofi -dmenu -p clipboard -i | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy && sleep 0.1 && ${pkgs.wtype}/bin/wtype -M shift -k insert -m shift"
-              "SUPER SHIFT, M, exec, toggle-layout"
-              "SUPER, F, fullscreen,1"
-              "SUPER SHIFT, F, fullscreen,0"
+              "$mod, T, togglefloating,"
+              "$mod, P, exec, rofi -show drun -replace -i -show-icons"
+              "$mod, backslash, exec, screenshot-region"
+              "$mod, V, exec, ${pkgs.cliphist}/bin/cliphist list | rofi -dmenu -p clipboard -i | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy && sleep 0.1 && ${pkgs.wtype}/bin/wtype -M shift -k insert -m shift"
+              "$mod SHIFT, M, exec, toggle-layout"
+              "$mod, F, fullscreen,1"
+              "$mod SHIFT, F, fullscreen,0"
 
               #apps
-              "SUPER, B, exec, firefox"
-              "SUPER, D, exec, nautilus"
+              "$mod, B, exec, firefox"
+              "$mod, D, exec, nautilus"
 
               # media keys
               ",121,exec, pamixer --toggle-mute"
               ",122,exec, pamixer -d 5"
               ",123,exec, pamixer -i 5"
 
-              "SUPER,slash, exec, fcitx5-remote -s keyboard-us"
-              "SUPER SHIFT, slash, exec, fcitx5-remote -s bamboo"
+              "$mod,slash, exec, fcitx5-remote -s keyboard-us"
+              "$mod SHIFT, slash, exec, fcitx5-remote -s bamboo"
 
-              "SUPER,W, focusmonitor, DP-2"
-              "SUPER,W, focusmonitor, DP-1"
-              "SUPER,E, focusmonitor,eDP-1"
+              "$mod,W, focusmonitor, DP-2"
+              "$mod,W, focusmonitor, DP-1"
+              "$mod,E, focusmonitor,eDP-1"
 
               # 2D Spatial Navigation with mod + arrow keys
-              "SUPER, left, movefocus, l"
-              "SUPER, right, movefocus, r"
-              "SUPER, up, movefocus, u"
-              "SUPER, down, movefocus, d"
-              "SUPER SHIFT, left, resizeactive, -40 0"
-              "SUPER SHIFT, right, resizeactive, 40 0"
-              "SUPER SHIFT, up, resizeactive, 0 -40"
-              "SUPER SHIFT, down, resizeactive, 0 40"
+              "$mod, left, movefocus, l"
+              "$mod, right, movefocus, r"
+              "$mod, up, movefocus, u"
+              "$mod, down, movefocus, d"
+              "$mod SHIFT, left, resizeactive, -40 0"
+              "$mod SHIFT, right, resizeactive, 40 0"
+              "$mod SHIFT, up, resizeactive, 0 -40"
+              "$mod SHIFT, down, resizeactive, 0 40"
 
               # Switch workspaces with mod + [0-9]
-              "SUPER,1,moveworkspacetomonitor,1 current"
-              "SUPER, 1, workspace, 1"
-              "SUPER,2,moveworkspacetomonitor,2 current"
-              "SUPER, 2, workspace, 2"
-              "SUPER,3,moveworkspacetomonitor,3 current"
-              "SUPER, 3, workspace, 3"
-              "SUPER,4,moveworkspacetomonitor,4 current"
-              "SUPER, 4, workspace, 4"
-              "SUPER,5,moveworkspacetomonitor,5 current"
-              "SUPER, 5, workspace, 5"
-              "SUPER,6,moveworkspacetomonitor,6 current"
-              "SUPER, 6, workspace, 6"
-              "SUPER,7,moveworkspacetomonitor,7 current"
-              "SUPER, 7, workspace, 7"
-              "SUPER,8,moveworkspacetomonitor,8 current"
-              "SUPER, 8, workspace, 8"
-              "SUPER,9,moveworkspacetomonitor,9 current"
-              "SUPER, 9, workspace, 9"
-              "SUPER,0,moveworkspacetomonitor,10 current"
-              "SUPER, 0, workspace, 10"
-              "SUPER, space, exec, toggle-special"
+              "$mod,1,moveworkspacetomonitor,1 current"
+              "$mod, 1, workspace, 1"
+              "$mod,2,moveworkspacetomonitor,2 current"
+              "$mod, 2, workspace, 2"
+              "$mod,3,moveworkspacetomonitor,3 current"
+              "$mod, 3, workspace, 3"
+              "$mod,4,moveworkspacetomonitor,4 current"
+              "$mod, 4, workspace, 4"
+              "$mod,5,moveworkspacetomonitor,5 current"
+              "$mod, 5, workspace, 5"
+              "$mod,6,moveworkspacetomonitor,6 current"
+              "$mod, 6, workspace, 6"
+              "$mod,7,moveworkspacetomonitor,7 current"
+              "$mod, 7, workspace, 7"
+              "$mod,8,moveworkspacetomonitor,8 current"
+              "$mod, 8, workspace, 8"
+              "$mod,9,moveworkspacetomonitor,9 current"
+              "$mod, 9, workspace, 9"
+              "$mod,0,moveworkspacetomonitor,10 current"
+              "$mod, 0, workspace, 10"
+              "$mod, space, exec, toggle-special"
 
               # Move active window to a workspace with mod + SHIFT + [0-9]
-              "SUPER SHIFT, 1, movetoworkspacesilent, 1"
-              "SUPER SHIFT, 2, movetoworkspacesilent, 2"
-              "SUPER SHIFT, 3, movetoworkspacesilent, 3"
-              "SUPER SHIFT, 4, movetoworkspacesilent, 4"
-              "SUPER SHIFT, 5, movetoworkspacesilent, 5"
-              "SUPER SHIFT, 6, movetoworkspacesilent, 6"
-              "SUPER SHIFT, 7, movetoworkspacesilent, 7"
-              "SUPER SHIFT, 8, movetoworkspacesilent, 8"
-              "SUPER SHIFT, 9, movetoworkspacesilent, 9"
-              "SUPER SHIFT, 0, movetoworkspacesilent, 10"
-              "SUPER SHIFT, space, movetoworkspacesilent, special:term"
+              "$mod SHIFT, 1, movetoworkspacesilent, 1"
+              "$mod SHIFT, 2, movetoworkspacesilent, 2"
+              "$mod SHIFT, 3, movetoworkspacesilent, 3"
+              "$mod SHIFT, 4, movetoworkspacesilent, 4"
+              "$mod SHIFT, 5, movetoworkspacesilent, 5"
+              "$mod SHIFT, 6, movetoworkspacesilent, 6"
+              "$mod SHIFT, 7, movetoworkspacesilent, 7"
+              "$mod SHIFT, 8, movetoworkspacesilent, 8"
+              "$mod SHIFT, 9, movetoworkspacesilent, 9"
+              "$mod SHIFT, 0, movetoworkspacesilent, 10"
+              "$mod SHIFT, space, movetoworkspacesilent, special:term"
 
-              "SUPER, mouse_down, workspace, e+1"
-              "SUPER, mouse_up, workspace, e-1"
+              "$mod, mouse_down, workspace, e+1"
+              "$mod, mouse_up, workspace, e-1"
             ];
             bindm = [
-              "SUPER, mouse:272, movewindow"
-              "SUPER, mouse:273, resizewindow"
+              "$mod, mouse:272, movewindow"
+              "$mod, mouse:273, resizewindow"
             ];
 
             misc = {
@@ -588,18 +589,14 @@ in
             };
           }
           {
-            animations = import ./animations/${cfg.animation}.nix;
+            source = [ "/home/thongpv87/.cache/wal/colors-hyprland.conf" ];
+            bezier = (import ./animations/${cfg.animation}.nix).bezier or [ ];
+            animation = (import ./animations/${cfg.animation}.nix).animation or [ ];
             decoration = import ./decorations/${cfg.decoration}.nix;
             general = import ./windows/${cfg.window}.nix;
           }
         ];
       };
-    }
-
-    {
-      wayland.windowManager.hyprland.extraConfig = ''
-        pcall(dofile, (os.getenv("HOME") or "/home/thongpv87") .. "/.cache/wal/colors-hyprland.lua")
-      '';
     }
   ]);
 }
