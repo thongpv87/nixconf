@@ -355,7 +355,7 @@ in
       };
 
       systemd.user.services = {
-        dunst = {
+        dunst = lib.mkIf (!cfg.useIlyamiroConfig) {
           Unit = {
             Description = "Dunst notification daemon";
             After = [ "hm-graphical-session.target" ];
@@ -661,7 +661,6 @@ in
           # Override exec-once to use ilyamiro's autostart
           exec-once = mkForce [
             "fcitx5 -r"
-            "${pkgs.dunst}/bin/dunst"
             "monitor-scale"
             "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
             "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
