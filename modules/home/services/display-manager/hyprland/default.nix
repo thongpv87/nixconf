@@ -371,6 +371,23 @@ in
             WantedBy = [ "graphical-session.target" ];
           };
         };
+
+        quickshell = lib.mkIf cfg.useIlyamiroConfig {
+          Unit = {
+            Description = "Quickshell daemon";
+            After = [ "graphical-session.target" ];
+            PartOf = [ "graphical-session.target" ];
+          };
+
+          Service = {
+            Type = "simple";
+            ExecStart = "${pkgs.quickshell}/bin/quickshell -p %h/.config/hypr/scripts/quickshell/Shell.qml";
+            Restart = "on-failure";
+          };
+          Install = {
+            WantedBy = [ "graphical-session.target" ];
+          };
+        };
       };
     }
 
@@ -668,7 +685,6 @@ in
             "hypridle"
             "playerctld"
             "~/.config/hypr/scripts/volume_listener.sh"
-            "quickshell -p ~/.config/hypr/scripts/quickshell/Shell.qml"
           ];
 
           # ilyamiro-style general (uses matugen color vars)
