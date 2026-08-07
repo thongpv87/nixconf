@@ -43,6 +43,9 @@ in
       withNodeJs = true;
       withPython3 = true;
       withRuby = false;
+      initLua = ''
+        require("config.lazy")
+      '';
 
       extraPackages = [
         pkgs.sqlite
