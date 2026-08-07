@@ -3,6 +3,6 @@
   gaps_out = 14;
   border_size = 3;
   "col.active_border" = "rgba(ffffffff)";
-  "col.inactive_border" = "$color11";
+  "col.inactive_border" = "rgba(eb9e32ee)";
   layout = "master";
 }

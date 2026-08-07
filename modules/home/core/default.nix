@@ -178,6 +178,8 @@ in
       # Programming
       nodejs
       python3
+      alacritty
+      kitty
 
       # video call
       zoom-us
