@@ -1491,49 +1491,46 @@ Variants {
                                     id: sysMasterLayoutRow
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.left: parent.left
-                                    anchors.leftMargin: barWindow.s(11)
-                                    spacing: barWindow.s(10)
+                                    anchors.leftMargin: barWindow.s(12)
+                                    spacing: barWindow.s(12)
 
                                     Row {
-                                        spacing: barWindow.s(3)
+                                        spacing: barWindow.s(4)
                                         anchors.verticalCenter: parent.verticalCenter
                                         Text { 
-                                            text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(13.5); 
+                                            text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(14); 
                                             color: mocha.sapphire 
                                         }
                                         Text { 
                                             text: barWindow.sysCpu + "%"; 
-                                            width: barWindow.s(20); horizontalAlignment: Text.AlignRight;
                                             font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
                                             color: mocha.sapphire 
                                         }
                                     }
 
                                     Row {
-                                        spacing: barWindow.s(3)
+                                        spacing: barWindow.s(4)
                                         anchors.verticalCenter: parent.verticalCenter
                                         Text { 
-                                            text: "󰍛"; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(13.5); 
+                                            text: "󰍛"; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(14); 
                                             color: mocha.mauve 
                                         }
                                         Text { 
                                             text: barWindow.sysRam + "%"; 
-                                            width: barWindow.s(20); horizontalAlignment: Text.AlignRight;
                                             font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
                                             color: mocha.mauve 
                                         }
                                     }
 
                                     Row {
-                                        spacing: barWindow.s(3)
+                                        spacing: barWindow.s(4)
                                         anchors.verticalCenter: parent.verticalCenter
                                         Text { 
-                                            text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(13.5); 
+                                            text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(14); 
                                             color: mocha.peach 
                                         }
                                         Text { 
                                             text: barWindow.sysTemp + "°C"; 
-                                            width: barWindow.s(26); horizontalAlignment: Text.AlignRight;
                                             font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
                                             color: mocha.peach 
                                         }
