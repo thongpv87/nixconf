@@ -251,7 +251,9 @@ Item {
                 echo "" >> ${logFile}
                 echo "[$(date +'%H:%M:%S.%3N')] APPLYING LOCAL VIDEO: ${escOriginal} TO ${escOutputs}" >> ${logFile}
                 
-                if [ "${escOutputs}" = "all" ]; then
+                awww pause 2>/dev/null || true
+                
+                if [ "${escOutputs}" = "all" ] || [ "${escOutputs}" = "none" ] || [ -z "${escOutputs}" ]; then
                     mpvpaper -o 'loop --no-audio --hwdec=auto --profile=high-quality --video-sync=display-resample --interpolation --tscale=oversample' '*' "${escOriginal}" >> ${logFile} 2>&1 &
                 else
                     IFS=',' read -ra MON_ARR <<< "${escOutputs}"
@@ -265,6 +267,8 @@ Item {
                 WALL_BIN=$(command -v awww || command -v swww)
                 echo "" >> ${logFile}
                 echo "[$(date +'%H:%M:%S.%3N')] APPLYING LOCAL IMAGE: ${escOriginal} TO ${escOutputs}" >> ${logFile}
+                
+                "$WALL_BIN" unpause 2>/dev/null || true
                 
                 if [ "${escOutputs}" = "all" ] || [ "${escOutputs}" = "none" ] || [ -z "${escOutputs}" ]; then
                     "$WALL_BIN" img "${escOriginal}" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &

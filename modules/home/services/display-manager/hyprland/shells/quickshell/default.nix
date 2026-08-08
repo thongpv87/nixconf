@@ -9,6 +9,7 @@ lib.mkIf (cfg.enable && cfg.useIlyamiroConfig) {
     quickshell
     matugen
     swww
+    mpvpaper
     swayosd
     cava
     playerctl
