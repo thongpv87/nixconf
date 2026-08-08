@@ -55,9 +55,9 @@ Variants {
 
             property int barHeight: s(40)
 
-            height: barHeight + s(4)
-            margins { top: s(4); bottom: 0; left: s(4); right: s(4) }
-            exclusiveZone: barHeight + s(4)
+            height: barHeight
+            margins { top: 0; bottom: 0; left: 0; right: 0 }
+            exclusiveZone: barHeight
             color: "transparent"
 
             MatugenColors {
@@ -612,10 +612,14 @@ Variants {
 
                 Rectangle {
                     anchors.fill: parent
-                    color: Qt.rgba(mocha.crust.r, mocha.crust.g, mocha.crust.b, 0.45)
-                    radius: barWindow.s(14)
-                    border.width: 1
-                    border.color: Qt.rgba(mocha.text.r, mocha.text.g, mocha.text.b, 0.06)
+                    color: Qt.rgba(mocha.base.r, mocha.base.g, mocha.base.b, 0.95)
+
+                    Rectangle {
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: 1
+                        color: Qt.rgba(mocha.text.r, mocha.text.g, mocha.text.b, 0.08)
+                    }
                 }
 
                 Rectangle {
