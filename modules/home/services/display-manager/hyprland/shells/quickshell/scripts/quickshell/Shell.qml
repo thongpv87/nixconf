@@ -12,4 +12,5 @@ ShellRoot {
     Main {}
     TopBar {}
     Floating {}
+    WindowOSD {}
 }
