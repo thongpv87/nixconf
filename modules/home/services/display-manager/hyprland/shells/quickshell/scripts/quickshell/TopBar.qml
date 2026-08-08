@@ -494,15 +494,6 @@ Variants {
                 }
             }
             Process { id: kbWaiter; command: ["bash", "-c", "~/.config/hypr/scripts/quickshell/watchers/kb_wait.sh"]; onExited: { kbPoller.running = false; kbPoller.running = true; } }
-            
-            Timer {
-                id: kbPollerDelay
-                interval: 100
-                onTriggered: {
-                    kbPoller.running = false;
-                    kbPoller.running = true;
-                }
-            }
 
             Process {
                 id: audioPoller; running: true
@@ -1343,13 +1334,7 @@ Variants {
                                     Text { anchors.verticalCenter: parent.verticalCenter; text: "󰌌"; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(16); color: parent.parent.isHovered ? mocha.text : mocha.overlay2 }
                                     Text { anchors.verticalCenter: parent.verticalCenter; text: barWindow.kbLayout; font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(13); font.weight: Font.Black; color: mocha.text }
                                 }
-                                MouseArea { 
-                                    id: kbMouse; anchors.fill: parent; hoverEnabled: true; 
-                                    onClicked: {
-                                        Quickshell.execDetached(["bash", "-c", "if [ \"$(fcitx5-remote -n)\" = \"bamboo\" ]; then fcitx5-remote -s keyboard-us; else fcitx5-remote -s bamboo; fi"]);
-                                        kbPollerDelay.restart();
-                                    }
-                                }
+                                MouseArea { id: kbMouse; anchors.fill: parent; hoverEnabled: true; onClicked: Quickshell.execDetached(["bash", "-c", "if [ \"$(fcitx5-remote -n)\" = \"bamboo\" ]; then fcitx5-remote -s keyboard-us; else fcitx5-remote -s bamboo; fi"]) }
                             }
 
                             Rectangle {
