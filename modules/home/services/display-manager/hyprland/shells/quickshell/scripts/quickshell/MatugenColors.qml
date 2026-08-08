@@ -69,11 +69,15 @@ Item {
         }
     }
 
-    Timer {
-        interval: 5000 
+    Process {
+        id: colorPushWatcher
         running: true
-        repeat: true
-        triggeredOnStart: true
-        onTriggered: themeReader.running = true
+        command: ["bash", "-c", "echo 'init'; inotifywait -m -e close_write,modify /tmp/qs_colors.json 2>/dev/null"]
+        stdout: SplitParser {
+            onRead: (data) => {
+                themeReader.running = false;
+                themeReader.running = true;
+            }
+        }
     }
 }
