@@ -890,7 +890,17 @@ Item {
         } 
     }
     
-    Shortcut { sequence: "Escape"; enabled: !window.isApplying; onActivated: { if (window.currentFilter === "Search") { window.currentFilter = "All"; } } }
+    Shortcut { 
+        sequence: "Escape" 
+        enabled: !window.isApplying 
+        onActivated: { 
+            if (window.currentFilter === "Search" && window.isSearchActive) { 
+                window.currentFilter = "All"; 
+            } else {
+                Quickshell.execDetached(["bash", "-c", "~/.config/hypr/scripts/qs_manager.sh close wallpaper"]);
+            }
+        } 
+    }
     Shortcut { sequence: "Tab"; enabled: !window.isApplying; onActivated: window.cycleFilter(1) }
     Shortcut { sequence: "Backtab"; enabled: !window.isApplying; onActivated: window.cycleFilter(-1) }
 
