@@ -100,6 +100,7 @@ lib.mkIf (cfg.enable && cfg.useIlyamiroConfig) {
       "$mainMod, M, exec, ~/.config/hypr/scripts/qs_manager.sh toggle music"
       "$mainMod SHIFT, S, exec, ~/.config/hypr/scripts/qs_manager.sh toggle settings"
       "$mainMod, H, exec, ~/.config/hypr/scripts/qs_manager.sh toggle guide"
+      "$mainMod, W, exec, ~/.config/hypr/scripts/qs_manager.sh toggle wallpaper"
       "$mainMod, R, exec, ~/.config/hypr/scripts/reload.sh"
       "$mainMod, P, exec, ~/.config/hypr/scripts/qs_manager.sh toggle applauncher || rofi -show drun -replace -i -show-icons"
     ];
