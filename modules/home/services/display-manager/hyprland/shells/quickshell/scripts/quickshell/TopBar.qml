@@ -1200,7 +1200,15 @@ Variants {
                         border.width: 1
                         color: Qt.rgba(mocha.base.r, mocha.base.g, mocha.base.b, 0.75)
                         
-                        property real targetWidth: trayRepeater.count > 0 ? trayLayout.width + barWindow.s(24) : 0
+                        property int visibleTrayCount: {
+                            let count = 0;
+                            for (let i = 0; i < trayRepeater.count; i++) {
+                                let item = trayRepeater.itemAt(i);
+                                if (item && item.visible) count++;
+                            }
+                            return count;
+                        }
+                        property real targetWidth: visibleTrayCount > 0 ? trayLayout.implicitWidth + barWindow.s(24) : 0
                         width: targetWidth
                         Behavior on width { NumberAnimation { duration: 400; easing.type: Easing.OutExpo } }
                         
@@ -1218,12 +1226,18 @@ Variants {
                                 model: SystemTray.items
                                 delegate: Image {
                                     id: trayIcon
+                                    property bool isBlacklisted: {
+                                        let text = ((modelData.id || "") + " " + (modelData.title || "") + " " + (modelData.icon || "")).toLowerCase();
+                                        return text.indexOf("fcitx") !== -1 || text.indexOf("bamboo") !== -1 || text.indexOf("blueman") !== -1 || text.indexOf("bluetooth") !== -1;
+                                    }
+                                    visible: !isBlacklisted
+
                                     source: modelData.icon || ""
                                     fillMode: Image.PreserveAspectFit
                                     
-                                    sourceSize: Qt.size(barWindow.s(18), barWindow.s(18))
-                                    width: barWindow.s(18)
-                                    height: barWindow.s(18)
+                                    sourceSize: visible ? Qt.size(barWindow.s(18), barWindow.s(18)) : Qt.size(0, 0)
+                                    width: visible ? barWindow.s(18) : 0
+                                    height: visible ? barWindow.s(18) : 0
                                     anchors.verticalCenter: parent.verticalCenter
                                     
                                     property bool isHovered: trayMouse.containsMouse
@@ -1575,108 +1589,6 @@ Variants {
                             }
 
                             Rectangle {
-                                id: sysInfoPill
-                                property bool isHovered: sysInfoMouse.containsMouse
-                                color: isHovered ? Qt.rgba(mocha.surface1.r, mocha.surface1.g, mocha.surface1.b, 0.6) : Qt.rgba(mocha.surface0.r, mocha.surface0.g, mocha.surface0.b, 0.4)
-                                radius: barWindow.s(10); height: sysLayout.pillHeight;
-                                clip: true
-
-                                Rectangle {
-                                    anchors.fill: parent
-                                    radius: barWindow.s(10)
-                                    opacity: 1.0
-                                    gradient: Gradient {
-                                        orientation: Gradient.Horizontal
-                                        GradientStop { position: 0.0; color: mocha.sapphire }
-                                        GradientStop { position: 1.0; color: Qt.lighter(mocha.sapphire, 1.25) }
-                                    }
-                                }
-                                
-                                property real targetWidth: sysInfoLayoutRow.implicitWidth + barWindow.s(24)
-                                width: targetWidth
-                                Behavior on width { NumberAnimation { duration: 500; easing.type: Easing.OutQuint } }
-                                
-                                scale: isHovered ? 1.05 : 1.0
-                                Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutExpo } }
-                                Behavior on color { ColorAnimation { duration: 200 } }
-
-                                property bool initAnimTrigger: false
-                                Timer { running: rightContent.showLayout && !parent.initAnimTrigger; interval: 180; onTriggered: parent.initAnimTrigger = true }
-                                opacity: initAnimTrigger ? 1 : 0
-                                transform: Translate { y: parent.initAnimTrigger ? 0 : barWindow.s(15); Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
-                                Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
-
-                                Row { 
-                                    id: sysInfoLayoutRow
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.left: parent.left
-                                    anchors.leftMargin: barWindow.s(12)
-                                    spacing: barWindow.s(8)
-
-                                    Row {
-                                        spacing: barWindow.s(4)
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        Text { 
-                                            text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(15); 
-                                            color: mocha.base 
-                                        }
-                                        Text { 
-                                            text: barWindow.sysCpu + "%"; 
-                                            width: barWindow.s(28); horizontalAlignment: Text.AlignLeft;
-                                            font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
-                                            color: mocha.base 
-                                        }
-                                    }
-
-                                    Text {
-                                        text: "•"; font.pixelSize: barWindow.s(10); color: Qt.rgba(mocha.base.r, mocha.base.g, mocha.base.b, 0.6);
-                                        anchors.verticalCenter: parent.verticalCenter
-                                    }
-
-                                    Row {
-                                        spacing: barWindow.s(4)
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        Text { 
-                                            text: "󰍛"; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(15); 
-                                            color: mocha.base 
-                                        }
-                                        Text { 
-                                            text: barWindow.sysRam + "%"; 
-                                            width: barWindow.s(28); horizontalAlignment: Text.AlignLeft;
-                                            font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
-                                            color: mocha.base 
-                                        }
-                                    }
-
-                                    Text {
-                                        text: "•"; font.pixelSize: barWindow.s(10); color: Qt.rgba(mocha.base.r, mocha.base.g, mocha.base.b, 0.6);
-                                        anchors.verticalCenter: parent.verticalCenter
-                                    }
-
-                                    Row {
-                                        spacing: barWindow.s(4)
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        Text { 
-                                            text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(15); 
-                                            color: mocha.base 
-                                        }
-                                        Text { 
-                                            text: barWindow.sysTemp + "°C"; 
-                                            width: barWindow.s(36); horizontalAlignment: Text.AlignLeft;
-                                            font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
-                                            color: mocha.base 
-                                        }
-                                    }
-                                }
-
-                                MouseArea { 
-                                    id: sysInfoMouse; hoverEnabled: true; anchors.fill: parent; 
-                                    cursorShape: Qt.PointingHandCursor
-                                    onClicked: Quickshell.execDetached(["hyprctl", "dispatch", "exec", "[float; size 1000 650; center] kitty -e btop"])
-                                }
-                            }
-
-                            Rectangle {
                                 property bool isHovered: batMouse.containsMouse
                                 color: isHovered ? Qt.rgba(mocha.surface1.r, mocha.surface1.g, mocha.surface1.b, 0.6) : Qt.rgba(mocha.surface0.r, mocha.surface0.g, mocha.surface0.b, 0.4); 
                                 radius: barWindow.s(10); height: sysLayout.pillHeight;
@@ -1728,6 +1640,101 @@ Variants {
                                     }
                                 }
                                 MouseArea { id: batMouse; hoverEnabled: true; anchors.fill: parent; onClicked: Quickshell.execDetached(["bash", "-c", "~/.config/hypr/scripts/qs_manager.sh toggle battery"]) }
+                            }
+
+                            Rectangle {
+                                id: sysInfoPill
+                                property bool isHovered: sysInfoMouse.containsMouse
+                                color: isHovered ? Qt.rgba(mocha.surface1.r, mocha.surface1.g, mocha.surface1.b, 0.6) : Qt.rgba(mocha.surface0.r, mocha.surface0.g, mocha.surface0.b, 0.4)
+                                radius: barWindow.s(10); height: sysLayout.pillHeight;
+                                clip: true
+
+                                Rectangle {
+                                    anchors.fill: parent
+                                    radius: barWindow.s(10)
+                                    opacity: 1.0
+                                    gradient: Gradient {
+                                        orientation: Gradient.Horizontal
+                                        GradientStop { position: 0.0; color: mocha.sapphire }
+                                        GradientStop { position: 1.0; color: Qt.lighter(mocha.sapphire, 1.25) }
+                                    }
+                                }
+                                
+                                property real targetWidth: sysInfoLayoutRow.implicitWidth + barWindow.s(18)
+                                width: targetWidth
+                                Behavior on width { NumberAnimation { duration: 500; easing.type: Easing.OutQuint } }
+                                
+                                scale: isHovered ? 1.05 : 1.0
+                                Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutExpo } }
+                                Behavior on color { ColorAnimation { duration: 200 } }
+
+                                property bool initAnimTrigger: false
+                                Timer { running: rightContent.showLayout && !parent.initAnimTrigger; interval: 180; onTriggered: parent.initAnimTrigger = true }
+                                opacity: initAnimTrigger ? 1 : 0
+                                transform: Translate { y: parent.initAnimTrigger ? 0 : barWindow.s(15); Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
+                                Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
+
+                                Column { 
+                                    id: sysInfoLayoutRow
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: barWindow.s(9)
+                                    spacing: 0
+
+                                    Row {
+                                        spacing: barWindow.s(6)
+                                        Row {
+                                            spacing: barWindow.s(2)
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            Text { 
+                                                text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(10); 
+                                                color: mocha.base 
+                                            }
+                                            Text { 
+                                                text: barWindow.sysCpu + "%"; 
+                                                width: barWindow.s(22); horizontalAlignment: Text.AlignLeft;
+                                                font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(9.5); font.weight: Font.Black; 
+                                                color: mocha.base 
+                                            }
+                                        }
+
+                                        Row {
+                                            spacing: barWindow.s(2)
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            Text { 
+                                                text: "󰍛"; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(10); 
+                                                color: mocha.base 
+                                            }
+                                            Text { 
+                                                text: barWindow.sysRam + "%"; 
+                                                width: barWindow.s(22); horizontalAlignment: Text.AlignLeft;
+                                                font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(9.5); font.weight: Font.Black; 
+                                                color: mocha.base 
+                                            }
+                                        }
+                                    }
+
+                                    Row {
+                                        spacing: barWindow.s(2)
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        Text { 
+                                            text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(10); 
+                                            color: mocha.base 
+                                        }
+                                        Text { 
+                                            text: barWindow.sysTemp + "°C"; 
+                                            width: barWindow.s(28); horizontalAlignment: Text.AlignLeft;
+                                            font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(9.5); font.weight: Font.Black; 
+                                            color: mocha.base 
+                                        }
+                                    }
+                                }
+
+                                MouseArea { 
+                                    id: sysInfoMouse; hoverEnabled: true; anchors.fill: parent; 
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: Quickshell.execDetached(["hyprctl", "dispatch", "exec", "[float; size 1000 650; center] kitty -e btop"])
+                                }
                             }                       
                  }
             }
