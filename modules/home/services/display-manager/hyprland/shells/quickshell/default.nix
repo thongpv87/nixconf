@@ -71,7 +71,7 @@ lib.mkIf (cfg.enable && cfg.useIlyamiroConfig) {
       gaps_out = 4;
       resize_on_border = true;
       extend_border_grab_area = 30;
-      "col.active_border" = "rgba(cba6f7ee) rgba(89b4faee) 45deg";
+      "col.active_border" = "rgba(00d4d9ee) rgba(7aa2f7ee) rgba(bb9af7ee) 45deg";
       "col.inactive_border" = "rgba(313244aa)";
     };
 

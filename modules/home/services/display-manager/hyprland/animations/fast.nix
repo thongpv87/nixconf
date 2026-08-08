@@ -16,6 +16,7 @@
   animation = [
     "windows, 1, 3, md3_decel, popin 60%"
     "border, 1, 10, default"
+    "borderangle, 1, 30, linear, loop"
     "fade, 1, 2.5, md3_decel"
     "workspaces, 1, 3.5, easeOutExpo, slide"
     "specialWorkspace, 1, 3, md3_decel, slidevert"
