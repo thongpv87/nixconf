@@ -1623,6 +1623,7 @@ Variants {
                                         }
                                         Text { 
                                             text: barWindow.sysCpu + "%"; 
+                                            width: barWindow.s(28); horizontalAlignment: Text.AlignLeft;
                                             font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
                                             color: mocha.base 
                                         }
@@ -1642,6 +1643,7 @@ Variants {
                                         }
                                         Text { 
                                             text: barWindow.sysRam + "%"; 
+                                            width: barWindow.s(28); horizontalAlignment: Text.AlignLeft;
                                             font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
                                             color: mocha.base 
                                         }
@@ -1661,6 +1663,7 @@ Variants {
                                         }
                                         Text { 
                                             text: barWindow.sysTemp + "°C"; 
+                                            width: barWindow.s(36); horizontalAlignment: Text.AlignLeft;
                                             font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
                                             color: mocha.base 
                                         }
