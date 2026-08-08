@@ -1502,7 +1502,7 @@ Variants {
                                             color: mocha.sapphire 
                                         }
                                         Text { 
-                                            text: barWindow.sysCpu + "%"; 
+                                            text: (barWindow.sysCpu < 10 ? " " : "") + barWindow.sysCpu + "%"; 
                                             font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
                                             color: mocha.sapphire 
                                         }
@@ -1516,7 +1516,7 @@ Variants {
                                             color: mocha.mauve 
                                         }
                                         Text { 
-                                            text: barWindow.sysRam + "%"; 
+                                            text: (barWindow.sysRam < 10 ? " " : "") + barWindow.sysRam + "%"; 
                                             font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
                                             color: mocha.mauve 
                                         }
@@ -1530,7 +1530,7 @@ Variants {
                                             color: mocha.peach 
                                         }
                                         Text { 
-                                            text: barWindow.sysTemp + "°C"; 
+                                            text: (barWindow.sysTemp < 10 ? " " : "") + barWindow.sysTemp + "°C"; 
                                             font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
                                             color: mocha.peach 
                                         }
