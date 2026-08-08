@@ -180,7 +180,7 @@ Item {
                     echo "" >> ${logFile}
                     echo "[$(date +'%H:%M:%S.%3N')] APPLYING CACHED SEARCH: $DEST_FILE TO $TARGET_MONITORS" >> ${logFile}
                     
-                    if [ "$TARGET_MONITORS" = "all" ]; then
+                    if [ "$TARGET_MONITORS" = "all" ] || [ "$TARGET_MONITORS" = "none" ] || [ -z "$TARGET_MONITORS" ]; then
                         "$WALL_BIN" img "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
                     else
                         "$WALL_BIN" img -o "$TARGET_MONITORS" "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
@@ -223,7 +223,7 @@ Item {
                         echo "" >> ${logFile}
                         echo "[$(date +'%H:%M:%S.%3N')] APPLYING NEW DOWNLOAD: $DEST_FILE TO $TARGET_MONITORS" >> ${logFile}
                         
-                        if [ "$TARGET_MONITORS" = "all" ]; then
+                        if [ "$TARGET_MONITORS" = "all" ] || [ "$TARGET_MONITORS" = "none" ] || [ -z "$TARGET_MONITORS" ]; then
                             "$WALL_BIN" img "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
                         else
                             "$WALL_BIN" img -o "$TARGET_MONITORS" "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
@@ -266,7 +266,7 @@ Item {
                 echo "" >> ${logFile}
                 echo "[$(date +'%H:%M:%S.%3N')] APPLYING LOCAL IMAGE: ${escOriginal} TO ${escOutputs}" >> ${logFile}
                 
-                if [ "${escOutputs}" = "all" ]; then
+                if [ "${escOutputs}" = "all" ] || [ "${escOutputs}" = "none" ] || [ -z "${escOutputs}" ]; then
                     "$WALL_BIN" img "${escOriginal}" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
                 else
                     "$WALL_BIN" img -o "${escOutputs}" "${escOriginal}" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
