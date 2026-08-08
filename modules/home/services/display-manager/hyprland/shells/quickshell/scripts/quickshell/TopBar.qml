@@ -332,7 +332,8 @@ Variants {
             property color batDynamicColor: {
                 if (isCharging) return mocha.green;
                 if (batCap <= 20) return mocha.red;
-                return mocha.text; 
+                if (batCap <= 50) return mocha.yellow;
+                return mocha.green; 
             }
 
             Process {
@@ -1489,16 +1490,16 @@ Variants {
                                 Column {
                                     id: sysMasterGrid
                                     anchors.centerIn: parent
-                                    spacing: barWindow.s(2)
+                                    spacing: barWindow.s(3)
 
                                     Row {
-                                        spacing: barWindow.s(6)
+                                        spacing: barWindow.s(4)
                                         anchors.horizontalCenter: parent.horizontalCenter
 
                                         Rectangle {
-                                            color: Qt.rgba(mocha.sapphire.r, mocha.sapphire.g, mocha.sapphire.b, 0.18)
+                                            color: Qt.rgba(mocha.sapphire.r, mocha.sapphire.g, mocha.sapphire.b, 0.22)
                                             radius: barWindow.s(4)
-                                            width: cpuRow.implicitWidth + barWindow.s(8)
+                                            width: barWindow.s(44)
                                             height: barWindow.s(13)
 
                                             Row {
@@ -1516,9 +1517,9 @@ Variants {
                                         }
 
                                         Rectangle {
-                                            color: Qt.rgba(mocha.mauve.r, mocha.mauve.g, mocha.mauve.b, 0.18)
+                                            color: Qt.rgba(mocha.mauve.r, mocha.mauve.g, mocha.mauve.b, 0.22)
                                             radius: barWindow.s(4)
-                                            width: ramRow.implicitWidth + barWindow.s(8)
+                                            width: barWindow.s(44)
                                             height: barWindow.s(13)
 
                                             Row {
@@ -1537,13 +1538,13 @@ Variants {
                                     }
 
                                     Row {
-                                        spacing: barWindow.s(6)
+                                        spacing: barWindow.s(4)
                                         anchors.horizontalCenter: parent.horizontalCenter
 
                                         Rectangle {
-                                            color: Qt.rgba(mocha.peach.r, mocha.peach.g, mocha.peach.b, 0.18)
+                                            color: Qt.rgba(mocha.peach.r, mocha.peach.g, mocha.peach.b, 0.22)
                                             radius: barWindow.s(4)
-                                            width: tempRow.implicitWidth + barWindow.s(8)
+                                            width: barWindow.s(44)
                                             height: barWindow.s(13)
 
                                             Row {
@@ -1553,7 +1554,7 @@ Variants {
                                                 Text { text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(9.5); color: mocha.peach }
                                                 Text { 
                                                     text: barWindow.sysTemp + "°C"; 
-                                                    width: barWindow.s(26); horizontalAlignment: Text.AlignLeft;
+                                                    width: barWindow.s(24); horizontalAlignment: Text.AlignLeft;
                                                     font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(9.5); font.weight: Font.Black; 
                                                     color: mocha.text 
                                                 }
@@ -1561,9 +1562,9 @@ Variants {
                                         }
 
                                         Rectangle {
-                                            color: Qt.rgba(barWindow.batDynamicColor.r, barWindow.batDynamicColor.g, barWindow.batDynamicColor.b, 0.18)
+                                            color: Qt.rgba(barWindow.batDynamicColor.r, barWindow.batDynamicColor.g, barWindow.batDynamicColor.b, 0.22)
                                             radius: barWindow.s(4)
-                                            width: batRow.implicitWidth + barWindow.s(8)
+                                            width: barWindow.s(44)
                                             height: barWindow.s(13)
 
                                             Row {
@@ -1577,7 +1578,7 @@ Variants {
                                                 }
                                                 Text { 
                                                     text: barWindow.isDesktop ? "PWR" : barWindow.batPercent; 
-                                                    width: barWindow.s(26); horizontalAlignment: Text.AlignLeft;
+                                                    width: barWindow.s(24); horizontalAlignment: Text.AlignLeft;
                                                     font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(9.5); font.weight: Font.Black; 
                                                     color: mocha.text 
                                                 }
