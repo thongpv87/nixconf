@@ -210,19 +210,19 @@ Variants {
                 if (this.text.trim() !== "") {
                     barWindow.brightnessPercent = this.text.trim();
                 }
+                brightnessWaiter.running = false;
+                brightnessWaiter.running = true;
             }
         }
     }
 
-    Timer {
-        interval: 2000; running: true; repeat: true;
-        onTriggered: brightnessPoller.running = true
-    }
-    
-    Timer {
-        id: brightnessUpdateDelay
-        interval: 150
-        onTriggered: brightnessPoller.running = true
+    Process {
+        id: brightnessWaiter
+        command: ["bash", "-c", "~/.config/hypr/scripts/quickshell/watchers/brightness_wait.sh"]
+        onExited: {
+            brightnessPoller.running = false;
+            brightnessPoller.running = true;
+        }
     }
 
     property string sysCpu: "0"
@@ -1570,7 +1570,6 @@ Variants {
                                         } else {
                                             Quickshell.execDetached(["swayosd-client", "--brightness", "lower"])
                                         }
-                                        brightnessUpdateDelay.restart();
                                     }
                                 }
                             }
