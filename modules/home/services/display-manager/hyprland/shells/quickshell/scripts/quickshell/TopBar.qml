@@ -1465,150 +1465,13 @@ Variants {
                             }
 
                             Rectangle {
-                                id: volPill
-                                property bool isHovered: volMouse.containsMouse
-                                color: isHovered ? Qt.rgba(mocha.surface1.r, mocha.surface1.g, mocha.surface1.b, 0.6) : Qt.rgba(mocha.surface0.r, mocha.surface0.g, mocha.surface0.b, 0.4)
-                                radius: barWindow.s(10); height: sysLayout.pillHeight;
-                                clip: true
-
-                                Rectangle {
-                                    anchors.fill: parent
-                                    radius: barWindow.s(10)
-                                    opacity: barWindow.isSoundActive ? 1.0 : 0.0
-                                    Behavior on opacity { NumberAnimation { duration: 300 } }
-                                    gradient: Gradient {
-                                        orientation: Gradient.Horizontal
-                                        GradientStop { position: 0.0; color: mocha.peach }
-                                        GradientStop { position: 1.0; color: Qt.lighter(mocha.peach, 1.3) }
-                                    }
-                                }
-                                
-                                property real targetWidth: volLayoutRow.implicitWidth + barWindow.s(24)
-                                width: targetWidth
-                                Behavior on width { NumberAnimation { duration: 500; easing.type: Easing.OutQuint } }
-                                
-                                scale: isHovered ? 1.05 : 1.0
-                                Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutExpo } }
-                                Behavior on color { ColorAnimation { duration: 200 } }
-
-                                property bool initAnimTrigger: false
-                                Timer { running: rightContent.showLayout && !parent.initAnimTrigger; interval: 150; onTriggered: parent.initAnimTrigger = true }
-                                opacity: initAnimTrigger ? 1 : 0
-                                transform: Translate { y: parent.initAnimTrigger ? 0 : barWindow.s(15); Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
-                                Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
-
-                                Row { 
-                                    id: volLayoutRow
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.left: parent.left
-                                    anchors.leftMargin: barWindow.s(12)
-                                    spacing: barWindow.s(8)
-                                    Text { 
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        text: barWindow.volIcon; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(16); 
-                                        color: barWindow.isSoundActive ? mocha.base : mocha.subtext0 
-                                    }
-                                    Text { 
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        text: barWindow.volPercent; 
-                                        font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(13); font.weight: Font.Black; 
-                                        color: barWindow.isSoundActive ? mocha.base : mocha.text; 
-                                    }
-                                }
-                                MouseArea { 
-                                    id: volMouse; hoverEnabled: true; anchors.fill: parent; 
-                                    onClicked: Quickshell.execDetached(["bash", "-c", "~/.config/hypr/scripts/qs_manager.sh toggle volume"]) 
-                                    onWheel: (wheel) => {
-                                        if (wheel.angleDelta.y > 0) {
-                                            Quickshell.execDetached(["bash", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"])
-                                        } else {
-                                            Quickshell.execDetached(["bash", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"])
-                                        }
-                                    }
-                                }
-                            }
-
-                            Rectangle {
-                                id: brightPill
-                                property bool isHovered: brightMouse.containsMouse
-                                color: isHovered ? Qt.rgba(mocha.surface1.r, mocha.surface1.g, mocha.surface1.b, 0.6) : Qt.rgba(mocha.surface0.r, mocha.surface0.g, mocha.surface0.b, 0.4)
-                                radius: barWindow.s(10); height: sysLayout.pillHeight;
-                                clip: true
-
-                                Rectangle {
-                                    anchors.fill: parent
-                                    radius: barWindow.s(10)
-                                    opacity: 1.0
-                                    gradient: Gradient {
-                                        orientation: Gradient.Horizontal
-                                        GradientStop { position: 0.0; color: mocha.yellow }
-                                        GradientStop { position: 1.0; color: Qt.lighter(mocha.yellow, 1.3) }
-                                    }
-                                }
-                                
-                                property real targetWidth: brightLayoutRow.implicitWidth + barWindow.s(24)
-                                width: targetWidth
-                                Behavior on width { NumberAnimation { duration: 500; easing.type: Easing.OutQuint } }
-                                
-                                scale: isHovered ? 1.05 : 1.0
-                                Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutExpo } }
-                                Behavior on color { ColorAnimation { duration: 200 } }
-
-                                property bool initAnimTrigger: false
-                                Timer { running: rightContent.showLayout && !parent.initAnimTrigger; interval: 175; onTriggered: parent.initAnimTrigger = true }
-                                opacity: initAnimTrigger ? 1 : 0
-                                transform: Translate { y: parent.initAnimTrigger ? 0 : barWindow.s(15); Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
-                                Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
-
-                                Row { 
-                                    id: brightLayoutRow
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.left: parent.left
-                                    anchors.leftMargin: barWindow.s(12)
-                                    spacing: barWindow.s(8)
-                                    Text { 
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        text: "󰃠"; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(16); 
-                                        color: mocha.base 
-                                    }
-                                    Text { 
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        text: barWindow.brightnessPercent + "%"; 
-                                        font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(13); font.weight: Font.Black; 
-                                        color: mocha.base 
-                                    }
-                                }
-                                MouseArea { 
-                                    id: brightMouse; hoverEnabled: true; anchors.fill: parent; 
-                                    onWheel: (wheel) => {
-                                        if (wheel.angleDelta.y > 0) {
-                                            Quickshell.execDetached(["swayosd-client", "--brightness", "raise"])
-                                        } else {
-                                            Quickshell.execDetached(["swayosd-client", "--brightness", "lower"])
-                                        }
-                                    }
-                                }
-                            }
-
-                            Rectangle {
                                 id: sysMasterPill
                                 property bool isHovered: sysMasterMouse.containsMouse
                                 color: isHovered ? Qt.rgba(mocha.surface1.r, mocha.surface1.g, mocha.surface1.b, 0.6) : Qt.rgba(mocha.surface0.r, mocha.surface0.g, mocha.surface0.b, 0.4)
                                 radius: barWindow.s(10); height: sysLayout.pillHeight;
                                 clip: true
 
-                                Rectangle {
-                                    anchors.fill: parent
-                                    radius: barWindow.s(10)
-                                    opacity: 1.0
-                                    gradient: Gradient {
-                                        orientation: Gradient.Horizontal
-                                        GradientStop { position: 0.0; color: mocha.teal }
-                                        GradientStop { position: 1.0; color: Qt.lighter(mocha.teal, 1.25) }
-                                    }
-                                }
-                                
-                                property real targetWidth: sysMasterLayoutRow.implicitWidth + barWindow.s(22)
+                                property real targetWidth: sysMasterLayoutRow.implicitWidth + barWindow.s(10)
                                 width: targetWidth
                                 Behavior on width { NumberAnimation { duration: 500; easing.type: Easing.OutQuint } }
                                 
@@ -1617,7 +1480,7 @@ Variants {
                                 Behavior on color { ColorAnimation { duration: 200 } }
 
                                 property bool initAnimTrigger: false
-                                Timer { running: rightContent.showLayout && !parent.initAnimTrigger; interval: 200; onTriggered: parent.initAnimTrigger = true }
+                                Timer { running: rightContent.showLayout && !parent.initAnimTrigger; interval: 140; onTriggered: parent.initAnimTrigger = true }
                                 opacity: initAnimTrigger ? 1 : 0
                                 transform: Translate { y: parent.initAnimTrigger ? 0 : barWindow.s(15); Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
                                 Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
@@ -1626,64 +1489,123 @@ Variants {
                                     id: sysMasterLayoutRow
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.left: parent.left
-                                    anchors.leftMargin: barWindow.s(11)
-                                    spacing: barWindow.s(5)
+                                    anchors.leftMargin: barWindow.s(5)
+                                    spacing: barWindow.s(4)
 
-                                    Row {
-                                        spacing: barWindow.s(2.5)
+                                    // CPU Block
+                                    Rectangle {
+                                        color: Qt.rgba(mocha.sapphire.r, mocha.sapphire.g, mocha.sapphire.b, 0.2)
+                                        radius: barWindow.s(7)
+                                        height: sysLayout.pillHeight - barWindow.s(6)
+                                        width: cpuBlockRow.implicitWidth + barWindow.s(8)
                                         anchors.verticalCenter: parent.verticalCenter
-                                        Text { text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(14); color: mocha.base }
-                                        Text { 
-                                            text: barWindow.sysCpu + "%"; 
-                                            width: barWindow.s(24); horizontalAlignment: Text.AlignLeft;
-                                            font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
-                                            color: mocha.base 
+
+                                        Row {
+                                            id: cpuBlockRow
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            anchors.left: parent.left
+                                            anchors.leftMargin: barWindow.s(3)
+                                            spacing: barWindow.s(5)
+
+                                            Rectangle {
+                                                color: mocha.sapphire
+                                                radius: barWindow.s(5)
+                                                width: barWindow.s(18); height: barWindow.s(17)
+                                                anchors.verticalCenter: parent.verticalCenter
+
+                                                Text {
+                                                    anchors.centerIn: parent
+                                                    text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(11)
+                                                    color: mocha.base
+                                                }
+                                            }
+
+                                            Text { 
+                                                text: barWindow.sysCpu + "%"
+                                                width: barWindow.s(20)
+                                                horizontalAlignment: Text.AlignRight
+                                                anchors.verticalCenter: parent.verticalCenter
+                                                font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(11); font.weight: Font.Black
+                                                color: mocha.text
+                                            }
                                         }
                                     }
 
-                                    Text { text: "•"; font.pixelSize: barWindow.s(8); color: Qt.rgba(mocha.base.r, mocha.base.g, mocha.base.b, 0.45); anchors.verticalCenter: parent.verticalCenter }
-
-                                    Row {
-                                        spacing: barWindow.s(2.5)
+                                    // RAM Block
+                                    Rectangle {
+                                        color: Qt.rgba(mocha.mauve.r, mocha.mauve.g, mocha.mauve.b, 0.2)
+                                        radius: barWindow.s(7)
+                                        height: sysLayout.pillHeight - barWindow.s(6)
+                                        width: ramBlockRow.implicitWidth + barWindow.s(8)
                                         anchors.verticalCenter: parent.verticalCenter
-                                        Text { text: "󰍛"; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(14); color: mocha.base }
-                                        Text { 
-                                            text: barWindow.sysRam + "%"; 
-                                            width: barWindow.s(24); horizontalAlignment: Text.AlignLeft;
-                                            font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
-                                            color: mocha.base 
+
+                                        Row {
+                                            id: ramBlockRow
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            anchors.left: parent.left
+                                            anchors.leftMargin: barWindow.s(3)
+                                            spacing: barWindow.s(5)
+
+                                            Rectangle {
+                                                color: mocha.mauve
+                                                radius: barWindow.s(5)
+                                                width: barWindow.s(18); height: barWindow.s(17)
+                                                anchors.verticalCenter: parent.verticalCenter
+
+                                                Text {
+                                                    anchors.centerIn: parent
+                                                    text: "󰍛"; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(11)
+                                                    color: mocha.base
+                                                }
+                                            }
+
+                                            Text { 
+                                                text: barWindow.sysRam + "%"
+                                                width: barWindow.s(20)
+                                                horizontalAlignment: Text.AlignRight
+                                                anchors.verticalCenter: parent.verticalCenter
+                                                font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(11); font.weight: Font.Black
+                                                color: mocha.text
+                                            }
                                         }
                                     }
 
-                                    Text { text: "•"; font.pixelSize: barWindow.s(8); color: Qt.rgba(mocha.base.r, mocha.base.g, mocha.base.b, 0.45); anchors.verticalCenter: parent.verticalCenter }
-
-                                    Row {
-                                        spacing: barWindow.s(2.5)
+                                    // Temp Block
+                                    Rectangle {
+                                        color: Qt.rgba(mocha.peach.r, mocha.peach.g, mocha.peach.b, 0.2)
+                                        radius: barWindow.s(7)
+                                        height: sysLayout.pillHeight - barWindow.s(6)
+                                        width: tempBlockRow.implicitWidth + barWindow.s(8)
                                         anchors.verticalCenter: parent.verticalCenter
-                                        Text { text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(14); color: mocha.base }
-                                        Text { 
-                                            text: barWindow.sysTemp + "°C"; 
-                                            width: barWindow.s(32); horizontalAlignment: Text.AlignLeft;
-                                            font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
-                                            color: mocha.base 
-                                        }
-                                    }
 
-                                    Text { text: "•"; font.pixelSize: barWindow.s(8); color: Qt.rgba(mocha.base.r, mocha.base.g, mocha.base.b, 0.45); anchors.verticalCenter: parent.verticalCenter }
+                                        Row {
+                                            id: tempBlockRow
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            anchors.left: parent.left
+                                            anchors.leftMargin: barWindow.s(3)
+                                            spacing: barWindow.s(5)
 
-                                    Row {
-                                        spacing: barWindow.s(2.5)
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        Text { 
-                                            text: barWindow.isDesktop ? "" : barWindow.batIcon; 
-                                            font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(14); 
-                                            color: mocha.base 
-                                        }
-                                        Text { 
-                                            text: barWindow.isDesktop ? "PWR" : barWindow.batPercent; 
-                                            width: barWindow.s(28); horizontalAlignment: Text.AlignLeft;
-                                            font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
-                                            color: mocha.base 
+                                            Rectangle {
+                                                color: mocha.peach
+                                                radius: barWindow.s(5)
+                                                width: barWindow.s(18); height: barWindow.s(17)
+                                                anchors.verticalCenter: parent.verticalCenter
+
+                                                Text {
+                                                    anchors.centerIn: parent
+                                                    text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(11)
+                                                    color: mocha.base
+                                                }
+                                            }
+
+                                            Text { 
+                                                text: barWindow.sysTemp + "°C"
+                                                width: barWindow.s(26)
+                                                horizontalAlignment: Text.AlignRight
+                                                anchors.verticalCenter: parent.verticalCenter
+                                                font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(11); font.weight: Font.Black
+                                                color: mocha.text
+                                            }
                                         }
                                     }
                                 }
