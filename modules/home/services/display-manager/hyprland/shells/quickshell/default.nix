@@ -71,27 +71,11 @@ lib.mkIf (cfg.enable && cfg.useIlyamiroConfig) {
       gaps_out = 4;
       resize_on_border = true;
       extend_border_grab_area = 30;
-      "col.active_border" = "$active_border";
-      "col.inactive_border" = "$inactive_border";
+      "col.active_border" = "rgba(cba6f7ee) rgba(89b4faee) 45deg";
+      "col.inactive_border" = "rgba(313244aa)";
     };
 
-    animations = {
-      enabled = true;
-      bezier = [
-        "myBezier, 0.05, 0.9, 0.1, 1.05"
-      ];
-      animation = [
-        "windows, 1, 5, myBezier, popin 80%"
-        "windowsOut, 1, 5, myBezier, popin 80%"
-        "layers, 1, 5, myBezier, fade"
-        "layersIn, 1, 5, myBezier, fade"
-        "layersOut, 1, 5, myBezier, fade"
-        "fade, 1, 5, myBezier"
-        "workspaces, 1, 5, myBezier, slide"
-        "specialWorkspaceIn, 1, 5, myBezier, fade"
-        "specialWorkspaceOut, 1, 5, myBezier, fade"
-      ];
-    };
+    animations = import ./../../animations/${cfg.animation}.nix;
 
     misc = {
       font_family = "JetBrains Mono";

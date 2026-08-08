@@ -55,11 +55,14 @@ def get_data():
 
     def format_node(n, is_default=False, is_app=False):
         vol = 0
-        if "volume" in n and isinstance(n["volume"], dict):
+        if "volume" in n and isinstance(n["volume"], dict) and len(n["volume"]) > 0:
             if "front-left" in n["volume"]:
                 vol = int(n["volume"]["front-left"].get("value_percent", "0%").strip("%"))
             elif "mono" in n["volume"]:
                 vol = int(n["volume"]["mono"].get("value_percent", "0%").strip("%"))
+            else:
+                first_key = list(n["volume"].keys())[0]
+                vol = int(n["volume"][first_key].get("value_percent", "0%").strip("%"))
 
         props = n.get("properties", {})
         
@@ -73,7 +76,7 @@ def get_data():
         icon = get_valid_string(props.get("application.icon_name"), props.get("device.icon_name"), "audio-card")
         
         return {
-            "id": str(n.get("index")),
+            "id": str(n.get("name")),
             "name": sub_desc,
             "description": display_name,
             "volume": vol,

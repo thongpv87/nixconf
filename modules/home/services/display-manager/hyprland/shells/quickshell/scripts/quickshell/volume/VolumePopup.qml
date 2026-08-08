@@ -99,13 +99,9 @@ Item {
     // -------------------------------------------------------------------------
     // CACHING & DATA LOGIC
     // -------------------------------------------------------------------------
-    Settings {
+    Item {
         id: cache
         property string lastAudioJson: ""
-    }
-
-    Component.onCompleted: {
-        if (cache.lastAudioJson !== "") processAudioJson(cache.lastAudioJson);
     }
 
     function processAudioJson(textData) {
@@ -203,6 +199,12 @@ Item {
 
     Timer {
         interval: 1000; running: true; repeat: true; triggeredOnStart: true;
+        onTriggered: audioPoller.running = true
+    }
+
+    Timer {
+        id: switchPollerDelay
+        interval: 150
         onTriggered: audioPoller.running = true
     }
 
@@ -730,7 +732,7 @@ Item {
                                 onClicked: {
                                     if (window.activeTab !== "apps" && !model.is_default) {
                                         let type = window.activeTab === "outputs" ? "sink" : "source";
-                                        Quickshell.execDetached(["bash", window.scriptsDir + "/audio_control.sh", "set-default", type, model.name]);
+                                        Quickshell.execDetached(["bash", window.scriptsDir + "/audio_control.sh", "set-default", type, model.id]);
                                         audioPoller.running = true;
                                     }
                                 }

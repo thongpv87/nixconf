@@ -290,6 +290,28 @@ Item {
 
                         onTextChanged: filterApps(text)
 
+                        Keys.onPressed: (event) => {
+                            if (event.modifiers & Qt.ControlModifier) {
+                                if (event.key === Qt.Key_N || event.key === Qt.Key_J) {
+                                    window.isKeyboardNav = true;
+                                    keyboardNavTimer.restart();
+                                    if (appList.currentIndex < appModel.count - 1) {
+                                        appList.currentIndex++;
+                                    }
+                                    event.accepted = true;
+                                    return;
+                                } else if (event.key === Qt.Key_P || event.key === Qt.Key_K) {
+                                    window.isKeyboardNav = true;
+                                    keyboardNavTimer.restart();
+                                    if (appList.currentIndex > 0) {
+                                        appList.currentIndex--;
+                                    }
+                                    event.accepted = true;
+                                    return;
+                                }
+                            }
+                        }
+
                         Keys.onDownPressed: {
                             window.isKeyboardNav = true;
                             keyboardNavTimer.restart();

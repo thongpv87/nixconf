@@ -108,6 +108,10 @@ in
         jack.enable = true;
         wireplumber.extraConfig = {
           "51-audio-sink-priority" = {
+            "wireplumber.settings" = {
+              "node.stream.restore-target" = false;
+              "bluetooth.autoswitch-to-headset-profile" = false;
+            };
             "monitor.alsa.rules" = [
               {
                 # Laptop speakers / headphone jack — lowest priority
@@ -122,19 +126,9 @@ in
             ];
             "monitor.bluez.rules" = [
               {
-                # BT headphones/headsets — highest priority
-                matches = [ { "device.form-factor" = "headset"; } ];
+                # BT headphones/headsets/speakers — highest priority
+                matches = [ { "node.name" = "~bluez_output.*"; } ];
                 actions.update-props."priority.session" = 4000;
-              }
-              {
-                # BT headphones (over-ear form factor)
-                matches = [ { "device.form-factor" = "headphone"; } ];
-                actions.update-props."priority.session" = 4000;
-              }
-              {
-                # BT speakers — below headphones, above HDMI
-                matches = [ { "device.form-factor" = "speaker"; } ];
-                actions.update-props."priority.session" = 3000;
               }
             ];
           };
