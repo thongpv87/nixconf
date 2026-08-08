@@ -13,11 +13,13 @@ PanelWindow {
 
     anchors {
         bottom: true
-        horizontalCenter: true
+        left: true
+        right: true
     }
     margins {
         bottom: 80
     }
+    implicitHeight: 60
 
     mask: Region {}
 
