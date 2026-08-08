@@ -224,6 +224,33 @@ Variants {
         interval: 150
         onTriggered: brightnessPoller.running = true
     }
+
+    property string sysCpu: "0"
+    property string sysRam: "0"
+    property string sysTemp: "0"
+
+    Process {
+        id: sysInfoPoller
+        command: ["python3", Quickshell.env("HOME") + "/.config/hypr/scripts/quickshell/sysinfo/get_sys_info.py"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: {
+                try {
+                    if (this.text.trim() !== "") {
+                        let data = JSON.parse(this.text.trim());
+                        barWindow.sysCpu = data.cpu.toString();
+                        barWindow.sysRam = data.ram.toString();
+                        barWindow.sysTemp = data.temp.toString();
+                    }
+                } catch(e) {}
+            }
+        }
+    }
+
+    Timer {
+        interval: 2000; running: true; repeat: true;
+        onTriggered: sysInfoPoller.running = true
+    }
             property string ethStatus: "Ethernet"
 
             Process {
@@ -1545,6 +1572,105 @@ Variants {
                                         }
                                         brightnessUpdateDelay.restart();
                                     }
+                                }
+                            }
+
+                            Rectangle {
+                                id: sysInfoPill
+                                property bool isHovered: sysInfoMouse.containsMouse
+                                color: isHovered ? Qt.rgba(mocha.surface1.r, mocha.surface1.g, mocha.surface1.b, 0.6) : Qt.rgba(mocha.surface0.r, mocha.surface0.g, mocha.surface0.b, 0.4)
+                                radius: barWindow.s(10); height: sysLayout.pillHeight;
+                                clip: true
+
+                                Rectangle {
+                                    anchors.fill: parent
+                                    radius: barWindow.s(10)
+                                    opacity: 1.0
+                                    gradient: Gradient {
+                                        orientation: Gradient.Horizontal
+                                        GradientStop { position: 0.0; color: mocha.sapphire }
+                                        GradientStop { position: 1.0; color: Qt.lighter(mocha.sapphire, 1.25) }
+                                    }
+                                }
+                                
+                                property real targetWidth: sysInfoLayoutRow.implicitWidth + barWindow.s(24)
+                                width: targetWidth
+                                Behavior on width { NumberAnimation { duration: 500; easing.type: Easing.OutQuint } }
+                                
+                                scale: isHovered ? 1.05 : 1.0
+                                Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutExpo } }
+                                Behavior on color { ColorAnimation { duration: 200 } }
+
+                                property bool initAnimTrigger: false
+                                Timer { running: rightContent.showLayout && !parent.initAnimTrigger; interval: 180; onTriggered: parent.initAnimTrigger = true }
+                                opacity: initAnimTrigger ? 1 : 0
+                                transform: Translate { y: parent.initAnimTrigger ? 0 : barWindow.s(15); Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
+                                Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
+
+                                Row { 
+                                    id: sysInfoLayoutRow
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: barWindow.s(12)
+                                    spacing: barWindow.s(8)
+
+                                    Row {
+                                        spacing: barWindow.s(4)
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        Text { 
+                                            text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(15); 
+                                            color: mocha.base 
+                                        }
+                                        Text { 
+                                            text: barWindow.sysCpu + "%"; 
+                                            font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
+                                            color: mocha.base 
+                                        }
+                                    }
+
+                                    Text {
+                                        text: "•"; font.pixelSize: barWindow.s(10); color: Qt.rgba(mocha.base.r, mocha.base.g, mocha.base.b, 0.6);
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    Row {
+                                        spacing: barWindow.s(4)
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        Text { 
+                                            text: "󰍛"; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(15); 
+                                            color: mocha.base 
+                                        }
+                                        Text { 
+                                            text: barWindow.sysRam + "%"; 
+                                            font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
+                                            color: mocha.base 
+                                        }
+                                    }
+
+                                    Text {
+                                        text: "•"; font.pixelSize: barWindow.s(10); color: Qt.rgba(mocha.base.r, mocha.base.g, mocha.base.b, 0.6);
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    Row {
+                                        spacing: barWindow.s(4)
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        Text { 
+                                            text: ""; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(15); 
+                                            color: mocha.base 
+                                        }
+                                        Text { 
+                                            text: barWindow.sysTemp + "°C"; 
+                                            font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(12); font.weight: Font.Black; 
+                                            color: mocha.base 
+                                        }
+                                    }
+                                }
+
+                                MouseArea { 
+                                    id: sysInfoMouse; hoverEnabled: true; anchors.fill: parent; 
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: Quickshell.execDetached(["hyprctl", "dispatch", "exec", "[float; size 1000 650; center] kitty -e btop"])
                                 }
                             }
 
