@@ -11,6 +11,10 @@ PanelWindow {
     color: "transparent"
     visible: true
 
+    WlrLayershell.namespace: "qs-window-osd"
+    WlrLayershell.layer: WlrLayer.Overlay
+    exclusionMode: ExclusionMode.Ignore
+
     anchors {
         bottom: true
         left: true
