@@ -3,7 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Window
 import QtCore
 import Qt.labs.folderlistmodel
-import QtMultimedia
 import Quickshell
 import Quickshell.Io
 import "../" 
@@ -1213,31 +1212,8 @@ Item {
                         }
                     }
                     
-                    MediaPlayer {
-                        id: previewPlayer
-                        source: delegateRoot.isPlayingVideo ? "file://" + window.srcDir + "/" + window.getCleanName(delegateRoot.safeFileName) : ""
-                        audioOutput: AudioOutput { muted: true }
-                        videoOutput: previewOutput
-                        loops: MediaPlayer.Infinite
-                    }
-
-                    VideoOutput {
-                        id: previewOutput
-                        anchors.centerIn: parent
-                        anchors.horizontalCenterOffset: window.s(-50)
-                        width: (window.itemWidth * 1.5) + ((window.itemHeight + window.s(30)) * Math.abs(window.skewFactor)) + window.s(50)
-                        height: window.itemHeight + window.s(30)
-                        fillMode: VideoOutput.PreserveAspectCrop
-                        visible: delegateRoot.isPlayingVideo && previewPlayer.playbackState === MediaPlayer.PlayingState
-
-                        transform: Matrix4x4 {
-                            property real s: -window.skewFactor
-                            matrix: Qt.matrix4x4(1, s, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
-                        }
-                    }
-                    
                     Rectangle {
-                        visible: delegateRoot.isVideo && (!delegateRoot.isPlayingVideo || previewPlayer.playbackState !== MediaPlayer.PlayingState)
+                        visible: delegateRoot.isVideo
                         anchors.top: parent.top
                         anchors.right: parent.right
                         anchors.margins: window.s(10)
