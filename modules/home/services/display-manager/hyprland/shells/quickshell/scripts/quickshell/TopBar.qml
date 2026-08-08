@@ -1592,6 +1592,132 @@ Variants {
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: Quickshell.execDetached(["hyprctl", "dispatch", "exec", "[float; size 1000 650; center] kitty -e btop"])
                                 }
+                            }
+
+                            Rectangle {
+                                id: volPill
+                                property bool isHovered: volMouse.containsMouse
+                                color: isHovered ? Qt.rgba(mocha.surface1.r, mocha.surface1.g, mocha.surface1.b, 0.6) : Qt.rgba(mocha.surface0.r, mocha.surface0.g, mocha.surface0.b, 0.4)
+                                radius: barWindow.s(10); height: sysLayout.pillHeight;
+                                clip: true
+
+                                Rectangle {
+                                    anchors.fill: parent
+                                    radius: barWindow.s(10)
+                                    opacity: barWindow.isSoundActive ? 1.0 : 0.0
+                                    Behavior on opacity { NumberAnimation { duration: 300 } }
+                                    gradient: Gradient {
+                                        orientation: Gradient.Horizontal
+                                        GradientStop { position: 0.0; color: mocha.peach }
+                                        GradientStop { position: 1.0; color: Qt.lighter(mocha.peach, 1.3) }
+                                    }
+                                }
+                                
+                                property real targetWidth: volLayoutRow.implicitWidth + barWindow.s(24)
+                                width: targetWidth
+                                Behavior on width { NumberAnimation { duration: 500; easing.type: Easing.OutQuint } }
+                                
+                                scale: isHovered ? 1.05 : 1.0
+                                Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutExpo } }
+                                Behavior on color { ColorAnimation { duration: 200 } }
+
+                                property bool initAnimTrigger: false
+                                Timer { running: rightContent.showLayout && !parent.initAnimTrigger; interval: 150; onTriggered: parent.initAnimTrigger = true }
+                                opacity: initAnimTrigger ? 1 : 0
+                                transform: Translate { y: parent.initAnimTrigger ? 0 : barWindow.s(15); Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
+                                Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
+
+                                Row { 
+                                    id: volLayoutRow
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: barWindow.s(12)
+                                    spacing: barWindow.s(8)
+                                    Text { 
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        text: barWindow.volIcon; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(16); 
+                                        color: barWindow.isSoundActive ? mocha.base : mocha.subtext0 
+                                    }
+                                    Text { 
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        text: barWindow.volPercent; 
+                                        font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(13); font.weight: Font.Black; 
+                                        color: barWindow.isSoundActive ? mocha.base : mocha.text; 
+                                    }
+                                }
+                                MouseArea { 
+                                    id: volMouse; hoverEnabled: true; anchors.fill: parent; 
+                                    onClicked: Quickshell.execDetached(["bash", "-c", "~/.config/hypr/scripts/qs_manager.sh toggle volume"]) 
+                                    onWheel: (wheel) => {
+                                        if (wheel.angleDelta.y > 0) {
+                                            Quickshell.execDetached(["bash", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"])
+                                        } else {
+                                            Quickshell.execDetached(["bash", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"])
+                                        }
+                                    }
+                                }
+                            }
+
+                            Rectangle {
+                                id: brightPill
+                                property bool isHovered: brightMouse.containsMouse
+                                color: isHovered ? Qt.rgba(mocha.surface1.r, mocha.surface1.g, mocha.surface1.b, 0.6) : Qt.rgba(mocha.surface0.r, mocha.surface0.g, mocha.surface0.b, 0.4)
+                                radius: barWindow.s(10); height: sysLayout.pillHeight;
+                                clip: true
+
+                                Rectangle {
+                                    anchors.fill: parent
+                                    radius: barWindow.s(10)
+                                    opacity: 1.0
+                                    gradient: Gradient {
+                                        orientation: Gradient.Horizontal
+                                        GradientStop { position: 0.0; color: mocha.yellow }
+                                        GradientStop { position: 1.0; color: Qt.lighter(mocha.yellow, 1.3) }
+                                    }
+                                }
+                                
+                                property real targetWidth: brightLayoutRow.implicitWidth + barWindow.s(24)
+                                width: targetWidth
+                                Behavior on width { NumberAnimation { duration: 500; easing.type: Easing.OutQuint } }
+                                
+                                scale: isHovered ? 1.05 : 1.0
+                                Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutExpo } }
+                                Behavior on color { ColorAnimation { duration: 200 } }
+
+                                property bool initAnimTrigger: false
+                                Timer { running: rightContent.showLayout && !parent.initAnimTrigger; interval: 175; onTriggered: parent.initAnimTrigger = true }
+                                opacity: initAnimTrigger ? 1 : 0
+                                transform: Translate { y: parent.initAnimTrigger ? 0 : barWindow.s(15); Behavior on y { NumberAnimation { duration: 500; easing.type: Easing.OutBack } } }
+                                Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
+
+                                Row { 
+                                    id: brightLayoutRow
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: barWindow.s(12)
+                                    spacing: barWindow.s(8)
+                                    Text { 
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        text: "󰃠"; font.family: "Iosevka Nerd Font"; font.pixelSize: barWindow.s(16); 
+                                        color: mocha.base 
+                                    }
+                                    Text { 
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        text: barWindow.brightnessPercent + "%"; 
+                                        font.family: "JetBrains Mono"; font.pixelSize: barWindow.s(13); font.weight: Font.Black; 
+                                        color: mocha.base 
+                                    }
+                                }
+                                MouseArea { 
+                                    id: brightMouse; hoverEnabled: true; anchors.fill: parent; 
+                                    onWheel: (wheel) => {
+                                        if (wheel.angleDelta.y > 0) {
+                                            Quickshell.execDetached(["swayosd-client", "--brightness", "raise"])
+                                        } else {
+                                            Quickshell.execDetached(["swayosd-client", "--brightness", "lower"])
+                                        }
+                                    }
+                                }
                             }                       
                  }
             }
