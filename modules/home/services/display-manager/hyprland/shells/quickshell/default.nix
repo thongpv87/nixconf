@@ -37,11 +37,6 @@ lib.mkIf (cfg.enable && cfg.useIlyamiroConfig) {
     "matugen".source = ./matugen;
     "cava/config_base".source = ./cava_config;
 
-    "hypr/colors.conf".text = ''
-      $active_border = rgba(7aa2f7ee)
-      $inactive_border = rgba(565f89aa)
-    '';
-
     "hypr/settings.json".text = builtins.toJSON {
       uiScale = 1.0;
       openGuideAtStartup = true;
@@ -59,8 +54,8 @@ lib.mkIf (cfg.enable && cfg.useIlyamiroConfig) {
     exec-once = [
       "fcitx5-remote -s bamboo"
       "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
-      "swww-daemon"
-      "sleep 2 && if ! swww query | grep -q 'image:'; then swww img ~/Code/nixconf/modules/home/services/display-manager/hyprland/wallpapers/countryside_landscape.jpg; fi"
+      "awww-daemon"
+      "sleep 2 && if ! awww query 2>/dev/null | grep -q 'displaying:'; then awww img ~/Code/nixconf/modules/home/services/display-manager/hyprland/wallpapers/countryside_landscape.jpg; fi"
       "playerctld"
       "~/.config/hypr/scripts/volume_listener.sh"
     ];

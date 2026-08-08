@@ -168,6 +168,7 @@ Item {
 
             if (alreadyExists) {
                 const applyScript = `
+                    WALL_BIN=$(command -v awww || command -v swww)
                     export DEST_FILE="${escapeBash(destFile)}"
                     export FINAL_THUMB="${escapeBash(finalThumb)}"
                     export RELOAD_SCRIPT="${escapeBash(reloadScript)}"
@@ -180,12 +181,12 @@ Item {
                     echo "[$(date +'%H:%M:%S.%3N')] APPLYING CACHED SEARCH: $DEST_FILE TO $TARGET_MONITORS" >> ${logFile}
                     
                     if [ "$TARGET_MONITORS" = "all" ]; then
-                        swww img "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
+                        "$WALL_BIN" img "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
                     else
-                        swww img -o "$TARGET_MONITORS" "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
+                        "$WALL_BIN" img -o "$TARGET_MONITORS" "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
                     fi
                     
-                    ( matugen image "$FINAL_THUMB" || true; bash "$RELOAD_SCRIPT" || true ) &
+                    ( matugen image "$FINAL_THUMB" --source-color-index 0 || true; bash "$RELOAD_SCRIPT" || true ) &
                 `;
                 Quickshell.execDetached(["bash", "-c", applyScript]);
             } else {
@@ -193,6 +194,7 @@ Item {
                 window.currentDownloadName = safeFileName;
 
                 const downloadScript = `
+                    WALL_BIN=$(command -v awww || command -v swww)
                     export SAFE_NAME="${escapeBash(safeFileName)}"
                     export DEST_FILE="${escapeBash(destFile)}"
                     export FINAL_THUMB="${escapeBash(finalThumb)}"
@@ -222,12 +224,12 @@ Item {
                         echo "[$(date +'%H:%M:%S.%3N')] APPLYING NEW DOWNLOAD: $DEST_FILE TO $TARGET_MONITORS" >> ${logFile}
                         
                         if [ "$TARGET_MONITORS" = "all" ]; then
-                            swww img "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
+                            "$WALL_BIN" img "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
                         else
-                            swww img -o "$TARGET_MONITORS" "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
+                            "$WALL_BIN" img -o "$TARGET_MONITORS" "$DEST_FILE" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
                         fi
                         
-                        ( matugen image "$FINAL_THUMB" || true; bash "$RELOAD_SCRIPT" || true ) &
+                        ( matugen image "$FINAL_THUMB" --source-color-index 0 || true; bash "$RELOAD_SCRIPT" || true ) &
                     fi
                 `;
                 Quickshell.execDetached(["bash", "-c", downloadScript]);
@@ -260,13 +262,14 @@ Item {
             `;
         } else {
             wallpaperCmd = `
+                WALL_BIN=$(command -v awww || command -v swww)
                 echo "" >> ${logFile}
                 echo "[$(date +'%H:%M:%S.%3N')] APPLYING LOCAL IMAGE: ${escOriginal} TO ${escOutputs}" >> ${logFile}
                 
                 if [ "${escOutputs}" = "all" ]; then
-                    swww img "${escOriginal}" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
+                    "$WALL_BIN" img "${escOriginal}" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
                 else
-                    swww img -o "${escOutputs}" "${escOriginal}" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
+                    "$WALL_BIN" img -o "${escOutputs}" "${escOriginal}" --transition-type ${randomTransition} --transition-pos 0.5,0.5 --transition-fps 144 --transition-duration 1 >> ${logFile} 2>&1 &
                 fi
             `;
         }
@@ -276,7 +279,7 @@ Item {
             pkill mpvpaper || true
             
             ${wallpaperCmd}
-            ( matugen image "${escThumb}" || true; bash "${escReload}" || true ) &
+            ( matugen image "${escThumb}" --source-color-index 0 || true; bash "${escReload}" || true ) &
         `;
         Quickshell.execDetached(["bash", "-c", fullScript]);
     }
