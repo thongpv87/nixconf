@@ -14,4 +14,3 @@ elif command -v udevadm >/dev/null 2>&1; then
 fi
 
 timeout 10 grep -m 1 "." < "$PIPE" > /dev/null
-sleep 0.3
