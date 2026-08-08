@@ -176,7 +176,7 @@ in
 
     defaultLayout = mkOption {
       type = types.enum [ "master" "dwindle" "scrolling" ];
-      default = "master";
+      default = "scrolling";
       description = "Default layout to use for Hyprland";
     };
 
