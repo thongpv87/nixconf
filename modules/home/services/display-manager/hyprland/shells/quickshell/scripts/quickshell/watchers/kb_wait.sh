@@ -12,4 +12,4 @@ fi
 dbus-monitor "interface='org.fcitx.Fcitx.Controller1'" "interface='org.kde.StatusNotifierItem'" 2>/dev/null | grep --line-buffered -E "SetCurrentIM|Toggle|NewIcon|NewItem" > "$PIPE" &
 
 read -r _ < "$PIPE"
-sleep 0.05
+sleep 0.3

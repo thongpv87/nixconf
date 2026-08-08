@@ -11,3 +11,4 @@ LC_ALL=C pactl subscribe 2>/dev/null > "$PIPE" &
 MONITOR_PID=$!
 
 grep -m 1 -E "sink|server" < "$PIPE" > /dev/null
+sleep 0.3

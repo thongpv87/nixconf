@@ -32,16 +32,11 @@ print_osd() {
 print_osd
 
 # Listen to focus change socket events
-while true; do
-    socat -u UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - | while read -r line; do
-        case "$line" in
-            activewindow*|activewindowv2*|focuswindow*|workspace*)
-                while read -t 0.05 -r extra_line; do
-                    continue
-                done
-                print_osd
-                ;;
-        esac
-    done
-    sleep 1
+socat -u UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - | while read -r line; do
+    case "$line" in
+        activewindow*|activewindowv2*|focuswindow*|openwindow*|closewindow*)
+            sleep 0.05
+            print_osd
+            ;;
+    esac
 done

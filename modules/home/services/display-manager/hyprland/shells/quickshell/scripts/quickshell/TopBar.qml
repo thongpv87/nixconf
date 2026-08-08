@@ -454,9 +454,9 @@ Variants {
 
             Timer {
                 id: artRetryTimer
-                interval: 500
+                interval: 5000
                 repeat: true
-                running: barWindow.displayArtUrl && barWindow.displayArtUrl.indexOf("placeholder_blank.png") !== -1
+                running: barWindow.musicData !== null && barWindow.musicData.status === "Playing" && barWindow.displayArtUrl && barWindow.displayArtUrl.indexOf("placeholder_blank.png") !== -1
                 onTriggered: {
                     musicForceRefresh.running = false;
                     musicForceRefresh.running = true;

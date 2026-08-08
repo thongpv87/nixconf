@@ -14,3 +14,4 @@ MONITOR_PID=$!
 # Grep blocks until it reads the first match from the FIFO, then exits.
 # Exiting triggers the trap, immediately killing nmcli and ending the script.
 grep -m 1 -iwE "connected|disconnected|enabled|disabled|activated|deactivated|available|unavailable" < "$PIPE" > /dev/null
+sleep 0.3
