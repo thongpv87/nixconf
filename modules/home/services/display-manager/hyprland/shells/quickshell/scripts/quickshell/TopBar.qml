@@ -340,15 +340,9 @@ Variants {
                 id: wsDaemon
                 command: ["bash", "-c", "~/.config/hypr/scripts/workspaces.sh"]
                 running: true
-            }
-
-            Process {
-		id: wsReader
-		running: true
-                command: ["cat", paths.getRunDir("workspaces") + "/workspaces.json"]
-                stdout: StdioCollector {
-                    onStreamFinished: {
-                        let txt = this.text.trim();
+                stdout: SplitParser {
+                    onRead: (data) => {
+                        let txt = data.trim();
                         if (txt !== "") {
                             try { 
                                 let newData = JSON.parse(txt);
@@ -381,18 +375,6 @@ Variants {
                             } catch(e) {}
                         }
                     }
-                }
-            }
-
-            Process {
-                id: wsWatcher
-                running: true
-                command: ["bash", "-c", "inotifywait -qq -e close_write,modify " + paths.getRunDir("workspaces") + "/workspaces.json"]
-                onExited: {
-                    wsReader.running = false;
-                    wsReader.running = true;
-                    running = false;
-                    running = true;
                 }
             }
 

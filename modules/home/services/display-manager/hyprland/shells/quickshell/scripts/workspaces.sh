@@ -52,7 +52,7 @@ print_workspaces() {
     # Failsafe if hyprctl crashes to prevent jq from outputting errors
     if [ -z "$spaces" ] || [ -z "$active" ]; then return; fi
 
-    # Generate the JSON and write it atomically to prevent UI flickering
+    # Generate the JSON and stream directly over stdout (unbuffered)
     echo "$spaces" | jq --unbuffered --argjson a "$active" --arg end "$SEQ_END" -c '
         # Create a map of workspace ID -> workspace data for easy lookup
         (map( { (.id|tostring): . } ) | add) as $s
@@ -73,10 +73,8 @@ print_workspaces() {
                 state: $state,
                 tooltip: $win
             }
-        )
-    ' > "$QS_RUN_WORKSPACES/workspaces.tmp"
-    
-    mv "$QS_RUN_WORKSPACES/workspaces.tmp" "$QS_RUN_WORKSPACES/workspaces.json"
+        ) | map(select(.state != "empty"))
+    '
 }
 
 # Print initial state
