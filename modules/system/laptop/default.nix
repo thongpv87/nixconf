@@ -69,14 +69,18 @@ in
         # <LeftMouse>https://wiki.archlinux.org/title/Power_management
         # Options: ttps://www.freedesktop.org/software/systemd/man/logind.conf.html
         settings.Login = {
-          HandleLidSwitch = "suspend";
-          HandlePowerKey = "suspend";
+          HandleLidSwitch = "suspend-then-hibernate";
+          HandlePowerKey = "suspend-then-hibernate";
           HandleLidSwitchDocked = "ignore";
-          IdleAction = "suspend";
+          IdleAction = "suspend-then-hibernate";
           IdleActionSec = "30min";
         };
       };
     };
+
+    systemd.sleep.extraConfig = ''
+      HibernateDelaySec=30min
+    '';
 
     systemd.services.disable-acpi-wakeup = {
       description = "Disable ACPI USB wakeup triggers to prevent instant suspend wakeup";
