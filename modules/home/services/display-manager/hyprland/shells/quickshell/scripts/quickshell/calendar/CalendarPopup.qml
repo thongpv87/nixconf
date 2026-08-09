@@ -328,11 +328,21 @@ Item {
         weatherTransitionAnim.start();
     }
 
+    function getDisplayHourly(viewIdx) {
+        if (!window.weatherData || !window.weatherData.forecast || !window.weatherData.forecast[viewIdx] || !window.weatherData.forecast[viewIdx].hourly) return [];
+        let allHourly = window.weatherData.forecast[viewIdx].hourly;
+        if (viewIdx !== 0) return allHourly.slice(0, 8);
+
+        let ch = window.currentTime.getHours();
+        let startIdx = Math.max(0, Math.min(ch - 1, Math.max(0, allHourly.length - 8)));
+        return allHourly.slice(startIdx, startIdx + 8);
+    }
+
     property int activeHourIndex: {
         if (window.weatherView !== 0 || !window.weatherData || !window.weatherData.forecast || !window.weatherData.forecast[0] || !window.weatherData.forecast[0].hourly) return -1;
         
         let ch = window.currentTime.getHours();
-        let hrArr = window.weatherData.forecast[0].hourly.slice(0, 8);
+        let hrArr = window.getDisplayHourly(0);
         let bestIdx = -1;
         let minDiff = 999;
         
@@ -722,7 +732,7 @@ Item {
 
                     Repeater {
                         id: hourRepeater
-                        model: window.weatherData && window.weatherData.forecast[window.weatherView] && window.weatherData.forecast[window.weatherView].hourly ? window.weatherData.forecast[window.weatherView].hourly.slice(0, 8) : []
+                        model: window.getDisplayHourly(window.weatherView)
                         
                         delegate: Item {
                             property int mCount: hourRepeater.count

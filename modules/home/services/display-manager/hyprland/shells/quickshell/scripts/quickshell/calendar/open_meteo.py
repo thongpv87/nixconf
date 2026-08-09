@@ -10,17 +10,10 @@ def fetch_json(url):
         return json.loads(resp.read().decode("utf-8"))
 
 def main():
-    # Nam Ban, Lam Ha, Lam Dong (11.8398, 108.3444)
-    lat, lon = 11.8398, 108.3444
-    try:
-        geo = fetch_json("http://ip-api.com/json/")
-        if geo.get("status") == "success":
-            lat = geo.get("lat", lat)
-            lon = geo.get("lon", lon)
-    except Exception:
-        pass
+    # Fixed location: Nam Ban, Lam Ha, Lam Dong (Elev: 977m)
+    lat, lon, elev = 11.84488, 108.34335, 977
 
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,precipitation_probability_max,wind_speed_10m_max&timezone=auto"
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&elevation={elev}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,precipitation_probability_max,wind_speed_10m_max&timezone=Asia/Ho_Chi_Minh"
 
     try:
         data = fetch_json(url)
