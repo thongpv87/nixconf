@@ -70,7 +70,7 @@ in
         # Options: ttps://www.freedesktop.org/software/systemd/man/logind.conf.html
         settings.Login = {
           HandleLidSwitch = "suspend";
-          HandlePowerKey = "ignore";
+          HandlePowerKey = "suspend";
           HandleLidSwitchDocked = "ignore";
           IdleAction = "suspend";
           IdleActionSec = "30min";
