@@ -5,7 +5,7 @@ get_bt_status() {
 get_bt_connected_device() {
     if [ "$(get_bt_status)" = "on" ]; then
         local device=$(LC_ALL=C timeout 0.5 bluetoothctl devices Connected 2>/dev/null | head -n1 | cut -d' ' -f3-)
-        if [ -n "$device" ]; then echo "$device"; else echo "Disconnected"; fi
+        if [ -n "$device" ]; then echo "$device"; else echo "On"; fi
     else echo "Off"; fi
 }
 get_bt_icon() {
