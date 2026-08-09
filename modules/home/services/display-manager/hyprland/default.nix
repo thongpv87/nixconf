@@ -383,6 +383,7 @@ in
 
         scrolling = {
           fullscreen_on_one_column = false;
+          focus_fit_method = 0;
         };
 
         "$mod" = "SUPER";
