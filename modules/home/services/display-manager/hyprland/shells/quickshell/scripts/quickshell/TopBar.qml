@@ -1601,7 +1601,7 @@ Variants {
                                             wheelAccum -= steps * threshold;
                                             let count = Math.abs(steps);
                                             for (let i = 0; i < count; i++) {
-                                                Quickshell.execDetached(["swayosd-client", "--output-volume", steps > 0 ? "raise" : "lower"]);
+                                                Quickshell.execDetached(["wpctl", "set-volume", "-l", "1.0", "@DEFAULT_AUDIO_SINK@", steps > 0 ? "5%+" : "5%-"]);
                                             }
                                         }
                                     }
