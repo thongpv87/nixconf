@@ -1595,13 +1595,14 @@ Variants {
                                     onClicked: Quickshell.execDetached(["bash", "-c", "~/.config/hypr/scripts/qs_manager.sh toggle volume"]) 
                                     onWheel: (wheel) => {
                                         wheelAccum += wheel.angleDelta.y;
-                                        if (Math.abs(wheelAccum) >= 60) {
-                                            let steps = Math.trunc(wheelAccum / 60);
-                                            wheelAccum -= steps * 60;
-                                            let cur = parseInt(barWindow.volPercent) || 0;
-                                            let stepVal = steps * 5;
-                                            let target = steps > 0 ? Math.min(100, Math.floor(cur / 5) * 5 + stepVal) : Math.max(0, Math.ceil(cur / 5) * 5 + stepVal);
-                                            Quickshell.execDetached(["swayosd-client", "--output-volume", target.toString()]);
+                                        let threshold = 30;
+                                        if (Math.abs(wheelAccum) >= threshold) {
+                                            let steps = Math.trunc(wheelAccum / threshold);
+                                            wheelAccum -= steps * threshold;
+                                            let count = Math.abs(steps);
+                                            for (let i = 0; i < count; i++) {
+                                                Quickshell.execDetached(["swayosd-client", "--output-volume", steps > 0 ? "raise" : "lower"]);
+                                            }
                                         }
                                     }
                                 }
@@ -1662,13 +1663,14 @@ Variants {
                                     property real wheelAccum: 0
                                     onWheel: (wheel) => {
                                         wheelAccum += wheel.angleDelta.y;
-                                        if (Math.abs(wheelAccum) >= 60) {
-                                            let steps = Math.trunc(wheelAccum / 60);
-                                            wheelAccum -= steps * 60;
-                                            let cur = parseInt(barWindow.brightnessPercent) || 0;
-                                            let stepVal = steps * 5;
-                                            let target = steps > 0 ? Math.min(100, Math.floor(cur / 5) * 5 + stepVal) : Math.max(0, Math.ceil(cur / 5) * 5 + stepVal);
-                                            Quickshell.execDetached(["swayosd-client", "--brightness", target.toString()]);
+                                        let threshold = 30;
+                                        if (Math.abs(wheelAccum) >= threshold) {
+                                            let steps = Math.trunc(wheelAccum / threshold);
+                                            wheelAccum -= steps * threshold;
+                                            let count = Math.abs(steps);
+                                            for (let i = 0; i < count; i++) {
+                                                Quickshell.execDetached(["swayosd-client", "--brightness", steps > 0 ? "raise" : "lower"]);
+                                            }
                                         }
                                     }
                                 }
