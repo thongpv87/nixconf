@@ -1591,12 +1591,17 @@ Variants {
                                 }
                                 MouseArea { 
                                     id: volMouse; hoverEnabled: true; anchors.fill: parent; 
+                                    property real wheelAccum: 0
                                     onClicked: Quickshell.execDetached(["bash", "-c", "~/.config/hypr/scripts/qs_manager.sh toggle volume"]) 
                                     onWheel: (wheel) => {
-                                        if (wheel.angleDelta.y > 0) {
-                                            Quickshell.execDetached(["bash", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"])
-                                        } else {
-                                            Quickshell.execDetached(["bash", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"])
+                                        wheelAccum += wheel.angleDelta.y;
+                                        if (Math.abs(wheelAccum) >= 120) {
+                                            if (wheelAccum > 0) {
+                                                Quickshell.execDetached(["bash", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"])
+                                            } else {
+                                                Quickshell.execDetached(["bash", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"])
+                                            }
+                                            wheelAccum = 0;
                                         }
                                     }
                                 }
@@ -1654,11 +1659,16 @@ Variants {
                                 }
                                 MouseArea { 
                                     id: brightMouse; hoverEnabled: true; anchors.fill: parent; 
+                                    property real wheelAccum: 0
                                     onWheel: (wheel) => {
-                                        if (wheel.angleDelta.y > 0) {
-                                            Quickshell.execDetached(["swayosd-client", "--brightness", "raise"])
-                                        } else {
-                                            Quickshell.execDetached(["swayosd-client", "--brightness", "lower"])
+                                        wheelAccum += wheel.angleDelta.y;
+                                        if (Math.abs(wheelAccum) >= 120) {
+                                            if (wheelAccum > 0) {
+                                                Quickshell.execDetached(["swayosd-client", "--brightness", "raise"])
+                                            } else {
+                                                Quickshell.execDetached(["swayosd-client", "--brightness", "lower"])
+                                            }
+                                            wheelAccum = 0;
                                         }
                                     }
                                 }

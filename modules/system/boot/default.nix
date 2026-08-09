@@ -39,7 +39,6 @@ in {
     };
     resumeDevice = mkOption {
       type = types.nullOr types.str;
-      default = null;
       description = "Swap partition device path used for system hibernation resume";
     };
   };
