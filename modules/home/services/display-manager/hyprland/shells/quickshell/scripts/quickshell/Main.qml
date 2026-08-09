@@ -148,6 +148,10 @@ PanelWindow {
         Quickshell.execDetached(["bash", "-c", "echo '" + currentActive + "' > " + paths.runDir + "/current_widget"]);
     }
 
+    Component.onCompleted: {
+        Quickshell.execDetached(["bash", "-c", "echo 'hidden' > " + paths.runDir + "/current_widget"]);
+    }
+
     property bool isVisible: false
     property string activeArg: ""
     property bool disableMorph: false
