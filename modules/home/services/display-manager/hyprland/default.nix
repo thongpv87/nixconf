@@ -421,8 +421,8 @@ in
           "$mod, T, togglefloating,"
           "$mod, backslash, exec, screenshot-region"
           "$mod SHIFT, M, exec, toggle-layout"
-          "$mod, F, fullscreen,0"
-          "$mod SHIFT, F, fullscreen,1"
+          "$mod, F, fullscreen, 1, 0"
+          "$mod SHIFT, F, fullscreen, 0"
 
           "$mod, B, exec, firefox"
           "$mod, D, exec, nautilus"
