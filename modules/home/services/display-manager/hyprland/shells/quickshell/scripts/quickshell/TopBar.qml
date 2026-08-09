@@ -1595,7 +1595,7 @@ Variants {
                                     onClicked: Quickshell.execDetached(["bash", "-c", "~/.config/hypr/scripts/qs_manager.sh toggle volume"]) 
                                     onWheel: (wheel) => {
                                         wheelAccum += wheel.angleDelta.y;
-                                        let threshold = 30;
+                                        let threshold = 80;
                                         if (Math.abs(wheelAccum) >= threshold) {
                                             let steps = Math.trunc(wheelAccum / threshold);
                                             wheelAccum -= steps * threshold;
@@ -1663,7 +1663,7 @@ Variants {
                                     property real wheelAccum: 0
                                     onWheel: (wheel) => {
                                         wheelAccum += wheel.angleDelta.y;
-                                        let threshold = 30;
+                                        let threshold = 80;
                                         if (Math.abs(wheelAccum) >= threshold) {
                                             let steps = Math.trunc(wheelAccum / threshold);
                                             wheelAccum -= steps * threshold;
