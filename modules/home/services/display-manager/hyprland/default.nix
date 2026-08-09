@@ -381,6 +381,10 @@ in
           orientation = "right";
         };
 
+        scrolling = {
+          fullscreen_on_one_column = false;
+        };
+
         "$mod" = "SUPER";
 
         workspace = [
