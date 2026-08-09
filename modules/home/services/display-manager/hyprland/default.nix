@@ -382,7 +382,7 @@ in
         };
 
         scrolling = {
-          fullscreen_on_one_column = false;
+          fullscreen_on_one_column = true;
         };
 
         "$mod" = "SUPER";
@@ -421,8 +421,8 @@ in
           "$mod, T, togglefloating,"
           "$mod, backslash, exec, screenshot-region"
           "$mod SHIFT, M, exec, toggle-layout"
-          "$mod, F, fullscreen,1"
-          "$mod SHIFT, F, fullscreen,0"
+          "$mod, F, fullscreen,0"
+          "$mod SHIFT, F, fullscreen,1"
 
           "$mod, B, exec, firefox"
           "$mod, D, exec, nautilus"
