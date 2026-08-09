@@ -78,9 +78,9 @@ in
       };
     };
 
-    systemd.sleep.extraConfig = ''
-      HibernateDelaySec=30min
-    '';
+    systemd.sleep.settings.Sleep = {
+      HibernateDelaySec = "30min";
+    };
 
     systemd.services.disable-acpi-wakeup = {
       description = "Disable ACPI USB wakeup triggers to prevent instant suspend wakeup";

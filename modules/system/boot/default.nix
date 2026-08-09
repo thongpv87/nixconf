@@ -38,8 +38,8 @@ in {
       example = "/dev/sda";
     };
     resumeDevice = mkOption {
-      type = types.str;
-      default = "/dev/nvme0n1p3";
+      type = types.nullOr types.str;
+      default = null;
       description = "Swap partition device path used for system hibernation resume";
     };
   };
@@ -47,7 +47,7 @@ in {
   config = lib.mkMerge [
     {
       disko.devices = diskoDevice;
-      boot.resumeDevice = cfg.resumeDevice;
+      boot.resumeDevice = lib.mkIf (cfg.resumeDevice != null) cfg.resumeDevice;
       boot.loader.grub.devices = [ cfg.device ];
       boot.loader.grub.configurationLimit = 10;
     }

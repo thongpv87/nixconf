@@ -23,6 +23,7 @@
       diskLayout = "gpt-btrfs";
       bootloader = "systemd-boot";
       device = "/dev/nvme0n1";
+      resumeDevice = "/dev/nvme0n1p3";
     };
 
     graphical = {
