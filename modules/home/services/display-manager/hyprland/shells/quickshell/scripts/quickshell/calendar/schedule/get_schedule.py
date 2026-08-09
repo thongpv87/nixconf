@@ -248,8 +248,7 @@ def update_schedule():
                 weeks_checked += 1
 
     except Exception as e:
-        print(f"Error: {e}")
-        output = {"header": "Error", "lessons": [{"type": "class", "time": "Error", "subject": "Check Script", "room": "!", "teacher": str(e), "start": 0, "end": 0, "width": 100, "char_limit": 10}], "link": ""}
+        output = {"header": "No Schedule Connected", "lessons": [], "link": ""}
 
     finally:
         if driver: driver.quit()
