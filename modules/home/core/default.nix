@@ -81,6 +81,14 @@ in
     gtk = {
       enable = true;
       gtk4.theme = config.gtk.theme;
+      gtk3.bookmarks = [
+        "file://${config.home.homeDirectory}/Documents"
+        "file://${config.home.homeDirectory}/Downloads"
+        "file://${config.home.homeDirectory}/Music"
+        "file://${config.home.homeDirectory}/Pictures"
+        "file://${config.home.homeDirectory}/Videos"
+        "file://${config.home.homeDirectory}/Code"
+      ];
       theme = {
         package = pkgs.kdePackages.breeze-gtk;
         name = "breeze";
@@ -120,14 +128,6 @@ in
         document-font-name = "Inter 11";
         monospace-font-name = "JetBrainsMono Nerd Font 11";
       };
-      bookmarks = [
-        "file://${config.home.homeDirectory}/Documents"
-        "file://${config.home.homeDirectory}/Downloads"
-        "file://${config.home.homeDirectory}/Music"
-        "file://${config.home.homeDirectory}/Pictures"
-        "file://${config.home.homeDirectory}/Videos"
-        "file://${config.home.homeDirectory}/Code"
-      ];
     };
 
     xdg.userDirs = {
