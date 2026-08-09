@@ -10,7 +10,8 @@ def fetch_json(url):
         return json.loads(resp.read().decode("utf-8"))
 
 def main():
-    lat, lon = 21.0285, 105.8542 # default Hanoi
+    # Nam Ban, Lam Ha, Lam Dong (11.8398, 108.3444)
+    lat, lon = 11.8398, 108.3444
     try:
         geo = fetch_json("http://ip-api.com/json/")
         if geo.get("status") == "success":
