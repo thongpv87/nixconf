@@ -338,7 +338,7 @@ Variants {
 
             Process {
                 id: wsDaemon
-                command: ["bash", "-c", "~/.config/hypr/scripts/workspaces.sh"]
+                command: ["bash", "-c", "~/.config/hypr/scripts/workspaces.sh \"" + (barWindow.modelData ? barWindow.modelData.name : "") + "\""]
                 running: true
                 stdout: SplitParser {
                     onRead: (data) => {

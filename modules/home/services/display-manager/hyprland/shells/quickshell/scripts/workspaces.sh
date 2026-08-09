@@ -6,16 +6,25 @@
 source "$(dirname "${BASH_SOURCE[0]}")/caching.sh"
 qs_ensure_cache "workspaces"
 
+MONITOR_NAME="$1"
+
 # ============================================================================
 # 1. ZOMBIE PREVENTION
-# Kills any older instances of this script. When Quickshell reloads, 
-# it can leave the old listener pipelines running in the background infinitely.
+# Kills any older instances of this script for the same monitor.
 # ============================================================================
-for pid in $(pgrep -f "workspaces.sh"); do
-    if [ "$pid" != "$$" ] && [ "$pid" != "$PPID" ]; then
-        kill -9 "$pid" 2>/dev/null
-    fi
-done
+if [ -n "$MONITOR_NAME" ]; then
+    for pid in $(pgrep -f "workspaces.sh.*$MONITOR_NAME"); do
+        if [ "$pid" != "$$" ] && [ "$pid" != "$PPID" ]; then
+            kill -9 "$pid" 2>/dev/null
+        fi
+    done
+else
+    for pid in $(pgrep -f "workspaces.sh"); do
+        if [ "$pid" != "$$" ] && [ "$pid" != "$PPID" ]; then
+            kill -9 "$pid" 2>/dev/null
+        fi
+    done
+fi
 
 # Cleanly kill immediate children (like socat) when the script exits normally
 cleanup() {
@@ -47,7 +56,13 @@ fi
 print_workspaces() {
     # Get raw data with a timeout fallback
     spaces=$(timeout 2 hyprctl workspaces -j 2>/dev/null)
-    active=$(timeout 2 hyprctl activeworkspace -j 2>/dev/null | jq '.id')
+    active=""
+    if [ -n "$MONITOR_NAME" ]; then
+        active=$(timeout 2 hyprctl monitors -j 2>/dev/null | jq --arg m "$MONITOR_NAME" '.[] | select(.name == $m) | .activeWorkspace.id' 2>/dev/null)
+    fi
+    if [ -z "$active" ] || [ "$active" = "null" ]; then
+        active=$(timeout 2 hyprctl activeworkspace -j 2>/dev/null | jq '.id' 2>/dev/null)
+    fi
 
     # Failsafe if hyprctl crashes to prevent jq from outputting errors
     if [ -z "$spaces" ] || [ -z "$active" ]; then return; fi
