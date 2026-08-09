@@ -1596,11 +1596,9 @@ Variants {
                                     onWheel: (wheel) => {
                                         wheelAccum += wheel.angleDelta.y;
                                         if (Math.abs(wheelAccum) >= 120) {
-                                            if (wheelAccum > 0) {
-                                                Quickshell.execDetached(["bash", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"])
-                                            } else {
-                                                Quickshell.execDetached(["bash", "-c", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"])
-                                            }
+                                            let cur = parseInt(barWindow.volPercent) || 0;
+                                            let target = wheelAccum > 0 ? Math.min(100, Math.floor(cur / 5) * 5 + 5) : Math.max(0, Math.ceil(cur / 5) * 5 - 5);
+                                            Quickshell.execDetached(["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", target + "%"]);
                                             wheelAccum = 0;
                                         }
                                     }
@@ -1663,11 +1661,9 @@ Variants {
                                     onWheel: (wheel) => {
                                         wheelAccum += wheel.angleDelta.y;
                                         if (Math.abs(wheelAccum) >= 120) {
-                                            if (wheelAccum > 0) {
-                                                Quickshell.execDetached(["swayosd-client", "--brightness", "raise"])
-                                            } else {
-                                                Quickshell.execDetached(["swayosd-client", "--brightness", "lower"])
-                                            }
+                                            let cur = parseInt(barWindow.brightnessPercent) || 0;
+                                            let target = wheelAccum > 0 ? Math.min(100, Math.floor(cur / 5) * 5 + 5) : Math.max(0, Math.ceil(cur / 5) * 5 - 5);
+                                            Quickshell.execDetached(["swayosd-client", "--brightness", target.toString()]);
                                             wheelAccum = 0;
                                         }
                                     }
