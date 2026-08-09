@@ -126,6 +126,7 @@ PanelWindow {
     }
 
     Component.onCompleted: {
+        Quickshell.execDetached(["bash", "-c", "echo 'hidden' > " + paths.runDir + "/current_widget"]);
         Qt.callLater(() => preloadWidget("settings"));
         preloadStaggerTimer.start();
     }
@@ -146,10 +147,6 @@ PanelWindow {
 
     onCurrentActiveChanged: {
         Quickshell.execDetached(["bash", "-c", "echo '" + currentActive + "' > " + paths.runDir + "/current_widget"]);
-    }
-
-    Component.onCompleted: {
-        Quickshell.execDetached(["bash", "-c", "echo 'hidden' > " + paths.runDir + "/current_widget"]);
     }
 
     property bool isVisible: false
