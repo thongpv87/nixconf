@@ -70,14 +70,27 @@ in
         # Options: ttps://www.freedesktop.org/software/systemd/man/logind.conf.html
         settings.Login = {
           HandleLidSwitch = "suspend";
-          HandlePowerKey = "suspend";
+          HandlePowerKey = "ignore";
           HandleLidSwitchDocked = "ignore";
           IdleAction = "suspend";
           IdleActionSec = "30min";
         };
       };
+    };
 
-      acpid = {
+    systemd.services.disable-acpi-wakeup = {
+      description = "Disable ACPI USB wakeup triggers to prevent instant suspend wakeup";
+      wantedBy = [ "multi-user.target" ];
+      script = ''
+        for device in XHC0 XHC1 XHC3 XHC4; do
+          if grep -q "$device.*enabled" /proc/acpi/wakeup 2>/dev/null; then
+            echo "$device" > /proc/acpi/wakeup
+          fi
+        done
+      '';
+    };
+
+    services.acpid = {
         # NixOS source: https://github.com/NixOS/nixpkgs/blob/nixos-21.05/nixos/modules/services/hardware/acpid.nix
         # acpid info: https://wiki.archlinux.org/title/acpid
         enable = true;
@@ -108,17 +121,16 @@ in
           };
         };
       };
-    };
 
-    hardware = {
-      bluetooth = {
-        enable = true;
-        settings = {
-          General = {
-            Enable = "Source,Sink,Media,Socket";
+      hardware = {
+        bluetooth = {
+          enable = true;
+          settings = {
+            General = {
+              Enable = "Source,Sink,Media,Socket";
+            };
           };
         };
       };
     };
-  };
 }

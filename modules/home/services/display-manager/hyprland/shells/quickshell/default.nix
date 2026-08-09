@@ -116,7 +116,7 @@ lib.mkIf (cfg.enable && cfg.useIlyamiroConfig) {
       ", XF86AudioPlay, exec, playerctl play-pause"
       ", xf86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
       ", xf86audiomute, exec, swayosd-client --output-volume mute-toggle"
-      ", XF86PowerOff, exec, systemctl suspend"
+      ", XF86PowerOff, exec, sleep 0.5 && systemctl suspend"
     ];
 
     bindel = [
