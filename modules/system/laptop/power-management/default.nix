@@ -60,9 +60,11 @@ in
 {
   options.nixconf.laptop.power-management = {
     enable = mkOption { default = config.nixconf.laptop.enable; };
-    useTlp = mkEnableOption { default = false; };
-    # onAc = mkOption { type = types.submodule powerOption; };
-    # onBat = mkOption { type = types.submodule.powerOption; };
+    useTlp = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable TLP for laptop power management";
+    };
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -74,25 +76,16 @@ in
           enable = true;
           settings = {
             NMI_WATCHDOG = 0;
-            RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
-            RADEON_DPM_PERF_LEVEL_ON_BAT = "auto";
-            # Check the output of tlp-stat -p to determine availability on your hardware
-            # and additional profiles such as balanced-performance, quiet, cool.
+
+            # Platform Profile tuning for HP EliteBook
             PLATFORM_PROFILE_ON_AC = "balanced";
-            PLATFORM_PROFILE_ON_BAT = "balanced";
+            PLATFORM_PROFILE_ON_BAT = "low-power";
 
-            # CPU_DRIVER_OPMODE_ON_AC = "passive";
-            # CPU_DRIVER_OPMODE_ON_BAT = "active";
-            # CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
-            # CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-            # # CPU_ENERGY_PERF_POLICY_ON_AC = "power";
-            # CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-
-            CPU_HWP_DYN_BOOST_ON_AC = 1;
-            CPU_HWP_DYN_BOOST_ON_BAT = 1;
-
-            # DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wwan";
-            # DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "wwan";
+            # AMD P-State EPP Driver tuning for Ryzen 7000 (Phoenix)
+            CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+            CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+            CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
+            CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
 
             # Runtime Power Management and ASPM
             RUNTIME_PM_ON_AC = "auto";
