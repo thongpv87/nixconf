@@ -69,10 +69,10 @@ in
         # <LeftMouse>https://wiki.archlinux.org/title/Power_management
         # Options: ttps://www.freedesktop.org/software/systemd/man/logind.conf.html
         settings.Login = {
-          HandleLidSwitch = "suspend-then-hibernate";
-          HandlePowerKey = "suspend-then-hibernate";
+          HandleLidSwitch = "suspend";
+          HandlePowerKey = "suspend";
           HandleLidSwitchDocked = "ignore";
-          IdleAction = "suspend-then-hibernate";
+          IdleAction = "suspend";
           IdleActionSec = "30min";
         };
       };

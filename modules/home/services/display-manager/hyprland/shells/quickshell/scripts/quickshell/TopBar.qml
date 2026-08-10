@@ -1621,8 +1621,8 @@ Variants {
                                     opacity: 1.0
                                     gradient: Gradient {
                                         orientation: Gradient.Horizontal
-                                        GradientStop { position: 0.0; color: mocha.yellow }
-                                        GradientStop { position: 1.0; color: Qt.lighter(mocha.yellow, 1.3) }
+                                        GradientStop { position: 0.0; color: Qt.lighter(mocha.yellow, 1.15) }
+                                        GradientStop { position: 1.0; color: Qt.lighter(mocha.yellow, 1.4) }
                                     }
                                 }
                                 

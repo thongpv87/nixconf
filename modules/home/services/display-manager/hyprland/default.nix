@@ -335,7 +335,7 @@ in
         decoration = import ./decorations/${cfg.decoration}.nix;
 
         exec-once = [
-          "fcitx5 -r"
+          "fcitx5 -d --replace"
           "monitor-scale"
           "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store"
           "hypridle"
@@ -478,6 +478,9 @@ in
           "CLUTTER_BACKEND,wayland"
           "QT_AUTO_SCREEN_SCALE_FACTOR,1"
           "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+          "GTK_IM_MODULE,fcitx"
+          "QT_IM_MODULE,fcitx"
+          "XMODIFIERS,@im=fcitx"
         ];
 
         debug = {
