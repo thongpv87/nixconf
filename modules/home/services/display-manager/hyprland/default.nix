@@ -316,8 +316,8 @@ in
       };
     };
 
-    gtk.gtk3.extraConfig = { gtk-im-module = "fcitx"; };
-    gtk.gtk4.extraConfig = { gtk-im-module = "fcitx"; };
+    gtk.gtk3.extraConfig = {};
+    gtk.gtk4.extraConfig = {};
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -335,6 +335,7 @@ in
         decoration = import ./decorations/${cfg.decoration}.nix;
 
         exec-once = [
+          "dbus-update-activation-environment --systemd --all"
           "fcitx5 -d --replace"
           "monitor-scale"
           "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store"
@@ -478,8 +479,6 @@ in
           "CLUTTER_BACKEND,wayland"
           "QT_AUTO_SCREEN_SCALE_FACTOR,1"
           "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
-          "GTK_IM_MODULE,fcitx"
-          "QT_IM_MODULE,fcitx"
           "XMODIFIERS,@im=fcitx"
         ];
 
