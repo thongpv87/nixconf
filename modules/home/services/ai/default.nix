@@ -26,6 +26,7 @@ in
   config = mkIf cfg.enable (mkMerge [
     {
       home.packages = with pkgs; [
+        antigravity-fix
         claude-code
         google-gemini
         opencode

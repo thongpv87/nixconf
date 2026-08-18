@@ -109,8 +109,21 @@ in
             rev = "master";
             hash = "sha256-TGaKxWKxkATflXF/za3cCcO0FRPN8v47CkluZ5lrwHU=";
           };
+          customVersion = if builtins.pathExists ./antigravity-version.json
+            then builtins.fromJSON (builtins.readFile ./antigravity-version.json)
+            else null;
+          basePkg = if customVersion != null then
+            prev.antigravity-ide.overrideAttrs (old: {
+              version = customVersion.version;
+              src = prev.fetchurl {
+                url = customVersion.url;
+                sha256 = customVersion.sha256;
+              };
+              sourceRoot = null;
+            })
+          else prev.antigravity-ide;
         in
-        prev.antigravity-ide.overrideAttrs (oldAttrs: {
+        basePkg.overrideAttrs (oldAttrs: {
           postInstall =
             (oldAttrs.postInstall or "")
             + ''
@@ -205,6 +218,19 @@ in
             mainProgram = "claude";
           };
         };
+
+      antigravity-fix =
+        let
+          src = prev.fetchFromGitHub {
+            owner = "FutureisinPast";
+            repo = "antigravity-conversation-fix";
+            rev = "main";
+            hash = "sha256-3V0vuXzlceulEf6HRigjK9IS4odvuaSJGmrwyOTZScA=";
+          };
+        in
+        prev.writeShellScriptBin "antigravity-fix" ''
+          exec ${prev.python3}/bin/python3 ${src}/rebuild_conversations.py "$@"
+        '';
 
       google-gemini = prev.writeShellScriptBin "gemini" ''
         exec ${prev.nodejs}/bin/npx @google/gemini-cli@latest "$@"
