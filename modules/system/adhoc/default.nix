@@ -49,7 +49,6 @@ in
 
         pkgs.shellcheck
         pkgs.bash-language-server
-        pkgs.discord
         pkgs.slack
         pkgs.ngrok
         pkgs.antigravity-ide
