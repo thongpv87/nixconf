@@ -90,13 +90,15 @@ in
         ];
       });
 
-      discord = prev.discord.overrideAttrs (e: rec {
-        desktopItem = e.desktopItem.override (d: {
-          exec = "${d.exec} --enable-wayland-ime";
-        });
-
-        # Update the install script to use the new .desktop entry
-        installPhase = builtins.replaceStrings [ "${e.desktopItem}" ] [ "${desktopItem}" ] e.installPhase;
+      discord = prev.discord.overrideAttrs (old: {
+        extraInstallCommands = ''
+          rm -rf $out/share
+          mkdir -p $out/share
+          cp -r ${old.passthru.unwrappedDiscord}/share/* $out/share/
+          chmod -R +w $out/share
+          sed -i 's|Exec=Discord|Exec=Discord --enable-wayland-ime|g' $out/share/applications/*.desktop
+          ln -s $out/bin/Discord $out/bin/discord || true
+        '';
       });
 
       chromium = prev.chromium.override { commandLineArgs = "--gtk-version=4"; };
