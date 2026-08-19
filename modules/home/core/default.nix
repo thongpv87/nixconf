@@ -57,6 +57,7 @@ in
           "JoyPixels"
         ];
         monospace = [
+          "Monaspace Neon"
           "JetBrainsMono Nerd Font"
           "DejaVu Sans Mono"
           "FiraCode Nerd Font"
@@ -118,7 +119,7 @@ in
         text-scaling-factor = 1.0;
         font-name = "Inter 11";
         document-font-name = "Inter 11";
-        monospace-font-name = "JetBrainsMono Nerd Font 11";
+        monospace-font-name = "Monaspace Neon 11";
       };
     };
 
@@ -162,6 +163,7 @@ in
       corefonts
       carlito
       roboto
+      monaspace
 
       # Music
       playerctl
@@ -169,8 +171,6 @@ in
       # Programming
       nodejs
       python3
-      alacritty
-      kitty
 
       # video call
       zoom-us

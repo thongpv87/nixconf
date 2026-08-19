@@ -36,41 +36,47 @@ in
             layer = "top";
             # output = [ primaryDisplay ];
 
+            spacing = 0;
             modules-left = [ "hyprland/workspaces" ];
             modules-center = [ "hyprland/window" ];
             #modules-center = [ "custom/media" ];
             modules-right = [
+              "custom/arrow_system"
               "cpu"
-              "custom/separator"
               "memory"
-              "custom/separator"
               "temperature"
-              "custom/separator"
-              "battery"
-              "custom/separator"
-              "backlight"
-              "custom/separator"
+              "custom/arrow_hardware"
               "pulseaudio"
-              "custom/separator"
-              "bluetooth"
-              "custom/separator"
+              "backlight"
+              "custom/arrow_network"
               "network"
-              "custom/separator"
-              "clock"
-              "custom/separator"
-              "custom/suspend"
-              "custom/separator"
-              "idle_inhibitor"
-              "custom/separator"
+              "custom/arrow_date"
+              "clock#date"
+              "custom/arrow_time"
+              "clock#time"
+              "custom/arrow_battery"
+              "battery"
+              "custom/arrow_tray"
               "tray"
             ];
 
             gtk-layer-shell = true;
-            clock = {
-              format = "{:%a %d %b %H:%M}";
-              tooltip-format = ''
-                <big>{:%Y %B}</big>
-                <tt><small>{calendar}</small></tt>'';
+
+            "custom/arrow_system" = { format = ""; tooltip = false; };
+            "custom/arrow_hardware" = { format = ""; tooltip = false; };
+            "custom/arrow_network" = { format = ""; tooltip = false; };
+            "custom/arrow_date" = { format = ""; tooltip = false; };
+            "custom/arrow_time" = { format = ""; tooltip = false; };
+            "custom/arrow_battery" = { format = ""; tooltip = false; };
+            "custom/arrow_tray" = { format = ""; tooltip = false; };
+
+            "clock#date" = {
+              format = " {:%a %d %b}";
+              tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+            };
+
+            "clock#time" = {
+              format = "{:%H:%M}";
             };
 
             cpu = {
@@ -102,10 +108,10 @@ in
                 warning = 30;
                 critical = 15;
               };
-              format = "{icon}&#8239;{capacity}";
-              format-charging = "󰂄&#8239;{capacity}";
-              format-plugged = "&#8239;{capacity}";
-              format-alt = "{icon} {power}W/{time}";
+              format = "{icon}&#8239;{capacity}%";
+              format-charging = "󰂄&#8239;{capacity}%";
+              format-plugged = "&#8239;{capacity}%";
+              format-alt = "{icon} {power}W";
               format-icons = [
                 ""
                 ""
@@ -114,22 +120,18 @@ in
                 ""
               ];
               tooltip = true;
-              tooltip-format = "Power {power}W - {timeTo}";
+              tooltip-format = "Power: {power}W\nTime: {time}";
             };
             backlight = {
               device = "acpi_video1";
               format = "{icon} {percent}%";
               format-icons = [
                 "󰃚"
-                "󰃛"
-                "󰃜"
-                "󰃝"
                 "󰃞"
                 "󰃟"
-                "󰃠"
+                "󰃠" 
               ];
               tooltip = false;
-              #format-icons = [ "" "" ];
               on-scroll-up = "${pkgs.brightnessctl}/bin/brightnessctl set 2%+";
               on-scroll-down = "${pkgs.brightnessctl}/bin/brightnessctl set 1%-";
             };
@@ -137,16 +139,16 @@ in
               format = "{icon} {volume}%";
               format-bluetooth = "{icon} {volume}%";
               format-bluetooth-muted = "󰟎 {volume}%";
-              format-muted = " {volume}%";
+              format-muted = "󰖁 {volume}%";
               format-source-muted = "";
               format-icons = {
                 "default" = [
-                  ""
-                  ""
-                  ""
+                  "󰕿"
+                  "󰖀"
+                  "󰕾"
                 ];
                 headphone = "󰋋";
-                hands-free = "";
+                hands-free = "󰋋";
                 headset = "󰋎";
                 phone = "";
                 portable = "";
@@ -158,33 +160,15 @@ in
               on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
               tooltip = true;
             };
-            bluetooth = {
-              format = "󰂯";
-              format-connected = "󰂱 {num_connections}";
-              format-disabled = "󰂲";
-              format-off = "󰂲";
-              tooltip-format = "{controller_alias}\n{status}";
-              tooltip-format-connected = "{controller_alias}\n{num_connections} connected\n\n{device_enumerate}";
-              tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
-              tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_battery_percentage}%";
-              on-click = "${pkgs.blueman}/bin/blueman-manager";
-            };
             network = {
               interval = 60;
-              format-wifi = " {essid} ({signalStrength}%)";
-              format-ethernet = " {ipaddr}/{cidr}";
-              tooltip-format = " {ifname} via {gwaddr}";
-              format-linked = " {ifname} (No IP)";
-              format-disconnected = "⚠ Disconnected";
+              format-wifi = " {essid}";
+              format-ethernet = "";
+              tooltip-format = " {ifname} via {gwaddr}\nWifi: {essid} ({signalStrength}%)";
+              format-linked = "";
+              format-disconnected = "⚠";
               format-alt = "{ifname}: {ipaddr}/{cidr}";
               tooltip = true;
-            };
-            idle_inhibitor = {
-              format = "{icon}";
-              format-icons = {
-                activated = "  ";
-                deactivated = "  ";
-              };
             };
             tray = {
               spacing = 10;
@@ -230,6 +214,7 @@ in
                 "firefox (.*) — Mozilla Firefox" = " $1";
                 "emacs (.*) – Doom Emacs(.*)" = " $1";
                 "Alacritty (.*)" = " $1";
+                "kitty (.*)" = " $1";
                 "google-chrome (.*) - Google Chrome" = " $1";
                 "chromium-browser (.*) - Chromium" = " $1";
                 "microsoft-edge (.*) - Microsoft​ Edge" = " $1";

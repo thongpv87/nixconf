@@ -32,6 +32,7 @@ in
           neovim.enable = true;
           rofi.enable = true;
           alacritty.enable = true;
+          kitty.enable = true;
         };
 
         services = {
@@ -44,6 +45,7 @@ in
 
         terminal = {
           enable = true;
+          default = "kitty";
           zsh.enable = true;
           nushell.enable = true;
           tmux.enable = true;

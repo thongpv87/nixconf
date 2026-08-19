@@ -42,7 +42,7 @@
     border: none;
     border-radius: 4px;
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: "RobotoMono Nerd Font Mono", "JetBrainsMono Bold", Helvetica, Arial, sans-serif;
+    font-family: "Monaspace Neon", Helvetica, Arial, sans-serif;
     /* Recommended font sizes: 720p: ~14px, 1080p: ~18px */
     font-size: 16px;
     min-height: 0;
@@ -326,3 +326,110 @@ label:focus {
     min-width: 36px;
     font-size: 14px;
 }
+
+/* NEW POWERLINE STYLES */
+@define-color pl_system #303446;
+@define-color pl_hardware #89dceb;
+@define-color pl_network #303446;
+@define-color pl_date #a6e3a1;
+@define-color pl_time #f9e2af;
+@define-color pl_battery #fab387;
+@define-color pl_tray #1e1e2e;
+
+window#waybar #cpu, window#waybar #memory, window#waybar #temperature {
+    background-color: @pl_system;
+    border-radius: 0;
+    margin: 0;
+    padding: 0 10px;
+}
+window#waybar #cpu { color: #f38ba8; }
+window#waybar #memory { color: #a6e3a1; }
+window#waybar #temperature { color: #f9e2af; }
+
+window#waybar #pulseaudio, window#waybar #backlight {
+    background-color: @pl_hardware;
+    color: #11111b;
+    border-radius: 0;
+    margin: 0;
+    padding: 0 10px;
+}
+
+window#waybar #network {
+    background-color: @pl_network;
+    color: #89b4fa;
+    border-radius: 0;
+    margin: 0;
+    padding: 0 10px;
+}
+
+window#waybar #clock.date {
+    background-color: @pl_date;
+    color: #11111b;
+    border-radius: 0;
+    margin: 0;
+    padding: 0 10px;
+}
+
+window#waybar #clock.time {
+    background-color: @pl_time;
+    color: #11111b;
+    border-radius: 0;
+    margin: 0;
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+window#waybar #battery {
+    background-color: @pl_battery;
+    color: #11111b;
+    border-radius: 0;
+    margin: 0;
+    padding: 0 10px;
+}
+
+window#waybar #tray {
+    background-color: @pl_tray;
+    border-radius: 0;
+    margin: 0;
+    padding: 0 10px;
+}
+
+/* Powerline Arrows for Right Modules () */
+window#waybar #custom-arrow_system { color: @pl_system; background: transparent; font-size: 20px; padding: 0; margin: 0; border-radius: 0; }
+window#waybar #custom-arrow_hardware { color: @pl_hardware; background: @pl_system; font-size: 20px; padding: 0; margin: 0; border-radius: 0; }
+window#waybar #custom-arrow_network { color: @pl_network; background: @pl_hardware; font-size: 20px; padding: 0; margin: 0; border-radius: 0; }
+window#waybar #custom-arrow_date { color: @pl_date; background: @pl_network; font-size: 20px; padding: 0; margin: 0; border-radius: 0; }
+window#waybar #custom-arrow_time { color: @pl_time; background: @pl_date; font-size: 20px; padding: 0; margin: 0; border-radius: 0; }
+window#waybar #custom-arrow_battery { color: @pl_battery; background: @pl_time; font-size: 20px; padding: 0; margin: 0; border-radius: 0; }
+window#waybar #custom-arrow_tray { color: @pl_tray; background: @pl_battery; font-size: 20px; padding: 0; margin: 0; border-radius: 0; }
+
+/* Workspaces Powerline (Left side) */
+window#waybar #workspaces {
+    background-color: @pl_system;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+}
+window#waybar #workspaces button {
+    border-radius: 0;
+    margin: 0;
+    padding: 0 10px;
+    background-color: transparent;
+    color: #a6adc8;
+    box-shadow: none;
+    border: none;
+    transition: all 0.2s;
+}
+window#waybar #workspaces button.visible {
+    background-color: #89dceb;
+    color: #11111b;
+}
+window#waybar #workspaces button.active {
+    background-color: #f9e2af;
+    color: #11111b;
+}
+window#waybar #workspaces button:hover {
+    background-color: #f9e2af;
+    color: #11111b;
+}
+

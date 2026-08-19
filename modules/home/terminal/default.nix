@@ -21,6 +21,11 @@ in
       type = types.bool;
       default = false;
     };
+    default = mkOption {
+      description = "Default terminal emulator";
+      type = types.enum [ "alacritty" "kitty" ];
+      default = "alacritty";
+    };
   };
 
   config = mkIf cfg.enable {

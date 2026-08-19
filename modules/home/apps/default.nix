@@ -14,6 +14,7 @@ in
     ./rofi
     ./wal
     ./alacritty
+    ./kitty
     ./neovim
   ];
 

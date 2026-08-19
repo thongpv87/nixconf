@@ -27,7 +27,7 @@ let
   toggle-special = pkgs.writeShellScriptBin "toggle-special" ''
     count=$(hyprctl clients -j | ${pkgs.jq}/bin/jq '[.[] | select(.workspace.name == "special:term")] | length')
     if [ "$count" -eq 0 ]; then
-      hyprctl dispatch exec "[workspace special:term]" ${lib.getExe pkgs.alacritty}
+      hyprctl dispatch exec "[workspace special:term]" ${config.nixconf.terminal.default}
     else
       hyprctl dispatch togglespecialworkspace term
     fi
@@ -280,6 +280,9 @@ in
         hypridle
         pavucontrol
         wtype
+        imv
+        loupe
+        kdePackages.dolphin
       ];
 
       fonts.fontconfig.enable = true;
@@ -475,7 +478,7 @@ in
             bind = [
               "$mod, grave, exec, cycle-hypr-layout"
               "$mod SHIFT, grave, exec, cycle-hypr-layout --reset"
-              "$mod SHIFT, RETURN, exec, alacritty"
+              "$mod SHIFT, RETURN, exec, ${config.nixconf.terminal.default}"
               "$mod SHIFT, C, killactive,"
               "$mod, Q, exec, systemctl suspend"
               "$mod SHIFT, Q, exec, systemctl suspend"
