@@ -138,6 +138,11 @@ in
               }
             ];
           };
+          "52-disable-restore-target" = {
+            "wireplumber.settings" = {
+              "node.stream.restore-target" = false;
+            };
+          };
         };
       };
       printing.enable = false;

@@ -149,15 +149,21 @@ window#waybar.chromium {
 
 #window {
     border: none;
-    border-radius: 4px;
-    /* `otf-font-awesome` is required to be installed for icons */
-    font-family: "DejaVu Sans:style=Book", "RobotoMono Nerd Font", Helvetica, Arial, sans-serif;
-    /* Recommended font sizes: 720p: ~14px, 1080p: ~18px */
-    font-size: 16px;
-    min-height: 0;
-    padding-left: 20px;
-    padding-right: 20px;
- }
+    border-radius: 6px;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: @foreground;
+    background-color: rgba(31, 29, 46, 0.55);
+    padding: 2px 14px;
+    margin: 3px 6px;
+}
+
+window#waybar.empty #window {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
 
 #workspaces {
     margin: 0 3px;

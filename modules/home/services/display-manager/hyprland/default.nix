@@ -467,7 +467,8 @@ in
               "match:class ^(org.pulseaudio.pavucontrol), float on, size 800 800"
               "match:class ^(.blueman-manager-wrapped), float on, size 800 600"
               "match:class ^(nm-connection-editor)$, float on"
-              "match:class (Rofi), stay_focused on"
+              "match:class ^(btop)$, float on, size 1200 750, center 1"
+              "match:class ^(nmtui)$, float on, size 850 600, center 1"
               "match:class ^(firefox|google-chrome|microsoft-edge), opacity 1 1"
             ];
             layerrule = [

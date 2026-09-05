@@ -16,6 +16,27 @@ let
     mdDoc
     mkEnableOption
     ;
+
+  audioSwitcherScript = pkgs.writeScriptBin "audio-output-switcher" ''
+    #!${pkgs.bash}/bin/bash
+    export PATH="${lib.makeBinPath [ pkgs.pipewire pkgs.wireplumber pkgs.rofi pkgs.libnotify pkgs.python3 ]}:$PATH"
+    export AUDIO_SWITCHER_THEME="${./scripts/audio-switcher.rasi}"
+    exec ${pkgs.python3}/bin/python3 ${./scripts/audio-output-switcher.py} "$@"
+  '';
+
+  networkManagerScript = pkgs.writeScriptBin "network-manager" ''
+    #!${pkgs.bash}/bin/bash
+    export PATH="${lib.makeBinPath [ pkgs.networkmanager pkgs.rofi pkgs.libnotify pkgs.kitty pkgs.python3 ]}:$PATH"
+    export NETWORK_MENU_THEME="${./scripts/network-menu.rasi}"
+    exec ${pkgs.python3}/bin/python3 ${./scripts/network-manager.py} "$@"
+  '';
+
+  calendarWidgetScript = pkgs.writeScriptBin "calendar-widget" ''
+    #!${pkgs.bash}/bin/bash
+    export PATH="${lib.makeBinPath [ pkgs.rofi pkgs.python3 ]}:$PATH"
+    export CALENDAR_MENU_THEME="${./scripts/calendar-menu.rasi}"
+    exec ${pkgs.python3}/bin/python3 ${./scripts/calendar-widget.py} "$@"
+  '';
 in
 {
   options.nixconf.services.display-manager.hyprland.waybar = {
@@ -24,6 +45,12 @@ in
 
   config = (
     mkIf cfg.enable {
+      home.packages = [
+        audioSwitcherScript
+        networkManagerScript
+        calendarWidgetScript
+      ];
+
       programs.waybar = {
         enable = true;
         systemd = {
@@ -73,21 +100,25 @@ in
             "clock#date" = {
               format = " {:%a %d %b}";
               tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+              on-click = "${calendarWidgetScript}/bin/calendar-widget";
             };
 
             "clock#time" = {
               format = "{:%H:%M}";
+              on-click = "${calendarWidgetScript}/bin/calendar-widget";
             };
 
             cpu = {
               interval = 10;
               format = " {usage}%";
               tooltip = false;
+              on-click = "${pkgs.kitty}/bin/kitty --class btop -e ${pkgs.btop}/bin/btop";
             };
             memory = {
               interval = 30;
               format = "󰍛 {used:0.1f}G";
               tooltip = false;
+              on-click = "${pkgs.kitty}/bin/kitty --class btop -e ${pkgs.btop}/bin/btop";
             };
             temperature = {
               hwmon-path = "/sys/devices/virtual/thermal/thermal_zone0/temp";
@@ -100,6 +131,7 @@ in
                 ""
                 ""
               ];
+              on-click = "${pkgs.kitty}/bin/kitty --class btop -e ${pkgs.btop}/bin/btop";
             };
             battery = {
               bat = "BAT0";
@@ -157,8 +189,10 @@ in
               on-scroll-up = "${pkgs.pamixer}/bin/pamixer -i 5";
               on-scroll-down = "${pkgs.pamixer}/bin/pamixer -d 5";
               on-click-middle = "${pkgs.pamixer}/bin/pamixer --toggle-mute";
-              on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
+              on-click = "${audioSwitcherScript}/bin/audio-output-switcher";
+              on-click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
               tooltip = true;
+              tooltip-format = "{desc} | {volume}%";
             };
             network = {
               interval = 60;
@@ -167,8 +201,9 @@ in
               tooltip-format = " {ifname} via {gwaddr}\nWifi: {essid} ({signalStrength}%)";
               format-linked = "";
               format-disconnected = "⚠";
-              format-alt = "{ifname}: {ipaddr}/{cidr}";
               tooltip = true;
+              on-click = "${networkManagerScript}/bin/network-manager";
+              on-click-right = "${pkgs.kitty}/bin/kitty --class nmtui -e ${pkgs.networkmanager}/bin/nmtui";
             };
             tray = {
               spacing = 10;
@@ -195,7 +230,7 @@ in
                 "1" = "";
                 "2" = "";
                 "3" = "";
-                "4" = "";
+                "4" = "";
                 "5" = "";
                 "6" = "󰀫";
                 "7" = "";
@@ -209,24 +244,18 @@ in
             };
 
             "hyprland/window" = {
-              format = "{class} {title}";
-              rewrite = {
-                "firefox (.*) — Mozilla Firefox" = " $1";
-                "emacs (.*) – Doom Emacs(.*)" = " $1";
-                "Alacritty (.*)" = " $1";
-                "kitty (.*)" = " $1";
-                "google-chrome (.*) - Google Chrome" = " $1";
-                "chromium-browser (.*) - Chromium" = " $1";
-                "microsoft-edge (.*) - Microsoft​ Edge" = " $1";
-                "code-url-handler (.*) - Visual Studio Code" = "󰨞 $1";
-                "org.gnome.Nautilus (.*)" = "󰉋 $1";
-                "org.kde.Okular (.*)" = " $1";
-                "discord (.*)" = "󰙯 $1";
-                "slack (.*) - Slack" = " $1";
-                "VirtualBox Machine (.*) - Oracle VM VirtualBox" = "󰆧 $1";
-                "VirtualBox Manager (.*)" = "󰆧 $1";
-              };
+              format = "{title}";
+              icon = true;
+              icon-size = 18;
               separate-outputs = true;
+              rewrite = {
+                # IDEs: đưa tên file lên trước project
+                "(.*) - Antigravity IDE - (.*)" = "$2 — $1";
+                "(.*) - Visual Studio Code - (.*)" = "$2 — $1";
+                # Quy tắc tổng quát cho mọi app: tự động lọc bỏ tên app ở đuôi sau dấu gạch (- / — / – / |)
+                "(.*) [-—–|] [^—–|-]+$" = "$1";
+                "^$" = "";
+              };
             };
 
             "custom/media" = {

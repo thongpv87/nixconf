@@ -1,0 +1,87 @@
+/*
+ * Network Manager Rofi Theme
+ * Rose Pine palette - compact dropdown with full-screen click-to-exit overlay
+ */
+
+configuration {
+    hover-select:    true;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+}
+
+* {
+    base:           #191724;
+    surface:        #1f1d2e;
+    overlay:        #26233a;
+    muted:          #6e6a86;
+    subtle:         #908caa;
+    text:           #e0def4;
+    love:           #eb6f92;
+    gold:           #f6c177;
+    rose:           #ebbcba;
+    pine:           #31748f;
+    foam:           #9ccfd8;
+    iris:           #c4a7e7;
+    highlight-low:  #21202e;
+    highlight-med:  #403d52;
+    highlight-high: #524f67;
+
+    background-color: transparent;
+    text-color:       @text;
+    font:             "Monaspace Neon 11";
+}
+
+window {
+    location:         north east;
+    anchor:           north east;
+    x-offset:         -180px;
+    y-offset:         35px;
+    width:            500px;
+    background-color: @base;
+    border:           1px solid;
+    border-color:     @highlight-med;
+    border-radius:    12px;
+    padding:          8px;
+    children:         [ listview ];
+}
+
+listview {
+    lines:            12;
+    dynamic:          true;
+    fixed-height:     false;
+    columns:          1;
+    spacing:          3px;
+    background-color: transparent;
+    scrollbar:        false;
+}
+
+element {
+    padding:          8px 12px;
+    spacing:          10px;
+    border-radius:    8px;
+    background-color: transparent;
+    text-color:       @text;
+    cursor:           pointer;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color:       @text;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color:       @text;
+}
+
+element selected.normal {
+    background-color: @highlight-med;
+    text-color:       @foam;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    cursor:           pointer;
+    vertical-align:   0.5;
+}
