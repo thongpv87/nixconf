@@ -225,6 +225,7 @@ in
             "hyprland/workspaces" = {
               sort-by-name = true;
               all-outputs = true;
+              move-to-monitor = true;
               format = "{icon}";
               format-icons = {
                 "1" = "";

@@ -19,7 +19,14 @@ let
     ;
 
   switch-input-method = pkgs.writeShellScriptBin "switch-input-method" ''
-    if [ $(ibus engine) == xkb:us::eng ]; then ibus engine Bamboo; else ibus engine xkb:us::eng ; fi
+    current=$(${pkgs.fcitx5}/bin/fcitx5-remote -n 2>/dev/null)
+    if [ "$current" = "bamboo" ]; then
+      ${pkgs.fcitx5}/bin/fcitx5-remote -s keyboard-us
+      ${pkgs.libnotify}/bin/notify-send -u low -t 1000 -i input-keyboard "Bộ gõ" "English (US)"
+    else
+      ${pkgs.fcitx5}/bin/fcitx5-remote -s bamboo
+      ${pkgs.libnotify}/bin/notify-send -u low -t 1000 -i input-keyboard "Bộ gõ" "Tiếng Việt (Bamboo)"
+    fi
   '';
   screenshot-region = pkgs.writeShellScriptBin "screenshot-region" ''
     ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy
@@ -180,7 +187,11 @@ in
     enable = mkEnableOption "Enable Hyprland display server";
 
     defaultLayout = mkOption {
-      type = types.enum [ "master" "dwindle" "scrolling" ];
+      type = types.enum [
+        "master"
+        "dwindle"
+        "scrolling"
+      ];
       default = "master";
       description = "Default layout to use for Hyprland";
     };
@@ -376,9 +387,9 @@ in
       home.sessionVariables = {
         XDG_SESSION_DESKTOP = "Hyprland";
         XDG_CURRENT_DESKTOP = "Hyprland";
+        XMODIFIERS = "@im=fcitx";
         # GTK_IM_MODULE = "fcitx";
         # QT_IM_MODULE = "fcitx";
-        # XMODIFIERS = "@im=fcitx";
         # SDL_IM_MODULE = "fcitx";
         # GLFW_IM_MODULE = "fcitx";
         # QT_IM_MODULES = "wayland;fcitx;ibus";
@@ -405,7 +416,9 @@ in
           variables = [ "--all" ];
           enableXdgAutostart = true;
         };
-        xwayland.enable = true;
+        xwayland = {
+          enable = true;
+        };
         # systemd.extraCommands = [ "ibus-deamon -d" ];
 
         settings = lib.mkMerge [
@@ -470,6 +483,14 @@ in
               "match:class ^(btop)$, float on, size 1200 750, center 1"
               "match:class ^(nmtui)$, float on, size 850 600, center 1"
               "match:class ^(firefox|google-chrome|microsoft-edge), opacity 1 1"
+
+              # Steam rules
+              "match:class ^(steam)$, match:title ^(Steam)$, workspace special:magic silent"
+              "match:class ^(steam)$, match:title (?i).*(friends|warning|error|properties|download|notification|settings|guard).*, float on"
+              "match:class ^(steam)$, match:title (?i).*file.*choose.*, float on"
+              "match:class ^(steam_app_.*)$, stay_focused on"
+              "match:class ^(steam_app_.*)$, immediate on"
+              "match:class ^(steam_app_.*)$, idle_inhibit fullscreen"
             ];
             layerrule = [
               "blur on, match:namespace gtk-layer-shell"
