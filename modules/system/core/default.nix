@@ -86,13 +86,17 @@ in
       type = "fcitx5";
       fcitx5 = {
         waylandFrontend = true;
-        addons = [
-          pkgs.fcitx5-gtk
-          pkgs.fcitx5-bamboo
+        addons = with pkgs.qt6Packages; [
+          fcitx5-unikey # Dùng gói fcitx5-unikey chuẩn từ pkgs
+          fcitx5-configtool # Tool cấu hình GUI
         ];
       };
-
-      ibus.engines = with pkgs.ibus-engines; [ bamboo ];
+    };
+    environment.sessionVariables = {
+      XMODIFIERS = "@im=fcitx";
+      GTK_IM_MODULE = "fcitx";
+      QT_IM_MODULE = "fcitx";
+      ELECTRON_OZONE_PLATFORM_HINT = "auto";
     };
 
     security = {

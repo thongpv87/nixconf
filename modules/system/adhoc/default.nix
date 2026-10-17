@@ -36,33 +36,6 @@ in
       ];
     }
     {
-      hardware.graphics = {
-        enable = true;
-        enable32Bit = true;
-      };
-
-      # 3. Steam module configuration
-      programs.steam = {
-        enable = true;
-
-        # Open ports in the firewall for Steam features
-        remotePlay.openFirewall = true;
-        dedicatedServer.openFirewall = true;
-        localNetworkGameTransfers.openFirewall = true;
-
-        # Gamescope session support (optional, useful for scaling & HDR)
-        gamescopeSession.enable = true;
-
-        # Extra packages games might expect inside the Steam FHS container
-        extraCompatPackages = with pkgs; [
-          proton-ge-bin
-        ];
-      };
-
-      # 4. Optional gaming utilities
-      programs.gamemode.enable = true;
-    }
-    {
       services.tailscale = {
         enable = true;
         useRoutingFeatures = "client";

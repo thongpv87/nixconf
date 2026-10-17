@@ -19,7 +19,12 @@ let
     ;
 
   switch-input-method = pkgs.writeShellScriptBin "switch-input-method" ''
-    if [ $(ibus engine) == xkb:us::eng ]; then ibus engine Bamboo; else ibus engine xkb:us::eng ; fi
+    current=$(${pkgs.fcitx5}/bin/fcitx5-remote -n 2>/dev/null)
+    if [ "$current" = "unikey" ]; then
+      ${pkgs.fcitx5}/bin/fcitx5-remote -s keyboard-us
+    else
+      ${pkgs.fcitx5}/bin/fcitx5-remote -s unikey
+    fi
   '';
   screenshot-region = pkgs.writeShellScriptBin "screenshot-region" ''
     ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)"

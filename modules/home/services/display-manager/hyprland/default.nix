@@ -20,12 +20,12 @@ let
 
   switch-input-method = pkgs.writeShellScriptBin "switch-input-method" ''
     current=$(${pkgs.fcitx5}/bin/fcitx5-remote -n 2>/dev/null)
-    if [ "$current" = "bamboo" ]; then
+    if [ "$current" = "unikey" ]; then
       ${pkgs.fcitx5}/bin/fcitx5-remote -s keyboard-us
       ${pkgs.libnotify}/bin/notify-send -u low -t 1000 -i input-keyboard "Bộ gõ" "English (US)"
     else
-      ${pkgs.fcitx5}/bin/fcitx5-remote -s bamboo
-      ${pkgs.libnotify}/bin/notify-send -u low -t 1000 -i input-keyboard "Bộ gõ" "Tiếng Việt (Bamboo)"
+      ${pkgs.fcitx5}/bin/fcitx5-remote -s unikey
+      ${pkgs.libnotify}/bin/notify-send -u low -t 1000 -i input-keyboard "Bộ gõ" "Tiếng Việt (Unikey)"
     fi
   '';
   screenshot-region = pkgs.writeShellScriptBin "screenshot-region" ''
@@ -356,9 +356,9 @@ in
         type = "fcitx5";
         fcitx5 = {
           waylandFrontend = true;
-          addons = [
-            pkgs.fcitx5-gtk
-            pkgs.fcitx5-bamboo
+          addons = with pkgs.qt6Packages; [
+            fcitx5-unikey # Dùng gói fcitx5-unikey chuẩn từ pkgs
+            fcitx5-configtool # Tool cấu hình GUI
           ];
         };
       };
@@ -380,7 +380,30 @@ in
             WantedBy = [ "graphical-session.target" ];
           };
         };
+
+        # fcitx5-daemon = {
+        #   Unit = {
+        #     Description = "Fcitx5 input method daemon";
+        #     After = [ "graphical-session.target" ];
+        #     PartOf = [ "graphical-session.target" ];
+        #   };
+        #
+        #   Service = {
+        #     Type = "exec";
+        #     ExecStart = "${pkgs.fcitx5}/bin/fcitx5 -k";
+        #     Restart = "always";
+        #     RestartSec = 2;
+        #   };
+        #   Install = {
+        #     WantedBy = [ "graphical-session.target" ];
+        #   };
+        # };
       };
+
+      xdg.configFile."autostart/org.fcitx.Fcitx5.desktop".text = ''
+        [Desktop Entry]
+        Hidden=true
+      '';
     }
 
     {
@@ -388,6 +411,7 @@ in
         XDG_SESSION_DESKTOP = "Hyprland";
         XDG_CURRENT_DESKTOP = "Hyprland";
         XMODIFIERS = "@im=fcitx";
+        ELECTRON_OZONE_PLATFORM_HINT = "auto";
         # GTK_IM_MODULE = "fcitx";
         # QT_IM_MODULE = "fcitx";
         # SDL_IM_MODULE = "fcitx";
@@ -424,7 +448,6 @@ in
         settings = lib.mkMerge [
           {
             exec-once = [
-              "fcitx5 -r"
               "${pkgs.dunst}/bin/dunst"
               "monitor-scale"
               "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store"
@@ -533,7 +556,7 @@ in
               ",123,exec, pamixer -i 5"
 
               "$mod,slash, exec, fcitx5-remote -s keyboard-us"
-              "$mod SHIFT, slash, exec, fcitx5-remote -s bamboo"
+              "$mod SHIFT, slash, exec, fcitx5-remote -s unikey"
 
               "$mod,W, focusmonitor, DP-2"
               "$mod,W, focusmonitor, DP-1"

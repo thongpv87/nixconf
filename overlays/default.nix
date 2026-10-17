@@ -76,20 +76,6 @@ in
 
       #emacs29-pgtk = zen4pkg prev.emacs29-pgtk;
 
-      bamboo = prev.ibus-engines.bamboo.overrideAttrs (oldAttrs: {
-        version = "v0.8.1";
-        src = prev.fetchFromGitHub {
-          owner = "BambooEngine";
-          repo = "ibus-bamboo";
-          rev = "c0001c571d861298beb99463ef63816b17203791";
-          sha256 = "sha256-7qU3ieoRPfv50qM703hEw+LTSrhrzwyzCvP9TOLTiDs=";
-        };
-        buildInputs = oldAttrs.buildInputs ++ [
-          prev.glib
-          prev.gtk3
-        ];
-      });
-
       chromium = prev.chromium.override { commandLineArgs = "--gtk-version=4"; };
 
       antigravity-ide =
